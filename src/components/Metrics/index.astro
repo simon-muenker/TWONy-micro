@@ -1,5 +1,5 @@
 ---
-const red = "";
+
 ---
 
 <h2 class="mb-4 text-2xl">Network Metrics</h2>
@@ -13,7 +13,7 @@ const red = "";
 <script>
   import Chart from "chart.js/auto";
 
-  const ctx1 = document.getElementById("networkMetrics");
+  const ctx1 = document.getElementById("networkMetrics") as HTMLCanvasElement;
 
   if (ctx1 !== null) {
     new Chart(ctx1, {
@@ -40,7 +40,7 @@ const red = "";
     });
   }
 
-  const ctx2 = document.getElementById("userMetrics");
+  const ctx2 = document.getElementById("userMetrics") as HTMLCanvasElement;
 
   if (ctx2 !== null) {
     new Chart(ctx2, {
