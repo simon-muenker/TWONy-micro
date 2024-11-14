@@ -1,0 +1,28 @@
+---
+import Branding from "./Branding.astro";
+import Footer from "./Footer.astro";
+import MenuItem from "./MenuItem.astro";
+
+const menuItems = [
+  { icon: "mdi:message-text-fast", text: "News Feed", route: "#" },
+  { icon: "mdi:slider", text: "Settings", route: "#" },
+  { icon: "mdi:information-slab-box-outline", text: "About twon", route: "#" },
+];
+---
+
+<header>
+  <Branding />
+</header>
+<nav>
+  <ul class="space-y-2">
+    {
+      menuItems.map((item) => (
+        <li class="inline-block">
+          <MenuItem icon={item.icon} text={item.text} route={item.route} />
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+<div class="h-48"></div>
+<Footer />
