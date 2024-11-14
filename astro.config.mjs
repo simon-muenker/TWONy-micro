@@ -9,5 +9,5 @@ import svelte from '@astrojs/svelte';
 export default defineConfig({
   integrations: [tailwind(), svelte()],
   site: "https://simon-muenker.github.io",
-  base: "_astro_starter",
+  base: "TWONy-micro",
 });
