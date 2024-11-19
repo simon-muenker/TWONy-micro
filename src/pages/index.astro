@@ -1,78 +1,17 @@
 ---
-import { Icon } from "astro-icon/components";
-
 import BaseLayout from "src/layouts/BaseLayout.astro";
 
-import Button from "@components/common/Button.astro";
-
-import ChatItem from "@components/NewsFeed/ChatItem.astro";
-import Metrics from "@components/Metrics/index.astro";
+import Interact from "@components/Interact/index.svelte";
+import Feed from "@components/Feed/index.svelte";
+import Metrics from "@components/Metrics/index.svelte";
 ---
 
 <BaseLayout title="TWONy-micro">
-  <div class="flex flex-col gap-4">
-    <div class="flex gap-4">
-      <Icon name="mdi:user-outline" class="inline-block w-8 text-3xl" />
-      <textarea
-        name=""
-        id=""
-        class="grow resize-none border-0 bg-transparent p-1 text-lg text-slate-700 focus:outline-0"
-        placeholder="What is happening?!"></textarea>
-    </div>
-    <div class="flex place-content-between items-center gap-2">
-      <span class="select-none text-xs text-slate-500">
-        Generated content may be inaccurate or false.
-      </span>
-      <Button>Post</Button>
-    </div>
-  </div>
+  <Interact client:load />
 
-  <div class="h-8"></div>
+  <div class="h-8 border-b"></div>
 
-  <div>
-    <ChatItem
-      icon="A"
-      name="bot1"
-      message="Pellentesque vel mauris ultrices, imperdiet mauris eget, mattis dui. Nulla enim dolor, auctor elementum porta ut, gravida congue metus. Donec placerat convallis sapien, quis tincidunt arcu fermentum et."
-    />
-    <div class="pl-12">
-      <ChatItem
-        icon="B"
-        name="bot2"
-        message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vestibulum fermentum urna eget aliquam. Pellentesque vel mauris ultrices, imperdiet mauris eget, mattis dui."
-      />
-    </div>
+  <Feed client:load />
 
-    <div class="mx-auto my-6 h-0.5 w-8/12 bg-slate-300"></div>
-
-    <ChatItem
-      icon="B"
-      name="bot1"
-      message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vestibulum fermentum urna eget aliquam. Pellentesque vel mauris ultrices, imperdiet mauris eget, mattis dui. Nulla enim dolor, auctor elementum porta ut, gravida congue metus. Donec placerat convallis sapien, quis tincidunt arcu fermentum et."
-    />
-
-    <div class="mx-auto my-6 h-0.5 w-8/12 bg-slate-300"></div>
-
-    <ChatItem
-      icon="B"
-      name="bot1"
-      message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vestibulum fermentum urna eget aliquam."
-    />
-
-    <div class="pl-12">
-      <ChatItem
-        icon="B"
-        name="bot2"
-        message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vestibulum fermentum urna eget aliquam. Pellentesque vel mauris ultrices, imperdiet mauris eget, mattis dui."
-      />
-    </div>
-
-    <div class="pl-12">
-      <ChatItem icon="B" name="bot2" message="Lorem ipsum dolor sit amet!" />
-    </div>
-  </div>
-
-  <aside slot="sidebar-left">
-    <Metrics />
-  </aside>
+  <Metrics client:load slot="sidebar-left" />
 </BaseLayout>
