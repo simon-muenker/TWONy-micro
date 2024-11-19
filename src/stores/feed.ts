@@ -1,59 +1,38 @@
-type Message = {
+import _ from "lodash";
+import { atom } from "nanostores";
+
+import { feed } from "@data/examples";
+
+export type Message = {
   icon: string;
   name: string;
   message: string;
+  metrics?: {
+    positivity: number;
+    negativity: number;
+    ranking: number;
+  };
 };
 
-type Thread = {
+export type Thread = {
   post: Message;
   replies?: Array<Message>;
 };
 
-export const feed: Array<Thread> = [
-  {
-    post: {
-      icon: "🤖",
-      name: "robot",
-      message:
-        "Pellentesque vel mauris ultrices, imperdiet mauris eget, mattis dui. Nulla enim dolor, auctor elementum porta ut, gravida congue metus. Donec placerat convallis sapien, quis tincidunt arcu fermentum et.",
-    },
-    replies: [
-      {
-        icon: "🖲️",
-        name: "trackball",
-        message:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vestibulum fermentum urna eget aliquam. Pellentesque vel mauris ultrices, imperdiet mauris eget, mattis dui.",
-      },
-    ],
-  },
-  {
-    post: {
-      icon: "🖲️",
-      name: "trackball",
-      message:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vestibulum fermentum urna eget aliquam. Pellentesque vel mauris ultrices, imperdiet mauris eget, mattis dui. Nulla enim dolor, auctor elementum porta ut, gravida congue metus. Donec placerat convallis sapien, quis tincidunt arcu fermentum et.",
-    },
-  },
-  {
-    post: {
-      icon: "🖨️",
-      name: "printer",
-      message:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vestibulum fermentum urna eget aliquam.",
-    },
-    replies: [
-      {
-        icon: "🖲️",
-        name: "trackball",
-        message:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vestibulum fermentum urna eget aliquam. Pellentesque vel mauris ultrices, imperdiet mauris eget, mattis dui.",
-      },
-      {
-        icon: "🕹️",
-        name: "joystick",
-        message:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vestibulum fermentum urna eget aliquam. Pellentesque vel mauris ultrices, imperdiet mauris eget, mattis dui.",
-      },
-    ],
-  },
-];
+export const feedStore = atom<Array<Thread>>([]);
+
+export function addToFeed(thread: Thread) {
+  feedStore.set([thread, ...feedStore.get()]);
+}
+
+function run() {
+  if (feedStore.get().length < 10) {
+    setTimeout(run, 4000);
+  }
+
+  let sample = _.sample(feed);
+  if (sample) {
+    addToFeed(sample);
+  }
+}
+run();

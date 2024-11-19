@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { feed } from "@stores/feed";
+  import { feedStore } from "@stores/feed";
 
   import Button from "@components/common/Button.svelte";
 
@@ -7,7 +7,7 @@
 </script>
 
 <div class="grid grid-cols-1 divide-y">
-  {#each feed as thread}
+  {#each $feedStore as thread}
     <article class="py-8">
       <section>
         <FeedItem {...thread.post} />

@@ -15,10 +15,13 @@
   } = $props();
 
   let chart: HTMLCanvasElement;
+  let chartObj;
 
   onMount(() => {
     const ctx: CanvasRenderingContext2D | null = chart.getContext("2d");
-    if (ctx) new Chart(ctx, config);
+    if (ctx) {
+      let chartObj = new Chart(ctx, config);
+    }
   });
 </script>
 
