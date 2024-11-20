@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { networkMetricsStore, userMetrics } from "@stores/metrics";
+  import { networkMetricsStore, userMetricsStore } from "@stores/metrics";
   import Chart from "@components/common/Chart.svelte";
 </script>
 
@@ -9,4 +9,4 @@
 <div class="h-12"></div>
 
 <h2 class="mb-4 text-2xl">User Metrics</h2>
-<Chart config={userMetrics} />
+<Chart config={$userMetricsStore} />

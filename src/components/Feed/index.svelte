@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { fade } from "svelte/transition";
+
   import { feedStore } from "@stores/feed";
 
   import Button from "@components/common/Button.svelte";
@@ -7,8 +9,8 @@
 </script>
 
 <div class="grid grid-cols-1 divide-y">
-  {#each $feedStore as thread}
-    <article class="py-8">
+  {#each $feedStore as thread, index (index)}
+    <article class="py-8" animate:fade>
       <section>
         <FeedItem {...thread.post} />
       </section>
