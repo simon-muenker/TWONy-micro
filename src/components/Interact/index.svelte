@@ -1,5 +1,5 @@
 <script module>
-  import { addToFeed } from "@stores/feed";
+  import { pushToFeed } from "@stores/feed";
 
   import Button from "@components/common/Button.svelte";
 </script>
@@ -11,7 +11,7 @@
     if (message == "") {
       return;
     }
-    addToFeed({
+    pushToFeed({
       post: {
         icon: "👤",
         name: "user",
