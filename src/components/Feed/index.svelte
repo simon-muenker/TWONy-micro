@@ -1,4 +1,5 @@
-<script lang="ts">
+<script module>
+  import _ from "lodash";
   import { fade } from "svelte/transition";
 
   import { feedStore } from "@stores/feed";
@@ -11,25 +12,20 @@
 <div class="grid grid-cols-1 divide-y">
   {#each $feedStore as thread, index (index)}
     <article class="py-8" animate:fade>
-      <section>
-        <FeedItem {...thread.post} />
-      </section>
+      <FeedItem {...thread.post} />
       {#if thread.replies}
-        <section class="pl-12">
-          <span class="mb-2 block text-sm font-bold">Replies</span>
+        <section class="pl-12 pt-4 [&>*]:py-2">
           {#each thread.replies as reply}
             <FeedItem {...reply} />
           {/each}
         </section>
       {/if}
       <div
-        class="mt-4 flex select-none place-content-end items-center gap-4 text-sm text-slate-500"
+        class="mt-4 flex select-none place-content-end items-center gap-4 text-xs text-slate-500"
       >
-        {#if thread.replies}
-          <span>avg. positivity: 0.2</span>
-          <span>avg. negativity: 0.2</span>
-          <span>thread ranking: 0.2</span>
-        {/if}
+        <span>negative valence: {_.round(_.random(true), 1)}</span>
+        <span>positive valence: {_.round(_.random(true), 1)}</span>
+        <span>thread ranking: {_.round(_.random(true), 1)}</span>
         <Button classes="text-xs">Reply</Button>
       </div>
     </article>

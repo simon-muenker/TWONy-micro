@@ -32,5 +32,5 @@ export function addReply(threadID: number, message: Message) {
     feed[threadID].replies = [message];
   }
 
-  feedStore.set(feed);
+  feedStore.set([...feed]);
 }

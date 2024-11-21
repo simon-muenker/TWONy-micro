@@ -1,5 +1,17 @@
 ---
 import BaseLayout from "src/layouts/BaseLayout.astro";
+
+import Slider from "@components/common/Slider.svelte";
+import Checkbox from "@components/common/Checkbox.svelte";
+
+const emotions: Array<string> = [
+  "anger",
+  "fear",
+  "pessimism",
+  "joy",
+  "trust",
+  "optimism",
+];
 ---
 
 <BaseLayout title="TWONy-micro - Settings">
@@ -8,71 +20,30 @@ import BaseLayout from "src/layouts/BaseLayout.astro";
   <h3 class="text-bold mb-1 text-lg">Recommender System</h3>
 
   <label class="inline-flex cursor-pointer items-center">
-    <span class="mr-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+    <span class="mr-3 text-sm font-medium text-gray-900"
       >Chronological</span
     >
-    <input type="checkbox" value="" class="peer sr-only" checked />
-    <div
-      class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
-    >
-    </div>
-    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
-      >Emotion-based (intense emotion ranks higher)</span
+    <Checkbox />
+    <span class="ms-3 text-sm font-medium text-gray-900"
+      >Emotion-based (intense emotion rank higher)</span
     >
   </label>
 
-  <h3 class="text-bold mb-1 mt-4 mt-8 text-lg">Emotion Weighting</h3>
+  <h3 class="text-bold mb-1 mt-8 text-lg">Emotion Weighting</h3>
+  <p class="mb-2 text-sm font-medium text-gray-900">
+    Finetune how the indivual predicted emotions impact the ranking algorithm.
+  </p>
 
-  <div class="mb-4 flex flex-row gap-4">
-    <div>positivity</div>
-    <div class="relative mb-6 grow">
-      <label for="labels-range-input1" class="sr-only">positivity</label>
-      <input
-        id="labels-range-input1"
-        type="range"
-        value="75"
-        min="-100"
-        max="100"
-        class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700"
-      />
-      <span
-        class="absolute -bottom-6 start-0 text-sm text-gray-500 dark:text-gray-400"
-        >Min (-1.0)</span
-      >
-      <span
-        class="absolute -bottom-6 start-1/2 -translate-x-1/2 text-sm text-gray-500 rtl:translate-x-1/2 dark:text-gray-400"
-        >current: +0.75</span
-      >
-      <span
-        class="absolute -bottom-6 end-0 text-sm text-gray-500 dark:text-gray-400"
-        >Max (+1.0)</span
-      >
-    </div>
-  </div>
-  <div class="flex flex-row gap-4">
-    <div>negativity</div>
-    <div class="relative mb-6 grow">
-      <label for="labels-range-input2" class="sr-only">negativity</label>
-      <input
-        id="labels-range-input2"
-        type="range"
-        value="75"
-        min="-100"
-        max="100"
-        class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700"
-      />
-      <span
-        class="absolute -bottom-6 start-0 text-sm text-gray-500 dark:text-gray-400"
-        >Min (-1.0)</span
-      >
-      <span
-        class="absolute -bottom-6 start-1/2 -translate-x-1/2 text-sm text-gray-500 rtl:translate-x-1/2 dark:text-gray-400"
-        >current: +0.75</span
-      >
-      <span
-        class="absolute -bottom-6 end-0 text-sm text-gray-500 dark:text-gray-400"
-        >Max (+1.0)</span
-      >
-    </div>
-  </div>
+  <table class="w-full table-auto">
+    {
+      emotions.map((emotion) => (
+        <tr>
+          <td class="w-24 py-6">{emotion}</td>
+          <td class="py-6">
+            <Slider label={emotion} />{" "}
+          </td>
+        </tr>
+      ))
+    }
+  </table>
 </BaseLayout>

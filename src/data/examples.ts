@@ -1,23 +1,26 @@
 import _ from "lodash";
 
+import { personas } from "./personas";
+
 import { type ChartConfiguration } from "chart.js/auto";
 
-export function getNetworkMetrics(): ChartConfiguration {
+
+export function getNetworkMetrics(length: number): ChartConfiguration {
   return {
     type: "line",
     data: {
-      labels: [1, 2, 3, 4, 5, 6, 7],
+      labels: _.range(1, length),
       datasets: [
         {
-          label: "positivity",
-          data: _.shuffle([0.8, 0.85, 0.9, 0.6, 0.4, 0.3, 0.3]),
+          label: "positive valence",
+          data: new Array(length).fill(0).map((val) => val + _.random(true)),
           fill: false,
           borderColor: "rgb(75, 192, 192)",
           tension: 0.1,
         },
         {
-          label: "negativity",
-          data: _.shuffle([0.4, 0.35, 0.5, 0.6, 0.8, 0.8, 0.85]),
+          label: "negative valence",
+          data: new Array(length).fill(0).map((val) => val + _.random(true)),
           fill: false,
           borderColor: "rgb(255, 99, 132)",
           tension: 0.1,
@@ -31,16 +34,16 @@ export function getUserMetrics(): ChartConfiguration {
   return {
     type: "bar",
     data: {
-      labels: ["Human", "Bot 1", "Bot 2", "Bot 3", "Bot 4"],
+      labels: ["User", ...personas.map(persona => persona.name)],
       datasets: [
         {
-          label: "positivity",
-          data: _.shuffle([0.8, 0.85, 0.9, 0.6, 0.4, 0.3, 0.3]),
+          label: "positive valence",
+          data: new Array(7).fill(0).map((val) => val + _.random(true)),
           backgroundColor: "rgb(75, 192, 192)",
         },
         {
-          label: "negativity",
-          data: _.shuffle([0.4, 0.35, 0.5, 0.6, 0.8, 0.8, 0.85]),
+          label: "negative valence",
+          data: new Array(7).fill(0).map((val) => val + _.random(true)),
           backgroundColor: "rgb(255, 99, 132)",
         },
       ],

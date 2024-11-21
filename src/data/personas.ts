@@ -1,4 +1,4 @@
-interface Persona {
+export interface Persona {
   icon: string;
   name: string;
   instruction: string;

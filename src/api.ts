@@ -13,7 +13,7 @@ export interface Result {
   response: string;
 }
 
-const instance: AxiosInstance = axios.create({
+const INFERENCE_ENDPOINT: AxiosInstance = axios.create({
   baseURL: "https://inf.cl.uni-trier.de",
   headers: {
     "Content-Type": "application/json; charset=UTF-8",
@@ -25,8 +25,10 @@ export async function inference(
   model: string,
   messages: Array<Message>,
 ): Promise<Result> {
-  return await instance
-    .post("/chat/", { model: model, messages: messages })
+  return await INFERENCE_ENDPOINT.post("/chat/", {
+    model: model,
+    messages: messages,
+  })
     .then((result) => {
       console.debug(result);
       return result.data;

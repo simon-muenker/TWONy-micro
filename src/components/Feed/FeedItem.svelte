@@ -1,3 +1,7 @@
+<script module>
+  import _ from "lodash";
+</script>
+
 <script lang="ts">
   let {
     icon,
@@ -8,6 +12,15 @@
     name: string;
     message: string;
   } = $props();
+
+  const emotions: Array<string> = [
+    "anger",
+    "fear",
+    "pessimism",
+    "joy",
+    "trust",
+    "optimism",
+  ];
 </script>
 
 <div class="flex gap-4">
@@ -20,11 +33,11 @@
     <br />
     <span>{message}</span>
     <div
-      class="mt-2 flex select-none place-content-end items-center gap-4 text-sm text-slate-500"
+      class="mt-2 flex select-none divide-x-2 text-xs text-slate-500 [&>*]:px-2"
     >
-      <span>positivity: 0.2</span>
-      <span>negativity: 0.2</span>
-      <span>item ranking: 0.2</span>
+      {#each emotions as emotion, index (index)}
+        <span>{emotion}: {_.round(_.random(true), 1)}</span>
+      {/each}
     </div>
   </div>
 </div>
