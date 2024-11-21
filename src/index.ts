@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import { feed, getNetworkMetrics } from "@data/examples";
+import { feed, getNetworkMetrics, getUserMetrics } from "@data/examples";
 
 import { addToFeed, feedStore } from "@stores/feed";
 import { networkMetricsStore, userMetricsStore } from "@stores/metrics";
@@ -16,7 +16,6 @@ function run() {
   }
 
   networkMetricsStore.set(getNetworkMetrics());
-  console.log(getNetworkMetrics())
-  userMetricsStore.set(getNetworkMetrics());
+  userMetricsStore.set(getUserMetrics());
 }
 run();

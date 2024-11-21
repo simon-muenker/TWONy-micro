@@ -1,6 +1,6 @@
 <script module>
   import { onMount } from "svelte";
-  import Chart, { type ChartConfiguration } from "chart.js/auto";
+  import { Chart, type ChartConfiguration } from "chart.js";
 </script>
 
 <script lang="ts">
@@ -14,17 +14,24 @@
     height?: number;
   } = $props();
 
-  let chart: HTMLCanvasElement;
-  let chartObj;
+  let canvasElem: HTMLCanvasElement;
+  let chartObj: Chart;
 
   onMount(() => {
-    const ctx: CanvasRenderingContext2D | null = chart.getContext("2d");
+    const ctx: CanvasRenderingContext2D | null = canvasElem.getContext("2d");
     if (ctx) {
-      let chartObj = new Chart(ctx, config);
+      chartObj = new Chart(ctx, config);
+    }
+  });
+
+  $effect(() => {
+    if (chartObj) {
+      chartObj.data = config.data;
+      chartObj.update();
     }
   });
 </script>
 
 <div>
-  <canvas bind:this={chart} {width} {height}></canvas>
+  <canvas bind:this={canvasElem} {width} {height}></canvas>
 </div>
