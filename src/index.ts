@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import { inference } from "./api";
+import { inference, metric } from "./api";
 
 import { getNetworkMetrics, getUserMetrics } from "@data/examples";
 
@@ -15,13 +15,14 @@ import { feedStore, pushToFeed, addReply } from "@stores/feed";
 import { networkMetricsStore, userMetricsStore } from "@stores/metrics";
 
 const TICK_TIME: number = 4000;
-const MAX_THREADS: number = 10;
+const MAX_THREADS: number = 2;
 
 const POST_PROP: number = 0.3;
 const REPLY_PROP: number = 0.7;
 
 const MODEL = "llama3.1:8b-instruct-q6_K";
 
+// TODO ALPHA code, needs urgent optimization
 async function post(persona: Persona) {
   await inference(MODEL, [
     systemAddPersona(post_instruction, persona.instruction),
@@ -29,17 +30,21 @@ async function post(persona: Persona) {
       content: "  ",
       role: "user",
     },
-  ]).then((result) => {
-    pushToFeed({
-      post: {
-        icon: persona.icon,
-        name: persona.name,
-        message: result.response,
-      },
+  ]).then(async (result) => {
+    await metric(result.response).then((metrics) => {
+      pushToFeed({
+        post: {
+          icon: persona.icon,
+          name: persona.name,
+          message: result.response,
+          metrics: metrics.predictions[0].results.emotions,
+        },
+      });
     });
   });
 }
 
+// TODO ALPHA code, needs urgent optimization
 async function reply(threadID: number, persona: Persona) {
   await inference(MODEL, [
     systemAddPersona(reply_instruction, persona.instruction),
@@ -47,11 +52,14 @@ async function reply(threadID: number, persona: Persona) {
       content: feedStore.get()[threadID].post.message,
       role: "user",
     },
-  ]).then((result) => {
-    addReply(threadID, {
-      icon: persona.icon,
-      name: persona.name,
-      message: result.response,
+  ]).then(async (result) => {
+    await metric(result.response).then((metrics) => {
+      addReply(threadID, {
+        icon: persona.icon,
+        name: persona.name,
+        message: result.response,
+        metrics: metrics.predictions[0].results.emotions,
+      });
     });
   });
 }
@@ -98,7 +106,7 @@ function chooseReplyParameters(feedLength: number): [number, Persona] {
   return [selectedThreadID, persona];
 }
 
-let i: number = 1
+let i: number = 1;
 async function run() {
   const feedLength: number = feedStore.get().length;
 

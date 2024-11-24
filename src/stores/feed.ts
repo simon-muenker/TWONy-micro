@@ -6,9 +6,12 @@ export interface Message {
   name: string;
   message: string;
   metrics?: {
-    positivity: number;
-    negativity: number;
-    ranking: number;
+    anger: number;
+    fear: number;
+    pessimism: number;
+    joy: number;
+    trust: number;
+    optimism: number;
   };
 }
 

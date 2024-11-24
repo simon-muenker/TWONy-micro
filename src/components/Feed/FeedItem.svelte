@@ -7,10 +7,19 @@
     icon,
     name,
     message,
+    metrics,
   }: {
     icon: string;
     name: string;
     message: string;
+    metrics: {
+      anger: number;
+      fear: number;
+      pessimism: number;
+      joy: number;
+      trust: number;
+      optimism: number;
+    };
   } = $props();
 
   const emotions: Array<string> = [
@@ -35,8 +44,10 @@
     <div
       class="mt-2 flex select-none divide-x-2 text-xs text-slate-500 [&>*]:px-2"
     >
-      {#each emotions as emotion, index (index)}
-        <span>{emotion}: {_.round(_.random(true), 1)}</span>
+      {#each Object.entries(metrics) as [label, value]}
+        {#if emotions.includes(label)}
+          <span>{label}: {_.round(value, 2)}</span>
+        {/if}
       {/each}
     </div>
   </div>

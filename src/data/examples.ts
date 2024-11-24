@@ -4,7 +4,6 @@ import { personas } from "./personas";
 
 import { type ChartConfiguration } from "chart.js/auto";
 
-
 export function getNetworkMetrics(length: number): ChartConfiguration {
   return {
     type: "line",
@@ -34,7 +33,7 @@ export function getUserMetrics(): ChartConfiguration {
   return {
     type: "bar",
     data: {
-      labels: ["User", ...personas.map(persona => persona.name)],
+      labels: ["User", ...personas.map((persona) => persona.name)],
       datasets: [
         {
           label: "positive valence",
