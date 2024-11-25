@@ -1,71 +1,15 @@
 import _ from "lodash";
 
-import { inference, metric } from "./api";
-
 import { getNetworkMetrics, getUserMetrics } from "@data/examples";
 
-import { personas, type Persona } from "@data/personas";
-import {
-  post_instruction,
-  reply_instruction,
-  systemAddPersona,
-} from "@data/instructions";
+import { agents, type Persona } from "@/personas";
 
-import { feedStore, pushToFeed, addReply } from "@stores/feed";
+import { config } from "./stores/config";
+import { feedStore, agentPost, agentReply } from "@stores/feed";
 import { networkMetricsStore, userMetricsStore } from "@stores/metrics";
 
-const TICK_TIME: number = 4000;
-const MAX_THREADS: number = 20;
-
-const POST_PROP: number = 0.3;
-const REPLY_PROP: number = 0.7;
-
-const MODEL = "llama3.1:8b-instruct-q6_K";
-
-// TODO ALPHA code, needs urgent optimization
-async function post(persona: Persona) {
-  await inference(MODEL, [
-    systemAddPersona(post_instruction, persona.instruction),
-    {
-      content: "  ",
-      role: "user",
-    },
-  ]).then(async (result) => {
-    await metric(result.response).then((metrics) => {
-      pushToFeed({
-        post: {
-          icon: persona.icon,
-          name: persona.name,
-          message: result.response,
-          metrics: metrics.predictions[0].results.emotions,
-        },
-      });
-    });
-  });
-}
-
-// TODO ALPHA code, needs urgent optimization
-async function reply(threadID: number, persona: Persona) {
-  await inference(MODEL, [
-    systemAddPersona(reply_instruction, persona.instruction),
-    {
-      content: feedStore.get()[threadID].post.message,
-      role: "user",
-    },
-  ]).then(async (result) => {
-    await metric(result.response).then((metrics) => {
-      addReply(threadID, {
-        icon: persona.icon,
-        name: persona.name,
-        message: result.response,
-        metrics: metrics.predictions[0].results.emotions,
-      });
-    });
-  });
-}
-
 function getRandomPersona(): Persona {
-  return _.sample(personas) as Persona;
+  return _.sample(agents) as Persona;
 }
 
 function choosePostParameters(): Persona {
@@ -110,17 +54,17 @@ let i: number = 1;
 async function run() {
   const feedLength: number = feedStore.get().length;
 
-  if (feedLength < MAX_THREADS) {
-    setTimeout(run, TICK_TIME);
+  if (feedLength < config.get().simulation.max_threads) {
+    setTimeout(run, config.get().simulation.tick_time);
   }
 
-  if (_.random(true) < POST_PROP) {
-    await post(choosePostParameters());
+  if (_.random(true) < config.get().agents.post_prop) {
+    await agentPost(choosePostParameters());
   }
 
-  if (feedLength > 0 && _.random(true) < REPLY_PROP) {
+  if (feedLength > 0 && _.random(true) < config.get().agents.reply_prop) {
     const replyParameters = chooseReplyParameters(feedLength);
-    await reply(...replyParameters);
+    await agentReply(...replyParameters);
   }
 
   networkMetricsStore.set(getNetworkMetrics(i));

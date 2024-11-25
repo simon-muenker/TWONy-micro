@@ -4,7 +4,13 @@ export interface Persona {
   instruction: string;
 }
 
-export const personas: Array<Persona> = [
+export const user: Persona = {
+  icon: "👤",
+  name: "human",
+  instruction: "",
+};
+
+export const agents: Array<Persona> = [
   {
     icon: "🤖",
     name: "robot",

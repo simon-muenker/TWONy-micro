@@ -1,23 +1,17 @@
 <script module>
-  import { pushToFeed } from "@stores/feed";
+  import { userPost } from "@stores/feed";
 
   import Button from "@components/common/Button.svelte";
 </script>
 
 <script lang="ts">
-  let message = $state("");
+  let message: string = $state("");
 
   function sendPost() {
     if (message == "") {
       return;
     }
-    pushToFeed({
-      post: {
-        icon: "👤",
-        name: "user",
-        message: message,
-      },
-    });
+    userPost(message);
     message = "";
   }
 </script>

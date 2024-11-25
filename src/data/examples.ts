@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import { personas } from "./personas";
+import { agents } from "../personas";
 
 import { type ChartConfiguration } from "chart.js/auto";
 
@@ -33,7 +33,7 @@ export function getUserMetrics(): ChartConfiguration {
   return {
     type: "bar",
     data: {
-      labels: ["User", ...personas.map((persona) => persona.name)],
+      labels: ["User", ...agents.map((persona) => persona.name)],
       datasets: [
         {
           label: "positive valence",

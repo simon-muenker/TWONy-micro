@@ -1,19 +1,19 @@
 import axios, { type AxiosInstance } from "axios";
 
-export interface Message {
+export type ChatItem = {
   content: string;
   role: string;
-}
+};
 
-export interface InferenceResult {
+export type ChatResult = {
   id: string;
   timestamp: string;
   model: string;
-  prompt: Array<Message>;
+  chat: Array<ChatItem>;
   response: string;
-}
+};
 
-export interface MetricResult {
+export type MetricResult = {
   predictions: Array<{
     results: {
       topics: Object;
@@ -32,14 +32,14 @@ export interface MetricResult {
     };
     sample: string;
   }>;
-}
+};
 
 const HEADERS: Object = {
   "Content-Type": "application/json; charset=UTF-8",
   "Access-Control-Allow-Origin": "*",
 };
 
-const INFERENCE_ENDPOINT: AxiosInstance = axios.create({
+const MODEL_ENDPOINT: AxiosInstance = axios.create({
   baseURL: "https://inf.cl.uni-trier.de",
   headers: HEADERS,
 });
@@ -49,11 +49,11 @@ const METRIC_ENDPOINT: AxiosInstance = axios.create({
   headers: HEADERS,
 });
 
-export async function inference(
+export async function chat(
   model: string,
-  messages: Array<Message>,
-): Promise<InferenceResult> {
-  return await INFERENCE_ENDPOINT.post("/chat/", {
+  messages: Array<ChatItem>,
+): Promise<ChatResult> {
+  return await MODEL_ENDPOINT.post("/chat/", {
     model: model,
     messages: messages,
   })
