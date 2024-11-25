@@ -15,7 +15,7 @@ import { feedStore, pushToFeed, addReply } from "@stores/feed";
 import { networkMetricsStore, userMetricsStore } from "@stores/metrics";
 
 const TICK_TIME: number = 4000;
-const MAX_THREADS: number = 2;
+const MAX_THREADS: number = 20;
 
 const POST_PROP: number = 0.3;
 const REPLY_PROP: number = 0.7;
