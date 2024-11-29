@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { label }: { label: String } = $props();
+  let { label }: { label: string } = $props();
 </script>
 
 <div class="relative text-sm text-gray-500">

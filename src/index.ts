@@ -13,13 +13,12 @@ function getRandomPersona(): Persona {
 }
 
 function choosePostParameters(): Persona {
+  const lastPost = feedStore.get()[0]?.post;
   const persona = getRandomPersona();
 
   // do not post twice in a row
-  if (feedStore.get().length > 0) {
-    if (feedStore.get()[0].post.name == persona.name) {
-      return choosePostParameters();
-    }
+  if (lastPost && lastPost.name == persona.name) {
+    return choosePostParameters();
   }
 
   return persona;
@@ -32,10 +31,8 @@ function chooseReplyParameters(feedLength: number): [number, Persona] {
   const thread = feedStore.get()[selectedThreadID];
 
   // do not reply to your own post if there is no comment
-  if (!thread.replies) {
-    if (thread.post.name == persona.name) {
-      return chooseReplyParameters(feedLength);
-    }
+  if (!thread.replies && thread.post.name == persona.name) {
+    return chooseReplyParameters(feedLength);
   }
 
   // do not reply if the last comment was written by you
@@ -54,15 +51,15 @@ let i: number = 1;
 async function run() {
   const feedLength: number = feedStore.get().length;
 
-  if (feedLength < config.get().simulation.max_threads) {
-    setTimeout(run, config.get().simulation.tick_time);
+  if (feedLength < config.get().simulation.maxThreads) {
+    setTimeout(run, config.get().simulation.tickTime);
   }
 
-  if (_.random(true) < config.get().agents.post_prop) {
+  if (_.random(true) < config.get().agents.postProp) {
     await agentPost(choosePostParameters());
   }
 
-  if (feedLength > 0 && _.random(true) < config.get().agents.reply_prop) {
+  if (feedLength > 0 && _.random(true) < config.get().agents.replyProp) {
     const replyParameters = chooseReplyParameters(feedLength);
     await agentReply(...replyParameters);
   }

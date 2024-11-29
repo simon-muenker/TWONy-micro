@@ -3,23 +3,23 @@ import { deepMap } from "nanostores";
 export type Config = {
   agents: {
     model: string;
-    post_prop: number;
-    reply_prop: number;
+    postProp: number;
+    replyProp: number;
   };
   simulation: {
-    tick_time: number;
-    max_threads: number;
+    tickTime: number;
+    maxThreads: number;
   };
 };
 
 export const config = deepMap<Config>({
   agents: {
     model: "llama3.1:8b-instruct-q6_K",
-    post_prop: 0.3,
-    reply_prop: 0.7,
+    postProp: 0.3,
+    replyProp: 0.7,
   },
   simulation: {
-    tick_time: 4000,
-    max_threads: 20,
+    tickTime: 4000,
+    maxThreads: 20,
   },
 });

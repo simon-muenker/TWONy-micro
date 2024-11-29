@@ -6,13 +6,12 @@ export const instructions: {
   reply: ChatItem;
 } = {
   post: {
-    content:
-      "You are a social media user. Write a Tweet (max 20 words) about what concerns you currently.",
+    content: "Write a Tweet (max 20 words) about what concerns you currently.",
     role: "system",
   },
   reply: {
     content:
-      "You are a social media user. Reply to the following content with a Tweet (max 20 words) with respect to your interests.",
+      "Reply to the following content with a Tweet (max 20 words) with respect to your interests.",
     role: "system",
   },
 };
@@ -30,7 +29,13 @@ export function createChat(
   userContent: string,
 ): Array<ChatItem> {
   return [
-    extendChatItem(instructions[action], persona.instruction),
+    extendChatItem(
+      {
+        content: persona.instruction,
+        role: "system",
+      },
+      instructions[action].content,
+    ),
     {
       content: userContent,
       role: "user",
