@@ -32,7 +32,7 @@ function choosePostParameters(): Persona {
 }
 
 function chooseReplyParameters(feedLength: number): [number, Persona] {
-  const selectedThreadID: number = _.random(feedLength - 1);
+  const selectedThreadID: number = _.random(_.floor((feedLength - 1) / 2));
   const persona = getRandomPersona();
 
   const thread = feedStore.get()[selectedThreadID];
