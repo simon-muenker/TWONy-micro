@@ -13,6 +13,11 @@ export type Config = {
   };
 };
 
+export type rankingSettings = {
+  positive: number;
+  negative: number;
+};
+
 export const config = persistentMap<Config>(
   "config:",
   {
@@ -26,6 +31,18 @@ export const config = persistentMap<Config>(
       tickTime: 4000,
       maxThreads: 20,
     },
+  },
+  {
+    encode: JSON.stringify,
+    decode: JSON.parse,
+  },
+);
+
+export const rankingSettings = persistentMap<rankingSettings>(
+  "rankingSettings:",
+  {
+    positive: 0,
+    negative: 0,
   },
   {
     encode: JSON.stringify,
