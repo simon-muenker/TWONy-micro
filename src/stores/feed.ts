@@ -79,30 +79,82 @@ function getThreadMetrics(thread: Thread): ThreadMetrics {
   const threadLength: number = thread.replies?.length ?? 0;
 
   return (
-    thread.replies?.reduce((acc: ThreadMetrics, reply: ThreadItem) => {
-      const replyRank = getThreadItemMetrics(reply);
+    thread.replies?.reduce(
+      (acc: ThreadMetrics, reply: ThreadItem): ThreadMetrics => {
+        const replyRank = getThreadItemMetrics(reply);
 
-      acc.negValence += replyRank.negValence / (threadLength + 1);
-      acc.posValence += replyRank.posValence / (threadLength + 1);
-      acc.score += replyRank.score / (threadLength + 1);
+        acc.negValence += replyRank.negValence / (threadLength + 1);
+        acc.posValence += replyRank.posValence / (threadLength + 1);
+        acc.score += replyRank.score / (threadLength + 1);
 
-      return acc;
-    }, getThreadItemMetrics(thread.post)) ?? getThreadItemMetrics(thread.post)
+        return acc;
+      },
+      getThreadItemMetrics(thread.post),
+    ) ?? getThreadItemMetrics(thread.post)
   );
 }
 
 // Store Management
 export const feedStore = atom<Array<Thread>>([]);
 
-export const reverseFeedStore = computed(feedStore, (feed) => {
-  return [...feed].reverse();
-});
+// Derived Stores
+export const reverseFeedStore = computed(
+  feedStore,
+  (feed: Array<Thread>): Array<Thread> => {
+    return [...feed].reverse();
+  },
+);
 
-export const rankedFeedStore = computed(feedStore, (feed) => {
-  return [...feed].sort((a, b) => b.metrics.score - a.metrics.score);
-});
+export const rankedFeedStore = computed(
+  feedStore,
+  (feed: Array<Thread>): Array<Thread> => {
+    return [...feed].sort((a, b) => b.metrics.score - a.metrics.score);
+  },
+);
 
-export function pushToFeed(thread: Thread) {
+export const threadItemStore = computed(
+  feedStore,
+  (feed: Array<Thread>): Array<ThreadItem> => {
+    return feed.flatMap((thread) => [thread.post, ...(thread.replies ?? [])]);
+  },
+);
+
+export const threadItemsByNameStore = computed(
+  threadItemStore,
+  (items: Array<ThreadItem>): Record<string, Array<ThreadItem>> => {
+    return _.groupBy(items, "name");
+  },
+);
+
+export const feedAvgMetricsStore = computed(
+  feedStore,
+  (feed: Array<Thread>): ThreadMetrics => {
+    return {
+      negValence: _.meanBy(feed, "metrics.negValence"),
+      posValence: _.meanBy(feed, "metrics.posValence"),
+      score: _.meanBy(feed, "metrics.score"),
+    };
+  },
+);
+
+export const nameAvgMetricsStore = computed(
+  threadItemsByNameStore,
+  (
+    records: Record<string, Array<ThreadItem>>,
+  ): Record<string, ThreadMetrics> => {
+    return _.mapValues(records, (items: Array<ThreadItem>): ThreadMetrics => {
+      const metrics = items.map((item) => getThreadItemMetrics(item));
+      return {
+        negValence: _.meanBy(metrics, "negValence"),
+        posValence: _.meanBy(metrics, "posValence"),
+        score: _.meanBy(metrics, "score"),
+      };
+    });
+  },
+);
+
+// Modifiers
+export function pushToFeed(thread: Thread): void {
   thread.metrics = getThreadMetrics(thread);
   feedStore.set([...feedStore.get(), thread]);
 }
@@ -114,7 +166,7 @@ export function addPost(item: ThreadItem): void {
   });
 }
 
-export function addReply(threadID: number, item: ThreadItem) {
+export function addReply(threadID: number, item: ThreadItem): void {
   let feed: Array<Thread> = feedStore.get();
 
   if (feed[threadID].replies) {
@@ -128,7 +180,10 @@ export function addReply(threadID: number, item: ThreadItem) {
 }
 
 // User Behavior
-export async function userPost(message: string, persona: Persona = user) {
+export async function userPost(
+  message: string,
+  persona: Persona = user,
+): Promise<void> {
   const metricsResult = await metric(message);
 
   addPost(createPost(persona, message, metricsResult));
@@ -138,14 +193,14 @@ export async function userReply(
   threadID: number,
   message: string,
   persona: Persona = user,
-) {
+): Promise<void> {
   const metricsResult = await metric(message);
 
   addReply(threadID, createPost(persona, message, metricsResult));
 }
 
 // Agent Behavior
-export async function agentPost(persona: Persona) {
+export async function agentPost(persona: Persona): Promise<void> {
   const chatResult = await chat(
     config.get().agents.model,
     createChat(persona, "post", " "),
@@ -154,7 +209,10 @@ export async function agentPost(persona: Persona) {
   userPost(chatResult.response, persona);
 }
 
-export async function agentReply(threadID: number, persona: Persona) {
+export async function agentReply(
+  threadID: number,
+  persona: Persona,
+): Promise<void> {
   const chatResult = await chat(
     config.get().agents.model,
     createChat(persona, "reply", feedStore.get()[threadID].post.message),

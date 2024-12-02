@@ -1,7 +1,7 @@
 <script module>
   import _ from "lodash";
 
-  import {flip} from 'svelte/animate';
+  import { flip } from "svelte/animate";
 
   import { rankedFeedStore } from "@stores/feed";
 

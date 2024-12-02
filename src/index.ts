@@ -1,12 +1,19 @@
 import _ from "lodash";
 
-import { getNetworkMetrics, getUserMetrics } from "@data/examples";
-
 import { agents, type Persona } from "@/personas";
 
 import { config } from "./stores/config";
-import { feedStore, agentPost, agentReply } from "@stores/feed";
-import { networkMetricsStore, userMetricsStore } from "@stores/metrics";
+import {
+  feedStore,
+  feedAvgMetricsStore,
+  nameAvgMetricsStore,
+  agentPost,
+  agentReply,
+} from "@stores/feed";
+import {
+  networkMetricsAddObservation,
+  userMetricAddObservation,
+} from "@stores/metrics";
 
 function getRandomPersona(): Persona {
   return _.sample(agents) as Persona;
@@ -64,8 +71,8 @@ async function run() {
     await agentReply(...replyParameters);
   }
 
-  networkMetricsStore.set(getNetworkMetrics(i));
-  userMetricsStore.set(getUserMetrics());
+  userMetricAddObservation(nameAvgMetricsStore.get());
+  networkMetricsAddObservation(feedAvgMetricsStore.get());
   i++;
 }
 run();
