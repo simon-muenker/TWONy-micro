@@ -28,7 +28,7 @@
         <span>positive valence: {_.round(thread.metrics.posValence, 2)}</span>
         <span>thread ranking: {_.round(thread.metrics.score, 2)}</span>
 
-        <Button classes="text-xs">Reply</Button>
+        <!-- <Button classes="text-xs">Reply</Button> -->
       </div>
     </article>
   {/each}

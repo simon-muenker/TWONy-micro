@@ -9,4 +9,4 @@
 <div class="h-12"></div>
 
 <h2 class="mb-4 text-2xl">User Metrics</h2>
-<Chart config={$userMetricsStore} />
+<Chart config={$userMetricsStore} height={500} />
