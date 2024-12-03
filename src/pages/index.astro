@@ -13,7 +13,9 @@ import Metrics from "@components/Metrics/index.svelte";
 
   <Feed client:load />
 
-  <Metrics client:load slot="sidebar-left" />
+  <aside slot="sidebar-left">
+    <Metrics client:load />
+  </aside>
 </BaseLayout>
 
 <script>

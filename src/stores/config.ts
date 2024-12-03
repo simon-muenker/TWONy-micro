@@ -7,15 +7,15 @@ export type Config = {
     replyProp: number;
   };
   simulation: {
-    ranking: "chronological" | "emotion-based";
     tickTime: number;
     maxThreads: number;
   };
 };
 
 export type rankingSettings = {
-  positive: number;
-  negative: number;
+  emotionBased: boolean;
+  positiveWeight: number;
+  negativeWeight: number;
 };
 
 export const config = persistentMap<Config>(
@@ -27,7 +27,6 @@ export const config = persistentMap<Config>(
       replyProp: 0.7,
     },
     simulation: {
-      ranking: "emotion-based",
       tickTime: 4000,
       maxThreads: 20,
     },
@@ -38,14 +37,36 @@ export const config = persistentMap<Config>(
   },
 );
 
-export const rankingSettings = persistentMap<rankingSettings>(
+export const rankingSettingsStore = persistentMap<rankingSettings>(
   "rankingSettings:",
   {
-    positive: 0,
-    negative: 0,
+    emotionBased: true,
+    positiveWeight: 100,
+    negativeWeight: 100,
   },
   {
     encode: JSON.stringify,
     decode: JSON.parse,
   },
 );
+
+export function setRankingSettingsEmotionBased(emotionBased: boolean): void {
+  rankingSettingsStore.set({
+    ...rankingSettingsStore.get(),
+    emotionBased: emotionBased,
+  });
+}
+
+export function setRankingSettingsPositiveWeight(weight: number): void {
+  rankingSettingsStore.set({
+    ...rankingSettingsStore.get(),
+    positiveWeight: weight,
+  });
+}
+
+export function setRankingSettingsNegativeWeight(weight: number): void {
+  rankingSettingsStore.set({
+    ...rankingSettingsStore.get(),
+    negativeWeight: weight,
+  });
+}

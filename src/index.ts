@@ -2,12 +2,8 @@ import _ from "lodash";
 
 import { agents, type Persona } from "@/personas";
 
-import { config } from "./stores/config";
-import {
-  feedStore,
-  agentPost,
-  agentReply,
-} from "@stores/feed";
+import { config, rankingSettingsStore } from "./stores/config";
+import { feedStore, agentPost, agentReply } from "@stores/feed";
 
 function getRandomPersona(): Persona {
   return _.sample(agents) as Persona;
@@ -47,6 +43,8 @@ function chooseReplyParameters(feedLength: number): [number, Persona] {
 
   return [selectedThreadID, persona];
 }
+
+console.debug(rankingSettingsStore.get());
 
 let i: number = 1;
 async function run() {

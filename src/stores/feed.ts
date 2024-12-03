@@ -4,7 +4,7 @@ import { atom, computed } from "nanostores";
 import { user, type Persona } from "@/personas";
 import { createChat } from "@/prompts";
 
-import { config } from "@stores/config";
+import { config, rankingSettingsStore } from "@stores/config";
 
 import { chat, metric, type MetricResult } from "@/api";
 
@@ -70,7 +70,10 @@ function getThreadItemMetrics(item: ThreadItem): ThreadMetrics {
     }
   });
 
-  rank.score = (rank.negValence + rank.posValence) / 2;
+  rank.score =
+    (rank.negValence * (rankingSettingsStore.get().negativeWeight * 0.01) +
+      rank.posValence * (rankingSettingsStore.get().positiveWeight * 0.01)) *
+    0.5;
 
   return rank;
 }

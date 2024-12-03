@@ -1,53 +1,19 @@
 ---
 import BaseLayout from "src/layouts/BaseLayout.astro";
 
-import Slider from "@components/common/Slider.svelte";
-import Checkbox from "@components/common/Checkbox.svelte";
-
-const emotions: Array<string> = [
-  "anger",
-  "fear",
-  "pessimism",
-  "joy",
-  "trust",
-  "optimism",
-];
+import RankingType from "@components/Configure/RankingType.svelte";
+import RankingWeighting from "@components/Configure/RankingWeighting.svelte";
 ---
 
 <BaseLayout title="TWONy-micro - Settings">
   <h2 class="mb-8 text-4xl">Settings</h2>
 
   <h3 class="text-bold mb-1 text-lg">Recommender System</h3>
+  <RankingType client:load />
 
-  <label class="inline-flex cursor-pointer items-center">
-    <span class="mr-3 text-sm font-medium text-gray-900">Chronological</span>
-    <Checkbox />
-    <span class="ms-3 text-sm font-medium text-gray-900"
-      >Emotion-based (intense emotion rank higher)</span
-    >
-  </label>
-
-  <h3 class="text-bold mb-1 mt-8 text-lg">Emotion Weighting</h3>
+  <h3 class="text-bold mb-1 mt-8 text-lg">Valence Weighting</h3>
   <p class="mb-2 text-sm font-medium text-gray-900">
     Finetune how the indivual predicted emotions impact the ranking algorithm.
   </p>
-
-  <table class="w-full table-auto">
-    {
-      emotions.map((emotion) => (
-        <tr>
-          <td class="w-24 py-6">{emotion}</td>
-          <td class="py-6">
-            <Slider label={emotion} />{" "}
-          </td>
-        </tr>
-      ))
-    }
-  </table>
-
-  <h3 class="mt-8 text-sm">Note</h3>
-  <span class="block text-xs text-slate-500">
-    Currently, the checkbox and sliders have no functionality and serve only to
-    display our ideas of possible manipulations.
-  </span>
+  <RankingWeighting client:load />
 </BaseLayout>

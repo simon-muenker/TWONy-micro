@@ -3,7 +3,8 @@
 
   import { flip } from "svelte/animate";
 
-  import { rankedFeedStore } from "@stores/feed";
+  import { reverseFeedStore, rankedFeedStore } from "@stores/feed";
+  import { rankingSettingsStore } from "@stores/config";
 
   import Button from "@components/common/Button.svelte";
 
@@ -11,7 +12,7 @@
 </script>
 
 <div class="grid grid-cols-1 divide-y">
-  {#each $rankedFeedStore as thread, index (index)}
+  {#each $rankingSettingsStore.emotionBased ? $rankedFeedStore : $reverseFeedStore as thread, index (index)}
     <article class="py-8" animate:flip>
       <ThreadItem {...thread.post} />
       {#if thread.replies}
