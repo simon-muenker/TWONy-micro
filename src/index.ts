@@ -5,15 +5,9 @@ import { agents, type Persona } from "@/personas";
 import { config } from "./stores/config";
 import {
   feedStore,
-  feedAvgMetricsStore,
-  nameAvgMetricsStore,
   agentPost,
   agentReply,
 } from "@stores/feed";
-import {
-  networkMetricsAddObservation,
-  userMetricAddObservation,
-} from "@stores/metrics";
 
 function getRandomPersona(): Persona {
   return _.sample(agents) as Persona;
@@ -70,9 +64,6 @@ async function run() {
     const replyParameters = chooseReplyParameters(feedLength);
     await agentReply(...replyParameters);
   }
-
-  userMetricAddObservation(nameAvgMetricsStore.get());
-  networkMetricsAddObservation(feedAvgMetricsStore.get());
   i++;
 }
 run();

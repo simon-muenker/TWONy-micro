@@ -2,7 +2,7 @@ import _ from "lodash";
 import { atom } from "nanostores";
 import { type ChartConfiguration } from "chart.js/auto";
 
-import type { ThreadMetrics } from "./feed";
+import { type ThreadMetrics, feedAvgMetricsStore, nameAvgMetricsStore } from "./feed";
 
 // Constants
 const COLORS: Record<string, string> = {
@@ -90,3 +90,12 @@ export function userMetricAddObservation(
 
   userMetricsStore.set(userMetrics);
 }
+
+// Listeners
+feedAvgMetricsStore.subscribe((metrics) => {
+  networkMetricsAddObservation(metrics);
+});
+
+nameAvgMetricsStore.subscribe((metrics) => {
+  userMetricAddObservation(metrics);
+});
