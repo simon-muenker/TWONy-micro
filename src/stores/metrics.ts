@@ -14,11 +14,10 @@ const COLORS: Record<string, string> = {
   negative: "rgb(255, 99, 132)",
 };
 
-// Store Management
-export const networkMetricsStore = atom<ChartConfiguration>({
+const networkMetricsDefault: ChartConfiguration = {
   type: "line",
   data: {
-    labels: [0],
+    labels: [],
     datasets: [
       {
         label: "positive valence",
@@ -36,9 +35,9 @@ export const networkMetricsStore = atom<ChartConfiguration>({
       },
     ],
   },
-});
+};
 
-export const userMetricsStore = atom<ChartConfiguration>({
+const userMetricsDefault: ChartConfiguration = {
   type: "bar",
   data: {
     labels: [],
@@ -58,9 +57,22 @@ export const userMetricsStore = atom<ChartConfiguration>({
   options: {
     indexAxis: "y",
   },
-});
+};
+
+// Store Management
+export const networkMetricsStore = atom<ChartConfiguration>(
+  structuredClone(networkMetricsDefault),
+);
+export const userMetricsStore = atom<ChartConfiguration>(
+  structuredClone(userMetricsDefault),
+);
 
 // Modifiers
+export function resetMetrics(): void {
+  networkMetricsStore.set(structuredClone(networkMetricsDefault));
+  userMetricsStore.set(structuredClone(userMetricsDefault));
+}
+
 export function networkMetricsAddObservation(metrics: ThreadMetrics): void {
   if (isNaN(metrics.score)) return;
 

@@ -8,7 +8,7 @@ const menuItems = [
   { icon: "mdi:slider", text: "Settings", route: "/TWONy-micro/settings" },
   {
     icon: "mdi:information-slab-box-outline",
-    text: "About twon",
+    text: "about",
     route: "/TWONy-micro/about",
   },
 ];
@@ -21,7 +21,7 @@ const menuItems = [
   <ul class="space-y-2">
     {
       menuItems.map((item) => (
-        <li class="inline-block">
+        <li class="block">
           <MenuItem icon={item.icon} text={item.text} route={item.route} />
         </li>
       ))

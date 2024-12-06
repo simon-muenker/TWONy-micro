@@ -1,15 +1,21 @@
 import { persistentMap } from "@nanostores/persistent";
 
-export type Config = {
-  agents: {
-    model: string;
-    postProp: number;
-    replyProp: number;
-  };
-  simulation: {
-    tickTime: number;
-    maxThreads: number;
-  };
+export const MODELS = [
+  "llama3.1:8b-instruct-q6_K",
+  "llama3.1:70b-instruct-q6_K",
+  "mistral:7b-instruct-v0.2-q6_K",
+] as const;
+
+export type SimulationSettings = {
+  running: boolean;
+  tickTime: number;
+  maxThreads: number;
+};
+
+export type AgentSettings = {
+  model: (typeof MODELS)[number];
+  postProp: number;
+  replyProp: number;
 };
 
 export type rankingSettings = {
@@ -18,23 +24,29 @@ export type rankingSettings = {
   negativeWeight: number;
 };
 
-export const config = persistentMap<Config>(
-  "config:",
+const PARSER = {
+  encode: JSON.stringify,
+  decode: JSON.parse,
+};
+
+export const simulationSettingsStore = persistentMap<SimulationSettings>(
+  "simulationSettings:",
   {
-    agents: {
-      model: "llama3.1:8b-instruct-q6_K",
-      postProp: 0.3,
-      replyProp: 0.7,
-    },
-    simulation: {
-      tickTime: 4000,
-      maxThreads: 20,
-    },
+    running: false,
+    tickTime: 4000,
+    maxThreads: 20,
   },
+  PARSER,
+);
+
+export const agentSettingsStore = persistentMap<AgentSettings>(
+  "agentSettings:",
   {
-    encode: JSON.stringify,
-    decode: JSON.parse,
+    model: "llama3.1:8b-instruct-q6_K",
+    postProp: 0.3,
+    replyProp: 0.7,
   },
+  PARSER,
 );
 
 export const rankingSettingsStore = persistentMap<rankingSettings>(
@@ -44,29 +56,5 @@ export const rankingSettingsStore = persistentMap<rankingSettings>(
     positiveWeight: 100,
     negativeWeight: 100,
   },
-  {
-    encode: JSON.stringify,
-    decode: JSON.parse,
-  },
+  PARSER,
 );
-
-export function setRankingSettingsEmotionBased(emotionBased: boolean): void {
-  rankingSettingsStore.set({
-    ...rankingSettingsStore.get(),
-    emotionBased: emotionBased,
-  });
-}
-
-export function setRankingSettingsPositiveWeight(weight: number): void {
-  rankingSettingsStore.set({
-    ...rankingSettingsStore.get(),
-    positiveWeight: weight,
-  });
-}
-
-export function setRankingSettingsNegativeWeight(weight: number): void {
-  rankingSettingsStore.set({
-    ...rankingSettingsStore.get(),
-    negativeWeight: weight,
-  });
-}

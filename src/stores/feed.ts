@@ -4,7 +4,7 @@ import { atom, computed } from "nanostores";
 import { user, type Persona } from "@/personas";
 import { createChat } from "@/prompts";
 
-import { config, rankingSettingsStore } from "@stores/config";
+import { agentSettingsStore, rankingSettingsStore } from "@stores/config";
 
 import { chat, metric, type MetricResult } from "@/api";
 
@@ -157,6 +157,10 @@ export const nameAvgMetricsStore = computed(
 );
 
 // Modifiers
+export function clearFeed(): void {
+  feedStore.set([]);
+}
+
 export function pushToFeed(thread: Thread): void {
   thread.metrics = getThreadMetrics(thread);
   feedStore.set([...feedStore.get(), thread]);
@@ -205,7 +209,7 @@ export async function userReply(
 // Agent Behavior
 export async function agentPost(persona: Persona): Promise<void> {
   const chatResult = await chat(
-    config.get().agents.model,
+    agentSettingsStore.get().model,
     createChat(persona, "post", " "),
   );
 
@@ -217,7 +221,7 @@ export async function agentReply(
   persona: Persona,
 ): Promise<void> {
   const chatResult = await chat(
-    config.get().agents.model,
+    agentSettingsStore.get().model,
     createChat(persona, "reply", feedStore.get()[threadID].post.message),
   );
 

@@ -1,61 +1,32 @@
 ---
 import BaseLayout from "src/layouts/BaseLayout.astro";
+
+import { agents } from "@/personas";
+import { instructions } from "@/prompts";
 ---
 
 <BaseLayout title="TWONy-micro - About">
-  <h2 class="mb-8 text-4xl">Our goal with twony ...</h2>
+  <h2 class="mb-8 text-4xl">Tool Information</h2>
 
-  <p class="mb-4 text-lg leading-relaxed">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer interdum
-    blandit erat pharetra pellentesque. Fusce sit amet porttitor nisl. Integer
-    eleifend pulvinar leo eget aliquet. Nullam ut lectus dolor. Phasellus ante
-    ipsum, posuere at arcu sed, viverra rutrum ipsum. Cras mauris ipsum,
-    consequat non pulvinar vitae, pulvinar ac justo. Quisque sollicitudin auctor
-    iaculis. Donec et turpis non magna venenatis volutpat ut in diam. Ut eu quam
-    rhoncus, pretium odio vitae, sollicitudin odio.
-  </p>
+  <h3 class="mb-4 text-2xl">Prompt Introduction</h3>
+  {Object.entries(instructions).map((instruction) => (
+    <h3 class="text-bold mb-1 text-xl">task: {instruction[0]}</h3>
+    <p class="mb-2 text-sm text-gray-900">
+      <Fragment set:html={instruction[1].content}/>
+    </p>
+  ))}
 
-  <p class="mb-4 text-lg leading-relaxed">
-    Ut magna elit, imperdiet nec lacus at, vulputate aliquet ligula. Proin ac
-    dolor quis nunc scelerisque dignissim ut non nulla. Vivamus non efficitur
-    orci, vitae venenatis turpis. Duis non lobortis justo. Praesent non arcu
-    egestas, fermentum lorem ac, venenatis justo. Nulla quam eros, pellentesque
-    non odio id, dictum vestibulum risus. Mauris ut urna at nisl convallis
-    suscipit sit amet sit amet odio. Curabitur et volutpat quam. Duis
-    scelerisque, mi vel lobortis rhoncus, augue odio luctus odio, quis vehicula
-    lacus quam eget erat. Nam et ipsum egestas, dignissim magna id, varius est.
-    Praesent fringilla volutpat volutpat. Nullam a pellentesque ante, at euismod
-    nisi.
-  </p>
+  <div class="my-12 block border-b"></div>
 
-  <p class="mb-4 text-lg leading-relaxed">
-    Donec iaculis est a purus elementum, eget tristique libero aliquet. Nulla ut
-    velit odio. Vivamus ultricies arcu id nulla interdum laoreet. Lorem ipsum
-    dolor sit amet, consectetur adipiscing elit. Sed ut dapibus risus, a gravida
-    nibh. Curabitur vestibulum posuere eros. Donec sed sapien convallis,
-    molestie odio a, porttitor elit. Lorem ipsum dolor sit amet, consectetur
-    adipiscing elit. Aliquam ac nisi mi. Nulla eu nulla tempus, vestibulum enim
-    ut, fringilla velit.
-  </p>
-
-  <p class="mb-4 text-lg leading-relaxed">
-    Nam in tempus diam, a blandit erat. Nunc tincidunt vestibulum semper. Sed
-    nec massa interdum, facilisis nunc ac, rutrum dolor. Integer imperdiet leo
-    tincidunt nisl faucibus tempus. Cras a congue nulla. Mauris lobortis dolor
-    ac purus scelerisque, nec consequat ligula maximus. Pellentesque congue
-    dolor in sem sagittis, id semper nisl consequat. Proin at purus vitae orci
-    dictum sagittis et a lectus. Mauris blandit enim ex, sed congue odio
-    interdum et. Suspendisse accumsan malesuada tellus sed convallis.
-  </p>
-
-  <p class="mb-4 text-lg leading-relaxed">
-    Vivamus molestie metus dui, vitae venenatis purus porta ut. Praesent
-    dignissim a enim nec efficitur. Phasellus convallis varius tortor. Praesent
-    euismod ex ut magna consequat, vel cursus libero lobortis. Nullam ultrices
-    vitae magna porta interdum. Cras ac porta lectus. Praesent dictum leo non
-    ante accumsan tristique. Integer sagittis leo id libero convallis, nec
-    vehicula purus vulputate. Mauris iaculis id velit faucibus eleifend.
-    Maecenas maximus, diam quis aliquam tincidunt, neque purus auctor turpis, id
-    egestas est ante quis neque.
-  </p>
+  <h2 class="text-2xl">Agents Description</h2>
+  <div class="divide-y">
+    {agents.map((agent) => (
+      <div class="py-8">
+        <h3 class="text-bold mb-1 text-xl">{agent.icon} {agent.name}</h3>
+        <p class="mb-2 text-sm text-gray-900">
+          <Fragment set:html={agent.instruction}/>
+        </p>
+    </div>
+    ))}
+  </div>
 </BaseLayout>

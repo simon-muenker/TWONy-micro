@@ -5,14 +5,14 @@
 </script>
 
 <h2 class="mb-4 text-2xl">Network Metrics</h2>
-<Chart config={$networkMetricsStore} />
+<Chart config={$networkMetricsStore} height={250} />
 
-<div class="h-12"></div>
+<div class="my-12 block"></div>
 
 <h2 class="mb-4 text-2xl">User Metrics</h2>
-<Chart config={$userMetricsStore} height={500} />
+<Chart config={$userMetricsStore} height={300} />
 
-<div class="h-12"></div>
+<div class="my-12 block border-b"></div>
 
 <h2 class="mb-2 text-2xl">Settings</h2>
 

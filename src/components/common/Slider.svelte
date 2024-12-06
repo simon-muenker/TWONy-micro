@@ -5,12 +5,22 @@
     min = "-100",
     max = "100",
     step = "20",
+    description = {
+      min: "decreased",
+      center: "ranking effect",
+      max: "increased",
+    },
   }: {
     label: string;
     value: number;
-    min: string | number;
-    max: string | number;
-    step: string | number;
+    min?: string | number;
+    max?: string | number;
+    step?: string | number;
+    description?: {
+      min: string;
+      center: string;
+      max: string;
+    };
   } = $props();
 </script>
 
@@ -25,9 +35,9 @@
     {step}
     class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
   />
-  <span class="absolute -bottom-6 start-0">decreased</span>
+  <span class="absolute -bottom-6 start-0">{description.min}</span>
   <span class="absolute -bottom-6 start-1/2 -translate-x-1/2"
-    >ranking effect</span
+    >{description.center}</span
   >
-  <span class="absolute -bottom-6 end-0">increased</span>
+  <span class="absolute -bottom-6 end-0">{description.max}</span>
 </div>

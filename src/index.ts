@@ -2,7 +2,7 @@ import _ from "lodash";
 
 import { agents, type Persona } from "@/personas";
 
-import { config, rankingSettingsStore } from "./stores/config";
+import { agentSettingsStore, simulationSettingsStore } from "./stores/config";
 import { feedStore, agentPost, agentReply } from "@stores/feed";
 
 function getRandomPersona(): Persona {
@@ -44,24 +44,29 @@ function chooseReplyParameters(feedLength: number): [number, Persona] {
   return [selectedThreadID, persona];
 }
 
-console.debug(rankingSettingsStore.get());
-
-let i: number = 1;
 async function run() {
   const feedLength: number = feedStore.get().length;
 
-  if (feedLength < config.get().simulation.maxThreads) {
-    setTimeout(run, config.get().simulation.tickTime);
+  if (
+    simulationSettingsStore.get().running &&
+    feedLength < simulationSettingsStore.get().maxThreads
+  ) {
+    setTimeout(run, simulationSettingsStore.get().tickTime);
   }
 
-  if (_.random(true) < config.get().agents.postProp) {
+  if (_.random(true) < agentSettingsStore.get().postProp) {
     await agentPost(choosePostParameters());
   }
 
-  if (feedLength > 0 && _.random(true) < config.get().agents.replyProp) {
+  if (feedLength > 0 && _.random(true) < agentSettingsStore.get().replyProp) {
     const replyParameters = chooseReplyParameters(feedLength);
     await agentReply(...replyParameters);
   }
-  i++;
 }
-run();
+
+// Listeners
+simulationSettingsStore.subscribe(() => {
+  if (simulationSettingsStore.get().running) {
+    run();
+  }
+});
