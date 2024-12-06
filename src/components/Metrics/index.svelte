@@ -25,11 +25,11 @@
     {#if $rankingSettingsStore.emotionBased}
       <tr>
         <td>Negative valence weight</td>
-        <td>{$rankingSettingsStore.negativeWeight}</td>
+        <td>{($rankingSettingsStore.negativeWeight * 0.01).toFixed(2)}</td>
       </tr>
       <tr>
         <td>Positive valence weight</td>
-        <td>{$rankingSettingsStore.positiveWeight}</td>
+        <td>{($rankingSettingsStore.positiveWeight * 0.01).toFixed(2)}</td>
       </tr>
     {/if}
   </tbody>
