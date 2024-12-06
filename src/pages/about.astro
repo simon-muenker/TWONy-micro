@@ -11,7 +11,7 @@ import { instructions } from "@/prompts";
   <h3 class="mb-4 text-2xl">Prompt Introduction</h3>
   {Object.entries(instructions).map((instruction) => (
     <h3 class="text-bold mb-1 text-xl">task: {instruction[0]}</h3>
-    <p class="mb-2 text-sm text-gray-900">
+    <p class="mb-2 text-sm text-gray-900" contenteditable>
       <Fragment set:html={instruction[1].content}/>
     </p>
   ))}
@@ -23,7 +23,7 @@ import { instructions } from "@/prompts";
     {agents.map((agent) => (
       <div class="py-8">
         <h3 class="text-bold mb-1 text-xl">{agent.icon} {agent.name}</h3>
-        <p class="mb-2 text-sm text-gray-900">
+        <p class="mb-2 text-sm text-gray-900" contenteditable>
           <Fragment set:html={agent.instruction}/>
         </p>
     </div>
