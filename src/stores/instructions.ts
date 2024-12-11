@@ -1,6 +1,6 @@
 import { persistentMap } from "@nanostores/persistent";
 
-import type { ChatItem } from "@api/chat";
+import type { ChatItem } from "@/api/inference";
 
 import { STORE_PARSER } from "@/stores/constants";
 import type { Persona } from "@stores/personas";

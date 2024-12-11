@@ -3,7 +3,7 @@ import { atom, computed } from "nanostores";
 
 import { METRIC_EMOTIONS } from "@/constants";
 
-import { chat } from "@api/chat";
+import { chat } from "@/api/inference";
 import { metric, type MetricResult } from "@api/metric";
 
 import { settingsAgentStore, settingsRankingStore } from "@/stores/settings";
