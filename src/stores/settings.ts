@@ -3,6 +3,7 @@ import { persistentMap } from "@nanostores/persistent";
 import { MODELS } from "@/constants";
 import { STORE_PARSER } from "@/stores/constants";
 
+// Type Definitions
 export type SettingsSimulation = {
   running: boolean;
   tickTime: number;
@@ -21,6 +22,7 @@ export type SettingsRanking = {
   negativeWeight: number;
 };
 
+// Store Management
 export const settingsSimulationStore = persistentMap<SettingsSimulation>(
   "settingsSimulation:",
   {
