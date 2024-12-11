@@ -1,5 +1,5 @@
 <script module>
-  import { settingsRankingStore } from "@stores/config";
+  import { settingsRankingStore } from "@/stores/settings";
 
   import Checkbox from "@components/common/Checkbox.svelte";
 </script>

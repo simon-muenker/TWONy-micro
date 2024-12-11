@@ -6,7 +6,7 @@ import { METRIC_EMOTIONS } from "@/constants";
 import { chat } from "@api/chat";
 import { metric, type MetricResult } from "@api/metric";
 
-import { settingsAgentStore, settingsRankingStore } from "@stores/config";
+import { settingsAgentStore, settingsRankingStore } from "@/stores/settings";
 import { personaUserStore, type Persona } from "@stores/personas";
 import { createChat } from "@stores/instructions";
 

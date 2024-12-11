@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { settingsRankingStore } from "@stores/config";
+  import { settingsRankingStore } from "@/stores/settings";
   import { networkMetricsStore, userMetricsStore } from "@stores/metrics";
 
   import Chart from "@components/common/Chart.svelte";

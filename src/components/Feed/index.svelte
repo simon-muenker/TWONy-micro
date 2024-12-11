@@ -3,7 +3,7 @@
 
   import { cubicOut } from "svelte/easing";
 
-  import { settingsRankingStore } from "@stores/config";
+  import { settingsRankingStore } from "@/stores/settings";
   import { reverseFeedStore, rankedFeedStore } from "@stores/feed";
 
   import ThreadItem from "./ThreadItem.svelte";

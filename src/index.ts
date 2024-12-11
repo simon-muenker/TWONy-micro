@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import { settingsAgentStore, settingsSimulationStore } from "@stores/config";
+import { settingsAgentStore, settingsSimulationStore } from "@/stores/settings";
 import { getRandomPersona, type Persona } from "@stores/personas";
 import { feedStore, agentPost, agentReply } from "@stores/feed";
 

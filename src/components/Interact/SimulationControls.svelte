@@ -1,7 +1,7 @@
 <script module>
   import { MODELS } from "@/constants";
 
-  import { settingsSimulationStore, settingsAgentStore } from "@stores/config";
+  import { settingsSimulationStore, settingsAgentStore } from "@/stores/settings";
   import { clearFeed } from "@stores/feed";
   import { resetMetrics } from "@stores/metrics";
 
