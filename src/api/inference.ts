@@ -16,7 +16,7 @@ export type ChatResult = {
   response: string;
 };
 
-const CHAT_ENDPOINT: AxiosInstance = axios.create({
+const INFERENCE_ENDPOINT: AxiosInstance = axios.create({
   baseURL: "https://inf.cl.uni-trier.de",
   headers: HEADERS,
 });
@@ -25,7 +25,7 @@ export async function chat(
   model: (typeof MODELS)[number],
   messages: Array<ChatItem>,
 ): Promise<ChatResult> {
-  return await CHAT_ENDPOINT.post("/chat/", {
+  return await INFERENCE_ENDPOINT.post("/chat/", {
     model: model,
     messages: messages,
   })
