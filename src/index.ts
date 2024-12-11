@@ -1,13 +1,8 @@
 import _ from "lodash";
 
-import { agents, type Persona } from "@/personas";
-
-import { agentSettingsStore, simulationSettingsStore } from "./stores/config";
+import { settingsAgentStore, settingsSimulationStore } from "@stores/config";
+import { getRandomPersona, type Persona } from "@stores/personas";
 import { feedStore, agentPost, agentReply } from "@stores/feed";
-
-function getRandomPersona(): Persona {
-  return _.sample(agents) as Persona;
-}
 
 function choosePostParameters(): Persona {
   const lastPost = feedStore.get()[0]?.post;
@@ -48,25 +43,25 @@ async function run() {
   const feedLength: number = feedStore.get().length;
 
   if (
-    simulationSettingsStore.get().running &&
-    feedLength < simulationSettingsStore.get().maxThreads
+    settingsSimulationStore.get().running &&
+    feedLength < settingsSimulationStore.get().maxThreads
   ) {
-    setTimeout(run, simulationSettingsStore.get().tickTime);
+    setTimeout(run, settingsSimulationStore.get().tickTime);
   }
 
-  if (_.random(true) < agentSettingsStore.get().postProp) {
+  if (_.random(true) < settingsAgentStore.get().postProp) {
     await agentPost(choosePostParameters());
   }
 
-  if (feedLength > 0 && _.random(true) < agentSettingsStore.get().replyProp) {
+  if (feedLength > 0 && _.random(true) < settingsAgentStore.get().replyProp) {
     const replyParameters = chooseReplyParameters(feedLength);
     await agentReply(...replyParameters);
   }
 }
 
 // Listeners
-simulationSettingsStore.subscribe(() => {
-  if (simulationSettingsStore.get().running) {
+settingsSimulationStore.subscribe(() => {
+  if (settingsSimulationStore.get().running) {
     run();
   }
 });

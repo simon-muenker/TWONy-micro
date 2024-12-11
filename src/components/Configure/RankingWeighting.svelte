@@ -1,20 +1,20 @@
 <script module>
-  import Slider from "@components/common/Slider.svelte";
+  import { settingsRankingStore } from "@stores/config";
 
-  import { rankingSettingsStore } from "@stores/config";
+  import Slider from "@components/common/Slider.svelte";
 </script>
 
 <script lang="ts">
   let negativeWeight: number = $state(
-    rankingSettingsStore.get().negativeWeight,
+    settingsRankingStore.get().negativeWeight,
   );
   let positiveWeight: number = $state(
-    rankingSettingsStore.get().positiveWeight,
+    settingsRankingStore.get().positiveWeight,
   );
 
   $effect(() => {
-    rankingSettingsStore.setKey("negativeWeight", negativeWeight);
-    rankingSettingsStore.setKey("positiveWeight", positiveWeight);
+    settingsRankingStore.setKey("negativeWeight", negativeWeight);
+    settingsRankingStore.setKey("positiveWeight", positiveWeight);
   });
 </script>
 

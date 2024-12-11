@@ -1,60 +1,52 @@
 import { persistentMap } from "@nanostores/persistent";
 
-export const MODELS = [
-  "llama3.1:8b-instruct-q6_K",
-  "llama3.1:70b-instruct-q6_K",
-  "mistral:7b-instruct-v0.2-q6_K",
-] as const;
+import { MODELS } from "@/constants";
+import { STORE_PARSER } from "@/stores/constants";
 
-export type SimulationSettings = {
+export type SettingsSimulation = {
   running: boolean;
   tickTime: number;
   maxThreads: number;
 };
 
-export type AgentSettings = {
+export type SettingsAgent = {
   model: (typeof MODELS)[number];
   postProp: number;
   replyProp: number;
 };
 
-export type rankingSettings = {
+export type SettingsRanking = {
   emotionBased: boolean;
   positiveWeight: number;
   negativeWeight: number;
 };
 
-const PARSER = {
-  encode: JSON.stringify,
-  decode: JSON.parse,
-};
-
-export const simulationSettingsStore = persistentMap<SimulationSettings>(
-  "simulationSettings:",
+export const settingsSimulationStore = persistentMap<SettingsSimulation>(
+  "settingsSimulation:",
   {
     running: false,
     tickTime: 4000,
     maxThreads: 20,
   },
-  PARSER,
+  STORE_PARSER,
 );
 
-export const agentSettingsStore = persistentMap<AgentSettings>(
-  "agentSettings:",
+export const settingsAgentStore = persistentMap<SettingsAgent>(
+  "settingsAgent:",
   {
     model: "llama3.1:8b-instruct-q6_K",
     postProp: 0.3,
     replyProp: 0.7,
   },
-  PARSER,
+  STORE_PARSER,
 );
 
-export const rankingSettingsStore = persistentMap<rankingSettings>(
-  "rankingSettings:",
+export const settingsRankingStore = persistentMap<SettingsRanking>(
+  "settingsRanking:",
   {
     emotionBased: true,
     positiveWeight: 100,
     negativeWeight: 100,
   },
-  PARSER,
+  STORE_PARSER,
 );

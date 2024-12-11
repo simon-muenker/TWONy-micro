@@ -1,6 +1,7 @@
 <script lang="ts">
+  import { settingsRankingStore } from "@stores/config";
   import { networkMetricsStore, userMetricsStore } from "@stores/metrics";
-  import { rankingSettingsStore } from "@stores/config";
+
   import Chart from "@components/common/Chart.svelte";
 </script>
 
@@ -20,16 +21,16 @@
   <tbody>
     <tr>
       <td>Emotion-based ranking</td>
-      <td>{$rankingSettingsStore.emotionBased ? "yes" : "no"}</td>
+      <td>{$settingsRankingStore.emotionBased ? "yes" : "no"}</td>
     </tr>
-    {#if $rankingSettingsStore.emotionBased}
+    {#if $settingsRankingStore.emotionBased}
       <tr>
         <td>Negative valence weight</td>
-        <td>{($rankingSettingsStore.negativeWeight * 0.01).toFixed(2)}</td>
+        <td>{($settingsRankingStore.negativeWeight * 0.01).toFixed(2)}</td>
       </tr>
       <tr>
         <td>Positive valence weight</td>
-        <td>{($rankingSettingsStore.positiveWeight * 0.01).toFixed(2)}</td>
+        <td>{($settingsRankingStore.positiveWeight * 0.01).toFixed(2)}</td>
       </tr>
     {/if}
   </tbody>

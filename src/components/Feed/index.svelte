@@ -3,10 +3,8 @@
 
   import { cubicOut } from "svelte/easing";
 
+  import { settingsRankingStore } from "@stores/config";
   import { reverseFeedStore, rankedFeedStore } from "@stores/feed";
-  import { rankingSettingsStore } from "@stores/config";
-
-  import Button from "@components/common/Button.svelte";
 
   import ThreadItem from "./ThreadItem.svelte";
 </script>
@@ -14,7 +12,7 @@
 <script lang="ts">
   function slide(
     node: HTMLElement,
-    { from, to }: { from: DOMRect; to: DOMRect }
+    { from, to }: { from: DOMRect; to: DOMRect },
   ) {
     const dx: number = from.left - to.left;
     const dy: number = from.top - to.top;
@@ -31,7 +29,7 @@
 </script>
 
 <div class="grid grid-cols-1 divide-y">
-  {#each $rankingSettingsStore.emotionBased ? $rankedFeedStore : $reverseFeedStore as thread, index (index)}
+  {#each $settingsRankingStore.emotionBased ? $rankedFeedStore : $reverseFeedStore as thread, index (index)}
     <article class="py-8" animate:slide>
       <ThreadItem {...thread.post} />
       {#if thread.replies}

@@ -2,13 +2,17 @@
   import _ from "lodash";
   import { fade } from "svelte/transition";
 
-  import { EMOTIONS, type ThreadItem } from "@stores/feed";
+  import { METRIC_EMOTIONS } from "@/constants";
+
+  import { type ThreadItem } from "@stores/feed";
 </script>
 
 <script lang="ts">
   let { icon, name, message, metrics }: ThreadItem = $props();
 
-  const emotions: Array<string> = EMOTIONS.positive.concat(EMOTIONS.negative);
+  const emotions: Array<string> = METRIC_EMOTIONS.positive.concat(
+    METRIC_EMOTIONS.negative,
+  );
 </script>
 
 <div class="flex gap-4" transition:fade>

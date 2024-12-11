@@ -1,14 +1,14 @@
 <script module>
-  import Checkbox from "@components/common/Checkbox.svelte";
+  import { settingsRankingStore } from "@stores/config";
 
-  import { rankingSettingsStore } from "@stores/config";
+  import Checkbox from "@components/common/Checkbox.svelte";
 </script>
 
 <script lang="ts">
-  let emotionBased: boolean = $state(rankingSettingsStore.get().emotionBased);
+  let emotionBased: boolean = $state(settingsRankingStore.get().emotionBased);
 
   $effect(() => {
-    rankingSettingsStore.setKey("emotionBased", emotionBased);
+    settingsRankingStore.setKey("emotionBased", emotionBased);
   });
 </script>
 

@@ -1,18 +1,14 @@
 import _ from "lodash";
 import { atom, computed } from "nanostores";
 
-import { user, type Persona } from "@/personas";
-import { createChat } from "@/prompts";
+import { METRIC_EMOTIONS } from "@/constants";
 
-import { agentSettingsStore, rankingSettingsStore } from "@stores/config";
+import { chat } from "@api/chat";
+import { metric, type MetricResult } from "@api/metric";
 
-import { chat, metric, type MetricResult } from "@/api";
-
-// Constants
-export const EMOTIONS = {
-  negative: ["anger", "fear", "pessimism"],
-  positive: ["joy", "trust", "optimism"],
-};
+import { settingsAgentStore, settingsRankingStore } from "@stores/config";
+import { personaUserStore, type Persona } from "@stores/personas";
+import { createChat } from "@stores/instructions";
 
 // Type Definitions
 export type ThreadItem = {
@@ -63,16 +59,16 @@ function getThreadItemMetrics(item: ThreadItem): ThreadMetrics {
   };
 
   Object.entries(item.metrics).forEach((obj) => {
-    if (EMOTIONS.negative.includes(obj[0])) {
-      rank.negValence += obj[1] / EMOTIONS.negative.length;
-    } else if (EMOTIONS.positive.includes(obj[0])) {
-      rank.posValence += obj[1] / EMOTIONS.positive.length;
+    if (METRIC_EMOTIONS.negative.includes(obj[0])) {
+      rank.negValence += obj[1] / METRIC_EMOTIONS.negative.length;
+    } else if (METRIC_EMOTIONS.positive.includes(obj[0])) {
+      rank.posValence += obj[1] / METRIC_EMOTIONS.positive.length;
     }
   });
 
   rank.score =
-    (rank.negValence * (rankingSettingsStore.get().negativeWeight * 0.01) +
-      rank.posValence * (rankingSettingsStore.get().positiveWeight * 0.01)) *
+    (rank.negValence * (settingsRankingStore.get().negativeWeight * 0.01) +
+      rank.posValence * (settingsRankingStore.get().positiveWeight * 0.01)) *
     0.5;
 
   return rank;
@@ -187,19 +183,19 @@ export function addReply(threadID: number, item: ThreadItem): void {
 }
 
 // User Behavior
-export async function userPost(
+export async function post(
   message: string,
-  persona: Persona = user,
+  persona: Persona = personaUserStore.get()[0],
 ): Promise<void> {
   const metricsResult = await metric(message);
 
   addPost(createPost(persona, message, metricsResult));
 }
 
-export async function userReply(
+export async function reply(
   threadID: number,
   message: string,
-  persona: Persona = user,
+  persona: Persona = personaUserStore.get()[0],
 ): Promise<void> {
   const metricsResult = await metric(message);
 
@@ -209,11 +205,11 @@ export async function userReply(
 // Agent Behavior
 export async function agentPost(persona: Persona): Promise<void> {
   const chatResult = await chat(
-    agentSettingsStore.get().model,
+    settingsAgentStore.get().model,
     createChat(persona, "post", " "),
   );
 
-  userPost(chatResult.response, persona);
+  post(chatResult.response, persona);
 }
 
 export async function agentReply(
@@ -221,9 +217,9 @@ export async function agentReply(
   persona: Persona,
 ): Promise<void> {
   const chatResult = await chat(
-    agentSettingsStore.get().model,
+    settingsAgentStore.get().model,
     createChat(persona, "reply", feedStore.get()[threadID].post.message),
   );
 
-  userReply(threadID, chatResult.response, persona);
+  reply(threadID, chatResult.response, persona);
 }

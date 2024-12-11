@@ -1,5 +1,6 @@
 <script module>
-  import { userPost } from "@stores/feed";
+  import { post } from "@stores/feed";
+  import { personaUserStore } from "@stores/personas";
 
   import Button from "@components/common/Button.svelte";
 </script>
@@ -11,14 +12,14 @@
     if (message == "") {
       return;
     }
-    userPost(message);
+    post(message);
     message = "";
   }
 </script>
 
 <div class="flex flex-col gap-4">
   <div class="flex gap-4">
-    <span class="inline-block w-8 text-3xl">👤</span>
+    <span class="inline-block w-8 text-3xl">{$personaUserStore[0].icon}</span>
     <textarea
       name=""
       id=""

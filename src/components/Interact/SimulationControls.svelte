@@ -1,26 +1,24 @@
 <script module>
+  import { MODELS } from "@/constants";
+
+  import { settingsSimulationStore, settingsAgentStore } from "@stores/config";
+  import { clearFeed } from "@stores/feed";
+  import { resetMetrics } from "@stores/metrics";
+
   import Button from "@components/common/Button.svelte";
   import Select from "@components/common/Select.svelte";
   import InputNumeric from "@components/common/InputNumeric.svelte";
-
-  import { clearFeed } from "@stores/feed";
-  import { resetMetrics } from "@stores/metrics";
-  import {
-    MODELS,
-    agentSettingsStore,
-    simulationSettingsStore,
-  } from "@stores/config";
 </script>
 
 <script lang="ts">
-  let running: boolean = $state(simulationSettingsStore.get().running);
-  let model: (typeof MODELS)[number] = $state(agentSettingsStore.get().model);
-  let tickTime: number = $state(simulationSettingsStore.get().tickTime);
+  let running: boolean = $state(settingsSimulationStore.get().running);
+  let tickTime: number = $state(settingsSimulationStore.get().tickTime);
+  let model: (typeof MODELS)[number] = $state(settingsAgentStore.get().model);
 
   $effect(() => {
-    simulationSettingsStore.setKey("running", running);
-    agentSettingsStore.setKey("model", model);
-    simulationSettingsStore.setKey("tickTime", tickTime);
+    settingsSimulationStore.setKey("running", running);
+    settingsSimulationStore.setKey("tickTime", tickTime);
+    settingsAgentStore.setKey("model", model);
   });
 </script>
 

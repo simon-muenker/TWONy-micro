@@ -1,17 +1,9 @@
 ---
+import { PAGES } from "@/constants";
+
 import Branding from "./Branding.astro";
 import Footer from "./Footer.astro";
 import MenuItem from "./MenuItem.astro";
-
-const menuItems = [
-  { icon: "mdi:message-text-fast", text: "News Feed", route: "/TWONy-micro" },
-  { icon: "mdi:slider", text: "Settings", route: "/TWONy-micro/settings" },
-  {
-    icon: "mdi:information-slab-box-outline",
-    text: "about",
-    route: "/TWONy-micro/about",
-  },
-];
 ---
 
 <header>
@@ -20,7 +12,7 @@ const menuItems = [
 <nav>
   <ul class="space-y-2">
     {
-      menuItems.map((item) => (
+      PAGES.map((item) => (
         <li class="block">
           <MenuItem icon={item.icon} text={item.text} route={item.route} />
         </li>

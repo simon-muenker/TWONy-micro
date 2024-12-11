@@ -2,18 +2,15 @@ import _ from "lodash";
 import { atom } from "nanostores";
 import { type ChartConfiguration } from "chart.js/auto";
 
+import { METRIC_COLORS } from "@/constants";
+
 import {
   type ThreadMetrics,
   feedAvgMetricsStore,
   nameAvgMetricsStore,
-} from "./feed";
+} from "@stores/feed";
 
 // Constants
-const COLORS: Record<string, string> = {
-  positive: "rgb(75, 192, 192)",
-  negative: "rgb(255, 99, 132)",
-};
-
 const networkMetricsDefault: ChartConfiguration = {
   type: "line",
   data: {
@@ -23,14 +20,14 @@ const networkMetricsDefault: ChartConfiguration = {
         label: "positive valence",
         data: [0.0],
         fill: false,
-        borderColor: COLORS.positive,
+        borderColor: METRIC_COLORS.positive,
         tension: 0.1,
       },
       {
         label: "negative valence",
         data: [0.0],
         fill: false,
-        borderColor: COLORS.negative,
+        borderColor: METRIC_COLORS.negative,
         tension: 0.1,
       },
     ],
@@ -45,12 +42,12 @@ const userMetricsDefault: ChartConfiguration = {
       {
         label: "positive valence",
         data: [],
-        backgroundColor: COLORS.positive,
+        backgroundColor: METRIC_COLORS.positive,
       },
       {
         label: "negative valence",
         data: [],
-        backgroundColor: COLORS.negative,
+        backgroundColor: METRIC_COLORS.negative,
       },
     ],
   },
