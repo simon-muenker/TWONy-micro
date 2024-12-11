@@ -81,7 +81,7 @@
   <div class="grow"></div>
   <div>
     <span class="mb-1 block text-xs text-slate-500">Language Model</span>
-    <Select label="model" options={MODELS} bind:value={model} />
+    <Select label="model" options={[...MODELS]} bind:value={model} />
   </div>
   <div>
     <span class="mb-1 block text-xs text-slate-500">Speed (ms)</span>

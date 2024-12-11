@@ -14,19 +14,18 @@
 <script lang="ts">
   function slide(
     node: HTMLElement,
-    { from, to }: { from: DOMRect; to: DOMRect },
-    params: any,
+    { from, to }: { from: DOMRect; to: DOMRect }
   ) {
-    const dx = from.left - to.left;
-    const dy = from.top - to.top;
+    const dx: number = from.left - to.left;
+    const dy: number = from.top - to.top;
 
-    const d = Math.sqrt(dx * dx + dy * dy);
+    const d: number = Math.sqrt(dx * dx + dy * dy);
 
     return {
       delay: 0,
       duration: Math.sqrt(d) * 120,
       easing: cubicOut,
-      css: (t, u) => `transform: translate(${u * dx}px, ${u * dy}px);`,
+      css: (u: number) => `transform: translate(${u * dx}px, ${u * dy}px);`,
     };
   }
 </script>
