@@ -9,7 +9,7 @@
       <textarea
         name={key}
         id={key}
-        class="w-full grow resize-none rounded-lg border-0 bg-slate-100 bg-transparent p-2 text-sm text-slate-700 focus:outline-0"
+        class="w-full grow resize-none rounded-lg border-0 bg-slate-100 p-2 text-sm text-slate-700 focus:outline-0"
         value={agent.instruction}
         rows="20"
         on:change={(newValue) =>
