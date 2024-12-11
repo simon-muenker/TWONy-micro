@@ -7,7 +7,7 @@
   <textarea
     name={key}
     id={key}
-    class="w-full grow resize-none rounded-lg border-0 bg-slate-100 p-2 text-sm text-slate-700 focus:outline-0"
+    class="w-full grow resize-none rounded-lg border-0 bg-gray-50 p-2 text-sm text-slate-700 focus:outline-0"
     value={instruction.content}
     on:change={(newValue) =>
       instructionsStore.setKey(key, {
