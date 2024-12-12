@@ -28,6 +28,6 @@ export const METRIC_EMOTIONS: Record<string, Array<string>> = {
 };
 
 export const METRIC_COLORS: Record<string, string> = {
-  positive: "rgb(75, 192, 192)",
-  negative: "rgb(255, 99, 132)",
+  positive: "#059669",
+  negative: "#e11d48",
 };

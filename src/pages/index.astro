@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "src/layouts/BaseLayout.astro";
 
+import Divider from "@components/common/Divider.svelte";
+
 import Interact from "@components/Interact/index.svelte";
 import Feed from "@components/Feed/index.svelte";
 import Metrics from "@components/Metrics/index.svelte";
@@ -8,14 +10,9 @@ import Metrics from "@components/Metrics/index.svelte";
 
 <BaseLayout title="TWONy-micro">
   <Interact client:load />
-
-  <div class="my-4 block border-b"></div>
-
+  <Divider size="small" />
   <Feed client:load />
-
-  <aside slot="sidebar-left">
-    <Metrics client:load />
-  </aside>
+  <Metrics client:load slot="sidebar-left" />
 </BaseLayout>
 
 <script>

@@ -2,13 +2,15 @@
   import { instructionsStore, resetInstructions } from "@stores/instructions";
 
   import Button from "@components/common/Button.svelte";
+  import HeadingSection from "@components/common/typography/HeadingSection.svelte";
 </script>
 
 <div class="mb-2 flex justify-between gap-4">
-  <h2 class="text-2xl">Prompt Introduction</h2>
-  <button on:click={() => resetInstructions()}>
-    <Button classes="text-xs !bg-red-500">Reset Instructions</Button>
-  </button>
+  <HeadingSection spacing={false}>Prompt Introduction</HeadingSection>
+
+  <Button color="red" size="small" clickEvent={resetInstructions}>
+    Reset Instructions
+  </Button>
 </div>
 
 {#each Object.entries($instructionsStore) as [key, instruction], index (index)}
@@ -18,7 +20,7 @@
     id={key}
     class="w-full grow resize-none rounded-lg border-0 bg-gray-50 p-2 text-sm text-slate-700 focus:outline-0"
     value={instruction.content}
-    on:change={(newValue) =>
+    onchange={(newValue) =>
       instructionsStore.setKey(key, {
         ...instruction,
         content: newValue.target.value,

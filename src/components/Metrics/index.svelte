@@ -10,8 +10,12 @@
   import { personaAgentsStore } from "@stores/personas";
   import { networkMetricsStore, userMetricsStore } from "@stores/metrics";
 
+  import Divider from "@components/common/Divider.svelte";
   import Button from "@components/common/Button.svelte";
   import Chart from "@components/common/Chart.svelte";
+
+  import Circle from "@components/common/typography/Circle.svelte";
+  import HeadingSection from "@components/common/typography/HeadingSection.svelte";
 </script>
 
 <script lang="ts">
@@ -28,19 +32,19 @@
   }
 </script>
 
-<h2 class="mb-4 text-2xl">Network Metrics</h2>
+<HeadingSection>Network Metrics</HeadingSection>
 <Chart config={$networkMetricsStore} height={250} />
 
-<div class="my-12 block"></div>
+<Divider />
 
-<h2 class="mb-4 text-2xl">User Metrics</h2>
+<HeadingSection>User Metrics</HeadingSection>
 <Chart config={$userMetricsStore} height={300} />
 
-<div class="my-12 block border-b"></div>
+<Divider />
 
-<h2 class="mb-2 text-2xl">Settings</h2>
+<HeadingSection>Settings</HeadingSection>
 
-<table class="w-full table-auto text-sm text-slate-400">
+<table class="mb-8 w-full table-auto text-xs text-slate-600">
   <tbody>
     <tr>
       <td>Emotion-based ranking</td>
@@ -48,25 +52,30 @@
     </tr>
     {#if $settingsRankingStore.emotionBased}
       <tr>
-        <td>Negative valence weight</td>
-        <td>{($settingsRankingStore.negativeWeight * 0.01).toFixed(2)}</td>
+        <td>
+          <Circle color="emerald" />
+          Positive valence weight
+        </td>
+        <td>{($settingsRankingStore.positiveWeight * 0.01).toFixed(2)}</td>
       </tr>
       <tr>
-        <td>Positive valence weight</td>
-        <td>{($settingsRankingStore.positiveWeight * 0.01).toFixed(2)}</td>
+        <td>
+          <Circle color="rose" />
+          Negative valence weight
+        </td>
+        <td>{($settingsRankingStore.negativeWeight * 0.01).toFixed(2)}</td>
       </tr>
     {/if}
   </tbody>
 </table>
 
-<div class="my-12 block border-b"></div>
-
 <div class="flex justify-center">
-  <button on:click={() => downloadApplicationState()}>
-    <Button
-      classes="text-xs !bg-transparent border-2 !border-slate-500 !text-slate-500"
-    >
-      Download Application State
-    </Button>
-  </button>
+  <Button
+    color="gray"
+    size="small"
+    outline
+    onclick={() => downloadApplicationState()}
+  >
+    Download Application State
+  </Button>
 </div>

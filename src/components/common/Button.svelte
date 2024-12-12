@@ -3,16 +3,35 @@
 </script>
 
 <script lang="ts">
-  let { classes, children }: { classes?: String; children: Snippet } = $props();
+  let {
+    children,
+    clickEvent = () => {},
+    color = "blue",
+    size = "base",
+    outline = false,
+  }: {
+    children: Snippet;
+    clickEvent?: Function;
+    color?: "blue" | "green" | "red" | "gray";
+    size?: "small" | "base";
+    outline?: boolean;
+  } = $props();
 </script>
 
-<div
+<button
   class="
     inline-block cursor-pointer
-    rounded-full bg-blue-500 px-3 py-1.5
-    font-bold text-white
-    {classes}
+    border-2 rounded-full
+    px-3 py-1.5
+    font-bold
+    hover:opacity-60
+    transition-opacity
+    {size == 'base' && 'text-base'}
+    {size == 'small' && 'text-xs'}
+    {!outline && `bg-${color}-500 border-transparent text-white`}
+    {outline && `bg-transparent border-${color}-400 text-${color}-500`}
   "
+  onclick={clickEvent}
 >
   {@render children()}
-</div>
+</button>

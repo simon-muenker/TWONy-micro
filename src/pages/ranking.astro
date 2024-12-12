@@ -1,21 +1,16 @@
 ---
 import BaseLayout from "src/layouts/BaseLayout.astro";
 
+import Divider from "@components/common/Divider.svelte";
+import HeadingPage from "@components/common/typography/HeadingPage.svelte";
+
 import RankingType from "@components/Configure/RankingType.svelte";
 import RankingWeighting from "@components/Configure/RankingWeighting.svelte";
 ---
 
-<BaseLayout title="TWONy-micro - Settings">
-  <h2 class="mb-8 text-4xl">Ranker Settings</h2>
-
-  <h3 class="text-bold mb-1 text-lg">Ranker Type</h3>
+<BaseLayout title="TWONy-micro - Ranker Settings">
+  <HeadingPage>Ranker Settings</HeadingPage>
   <RankingType client:load />
-
-  <div class="my-12 block border-b"></div>
-
-  <h3 class="text-bold mb-1 mt-8 text-lg">Valence Weighting</h3>
-  <p class="mb-2 text-sm font-medium text-gray-900">
-    Finetune how the indivual predicted emotions impact the ranking algorithm.
-  </p>
+  <Divider />
   <RankingWeighting client:load />
 </BaseLayout>

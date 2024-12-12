@@ -3,6 +3,7 @@
   import { personaUserStore } from "@stores/personas";
 
   import Button from "@components/common/Button.svelte";
+  import Caption from "@components/common/typography/Caption.svelte";
 </script>
 
 <script lang="ts">
@@ -29,11 +30,7 @@
     ></textarea>
   </div>
   <div class="flex place-content-between items-center gap-2">
-    <span class="select-none text-xs text-slate-500">
-      Generated content may be inaccurate or false.
-    </span>
-    <Button>
-      <button onclick={sendPost}>Post</button>
-    </Button>
+    <Caption>Generated content may be inaccurate or false.</Caption>
+    <Button clickEvent={sendPost}>Post</Button>
   </div>
 </div>

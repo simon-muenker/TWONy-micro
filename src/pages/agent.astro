@@ -1,16 +1,16 @@
 ---
 import BaseLayout from "src/layouts/BaseLayout.astro";
 
+import Divider from "@components/common/Divider.svelte";
+import HeadingPage from "@components/common/typography/HeadingPage.svelte";
+
 import AgentInstructions from "@components/Configure/AgentInstructions.svelte";
 import AgentPersonas from "@components/Configure/AgentPersonas.svelte";
 ---
 
-<BaseLayout title="TWONy-micro - About">
-  <h2 class="mb-8 text-4xl">Agents Settings</h2>
-
+<BaseLayout title="TWONy-micro - Agents Settings">
+  <HeadingPage>Agents Settings</HeadingPage>
   <AgentInstructions client:load />
-
-  <div class="my-12 block border-b"></div>
-
+  <Divider />
   <AgentPersonas client:load />
 </BaseLayout>

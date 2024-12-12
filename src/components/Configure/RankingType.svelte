@@ -1,7 +1,8 @@
 <script module>
   import { settingsRankingStore } from "@/stores/settings";
 
-  import Checkbox from "@components/common/Checkbox.svelte";
+  import InputCheckbox from "@components/common/InputCheckbox.svelte";
+  import HeadingSection from "@components/common/typography/HeadingSection.svelte";
 </script>
 
 <script lang="ts">
@@ -12,10 +13,12 @@
   });
 </script>
 
+<HeadingSection>Ranker Type</HeadingSection>
+
 <label class="inline-flex cursor-pointer items-center">
   <span class="mr-3 text-sm font-medium text-gray-900">Chronological</span>
-  <Checkbox bind:value={emotionBased} />
-  <span class="ms-3 text-sm font-medium text-gray-900"
-    >Emotion-based (intense emotion rank higher)</span
-  >
+  <InputCheckbox bind:value={emotionBased} />
+  <span class="ms-3 text-sm font-medium text-gray-900">
+    Emotion-based (intense emotion rank higher)
+  </span>
 </label>

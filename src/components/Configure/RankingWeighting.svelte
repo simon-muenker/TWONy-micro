@@ -1,7 +1,8 @@
 <script module>
   import { settingsRankingStore } from "@/stores/settings";
 
-  import Slider from "@components/common/Slider.svelte";
+  import InputSlider from "@components/common/InputSlider.svelte";
+  import HeadingSection from "@components/common/typography/HeadingSection.svelte";
 </script>
 
 <script lang="ts">
@@ -18,18 +19,23 @@
   });
 </script>
 
+<HeadingSection>Valence Weighting</HeadingSection>
+<p class="mb-2 text-sm font-medium text-gray-900">
+  Finetune how the indivual predicted emotions impact the ranking algorithm.
+</p>
+
 <table class="w-full table-auto">
   <tbody>
     <tr>
       <td class="w-24 py-6">{"negative valence"}</td>
       <td class="py-6">
-        <Slider label={"negative valence"} bind:value={negativeWeight} />
+        <InputSlider label={"negative valence"} bind:value={negativeWeight} />
       </td>
     </tr>
     <tr>
       <td class="w-24 py-6">{"positive valence"}</td>
       <td class="py-6">
-        <Slider label={"positive valence"} bind:value={positiveWeight} />
+        <InputSlider label={"positive valence"} bind:value={positiveWeight} />
       </td>
     </tr>
   </tbody>
