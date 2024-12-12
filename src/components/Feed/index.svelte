@@ -13,6 +13,7 @@
   function slide(
     node: HTMLElement,
     { from, to }: { from: DOMRect; to: DOMRect },
+    params: any,
   ) {
     const dx: number = from.left - to.left;
     const dy: number = from.top - to.top;
@@ -30,7 +31,7 @@
 
 <div class="grid grid-cols-1 divide-y">
   {#each $settingsRankingStore.emotionBased ? $rankedFeedStore : $reverseFeedStore as thread, index (index)}
-    <article class="py-8" animate:slide>
+    <article class="py-8">
       <ThreadItem {...thread.post} />
       {#if thread.replies}
         <section class="pl-12 pt-4 [&>*]:py-2">

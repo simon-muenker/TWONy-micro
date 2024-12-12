@@ -6,13 +6,11 @@ import AgentPersonas from "@components/Configure/AgentPersonas.svelte";
 ---
 
 <BaseLayout title="TWONy-micro - About">
-  <h2 class="mb-8 text-4xl">Personas Settings</h2>
+  <h2 class="mb-8 text-4xl">Agents Settings</h2>
 
-  <h3 class="mb-4 text-2xl">Prompt Introduction</h3>
   <AgentInstructions client:load />
 
   <div class="my-12 block border-b"></div>
 
-  <h2 class="text-2xl">Personas Description</h2>
   <AgentPersonas client:load />
 </BaseLayout>

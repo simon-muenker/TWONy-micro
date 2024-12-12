@@ -1,3 +1,4 @@
+import { logger } from "@nanostores/logger";
 import { persistentMap } from "@nanostores/persistent";
 
 import { MODELS } from "@/constants";
@@ -52,3 +53,9 @@ export const settingsRankingStore = persistentMap<SettingsRanking>(
   },
   STORE_PARSER,
 );
+
+logger({
+  settingsSimulationStore: settingsSimulationStore,
+  settingsAgentStore: settingsAgentStore,
+  settingsRankingStore: settingsRankingStore,
+});

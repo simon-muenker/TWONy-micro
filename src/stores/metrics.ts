@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { logger } from "@nanostores/logger";
 import { atom } from "nanostores";
 import { type ChartConfiguration } from "chart.js/auto";
 
@@ -63,6 +64,12 @@ export const networkMetricsStore = atom<ChartConfiguration>(
 export const userMetricsStore = atom<ChartConfiguration>(
   structuredClone(userMetricsDefault),
 );
+
+// Logger
+logger({
+  networkMetricsStore: networkMetricsStore,
+  userMetricsStore: userMetricsStore,
+});
 
 // Modifiers
 export function resetMetrics(): void {

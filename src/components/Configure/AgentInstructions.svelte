@@ -1,6 +1,15 @@
 <script module>
-  import { instructionsStore } from "@stores/instructions";
+  import { instructionsStore, resetInstructions } from "@stores/instructions";
+
+  import Button from "@components/common/Button.svelte";
 </script>
+
+<div class="mb-2 flex justify-between gap-4">
+  <h2 class="text-2xl">Prompt Introduction</h2>
+  <button on:click={() => resetInstructions()}>
+    <Button classes="text-xs !bg-red-500">Reset Instructions</Button>
+  </button>
+</div>
 
 {#each Object.entries($instructionsStore) as [key, instruction], index (index)}
   <h3 class="text-bold mb-1 text-xl">{key}</h3>

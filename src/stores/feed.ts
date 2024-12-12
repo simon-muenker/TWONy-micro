@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { logger } from "@nanostores/logger";
 import { atom, computed } from "nanostores";
 
 import { METRIC_EMOTIONS } from "@/constants";
@@ -151,6 +152,11 @@ export const nameAvgMetricsStore = computed(
     });
   },
 );
+
+// Logger
+logger({
+  feedStore: feedStore,
+});
 
 // Modifiers
 export function clearFeed(): void {

@@ -1,3 +1,4 @@
+import { logger } from "@nanostores/logger";
 import { persistentMap } from "@nanostores/persistent";
 
 import type { ChatItem } from "@/api/inference";
@@ -11,24 +12,7 @@ export type Instructions = {
   reply: ChatItem;
 };
 
-// Store Management
-export const instructionsStore = persistentMap<Instructions>(
-  "instructions:",
-  {
-    post: {
-      content:
-        "Write a Tweet (max 20 words) about what concerns you currently.",
-      role: "system",
-    },
-    reply: {
-      content:
-        "Reply to the following content with a Tweet (max 20 words) with respect to your interests.",
-      role: "system",
-    },
-  },
-  STORE_PARSER,
-);
-
+// Utility
 export function extendChatItem(item: ChatItem, suffix: string): ChatItem {
   return {
     content: `${item.content} ${suffix}`,
@@ -55,3 +39,33 @@ export function createChat(
     },
   ];
 }
+
+// Constants
+const instructionsDefault: Instructions = {
+  post: {
+    content: "Write a Tweet (max 20 words) about what concerns you currently.",
+    role: "system",
+  },
+  reply: {
+    content:
+      "Reply to the following content with a Tweet (max 20 words) with respect to your interests.",
+    role: "system",
+  },
+};
+
+// Store Management
+export const instructionsStore = persistentMap<Instructions>(
+  "instructions:",
+  instructionsDefault,
+  STORE_PARSER,
+);
+
+// Logger
+logger({
+  instructionsStore: instructionsStore,
+});
+
+// Modifiers
+export function resetInstructions(): void {
+  instructionsStore.set(structuredClone(instructionsDefault));
+};
