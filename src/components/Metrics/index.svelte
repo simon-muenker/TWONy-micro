@@ -74,7 +74,7 @@
     color="gray"
     size="small"
     outline
-    onclick={() => downloadApplicationState()}
+    clickEvent={downloadApplicationState}
   >
     Download Application State
   </Button>
