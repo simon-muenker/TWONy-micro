@@ -7,6 +7,7 @@
     settingsAgentStore,
   } from "@stores/settings";
   import { feedStore } from "@stores/feed";
+  import { instructionsStore } from "@/stores/instructions";
   import { personaAgentsStore } from "@stores/personas";
   import { networkMetricsStore, userMetricsStore } from "@stores/metrics";
 
@@ -27,6 +28,7 @@
         ranking: $settingsRankingStore,
       },
       feed: $feedStore,
+      instructions: $instructionsStore,
       personas: $personaAgentsStore,
     });
   }
