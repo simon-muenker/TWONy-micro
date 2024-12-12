@@ -21,11 +21,11 @@
 <button
   class="
     inline-block cursor-pointer
-    border-2 rounded-full
+    rounded-full border-2
     px-3 py-1.5
     font-bold
-    hover:opacity-60
     transition-opacity
+    hover:opacity-60
     {size == 'base' && 'text-base'}
     {size == 'small' && 'text-xs'}
     {!outline && `bg-${color}-500 border-transparent text-white`}
