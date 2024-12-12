@@ -1,8 +1,31 @@
-<script lang="ts">
-  import { settingsRankingStore } from "@/stores/settings";
+<script module>
+  import { downloadJSON } from "@/common";
+
+  import {
+    settingsRankingStore,
+    settingsSimulationStore,
+    settingsAgentStore,
+  } from "@stores/settings";
+  import { feedStore } from "@stores/feed";
+  import { personaAgentsStore } from "@stores/personas";
   import { networkMetricsStore, userMetricsStore } from "@stores/metrics";
 
+  import Button from "@components/common/Button.svelte";
   import Chart from "@components/common/Chart.svelte";
+</script>
+
+<script lang="ts">
+  function downloadApplicationState() {
+    downloadJSON({
+      settings: {
+        simulation: $settingsSimulationStore,
+        agent: $settingsAgentStore,
+        ranking: $settingsRankingStore,
+      },
+      feed: $feedStore,
+      personas: $personaAgentsStore,
+    });
+  }
 </script>
 
 <h2 class="mb-4 text-2xl">Network Metrics</h2>
@@ -35,3 +58,15 @@
     {/if}
   </tbody>
 </table>
+
+<div class="my-12 block border-b"></div>
+
+<div class="flex justify-center">
+  <button on:click={() => downloadApplicationState()}>
+    <Button
+      classes="text-xs !bg-transparent border-2 !border-slate-500 !text-slate-500"
+    >
+      Download Application State
+    </Button>
+  </button>
+</div>

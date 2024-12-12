@@ -1,5 +1,9 @@
 <script module>
-  import { personaAgentsStore, removePersona, resetPersonas } from "@stores/personas";
+  import {
+    personaAgentsStore,
+    removePersona,
+    resetPersonas,
+  } from "@stores/personas";
 
   import Button from "@components/common/Button.svelte";
 </script>

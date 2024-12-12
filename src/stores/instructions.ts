@@ -68,4 +68,4 @@ logger({
 // Modifiers
 export function resetInstructions(): void {
   instructionsStore.set(structuredClone(instructionsDefault));
-};
+}
