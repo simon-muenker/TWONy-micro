@@ -30,7 +30,8 @@
     "uuid": "^11.0.3"
   },
   "devDependencies": {
-    "@iconify-json/mdi": "^1.2.1",
+    "@iconify-json/mdi": "^1.2.2",
+    "@iconify/svelte": "^4.1.0",
     "@tailwindcss/forms": "^0.5.9",
     "@tailwindcss/typography": "^0.5.15",
     "@types/file-saver": "^2.0.7",
