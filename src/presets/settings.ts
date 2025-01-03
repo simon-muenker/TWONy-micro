@@ -1,3 +1,5 @@
+import { MODELS } from "@constants";
+
 import type {
   SettingsSimulation,
   SettingsAgent,
@@ -11,7 +13,7 @@ export const settingsSimulationDefault: SettingsSimulation = {
 };
 
 export const settingsAgentDefault: SettingsAgent = {
-  model: "llatma3.1:8b-instruct-q6_K",
+  model: MODELS[0],
   postProp: 0.3,
   replyProp: 0.7,
 };
