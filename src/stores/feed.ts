@@ -2,12 +2,12 @@ import _ from "lodash";
 import { logger } from "@nanostores/logger";
 import { atom, computed } from "nanostores";
 
-import { METRIC_EMOTIONS } from "@/constants";
+import { METRIC_EMOTIONS } from "@constants";
 
-import { chat } from "@/api/inference";
+import { chat } from "@api/inference";
 import { metric, type MetricResult } from "@api/metric";
 
-import { settingsAgentStore, settingsRankingStore } from "@/stores/settings";
+import { settingsAgentStore, settingsRankingStore } from "@stores/settings";
 import { personaUserStore, type Persona } from "@stores/personas";
 import { createChat } from "@stores/instructions";
 
@@ -97,6 +97,11 @@ function getThreadMetrics(thread: Thread): ThreadMetrics {
 // Store Management
 export const feedStore = atom<Array<Thread>>([]);
 
+// Logger
+logger({
+  feedStore: feedStore,
+});
+
 // Derived Stores
 export const reverseFeedStore = computed(
   feedStore,
@@ -152,11 +157,6 @@ export const nameAvgMetricsStore = computed(
     });
   },
 );
-
-// Logger
-logger({
-  feedStore: feedStore,
-});
 
 // Modifiers
 export function clearFeed(): void {

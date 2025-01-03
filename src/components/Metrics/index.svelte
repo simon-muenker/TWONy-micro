@@ -1,5 +1,5 @@
 <script module>
-  import { downloadJSON } from "@/common";
+  import { downloadJSON } from "@common";
 
   import {
     settingsRankingStore,

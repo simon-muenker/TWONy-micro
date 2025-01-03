@@ -3,59 +3,13 @@ import { logger } from "@nanostores/logger";
 import { atom } from "nanostores";
 import { type ChartConfiguration } from "chart.js/auto";
 
-import { METRIC_COLORS } from "@/constants";
+import { networkMetricsDefault, userMetricsDefault } from "@presets/metrics";
 
 import {
   type ThreadMetrics,
   feedAvgMetricsStore,
   nameAvgMetricsStore,
 } from "@stores/feed";
-
-// Constants
-const networkMetricsDefault: ChartConfiguration = {
-  type: "line",
-  data: {
-    labels: [],
-    datasets: [
-      {
-        label: "positive valence",
-        data: [0.0],
-        fill: false,
-        borderColor: METRIC_COLORS.positive,
-        tension: 0.1,
-      },
-      {
-        label: "negative valence",
-        data: [0.0],
-        fill: false,
-        borderColor: METRIC_COLORS.negative,
-        tension: 0.1,
-      },
-    ],
-  },
-};
-
-const userMetricsDefault: ChartConfiguration = {
-  type: "bar",
-  data: {
-    labels: [],
-    datasets: [
-      {
-        label: "positive valence",
-        data: [],
-        backgroundColor: METRIC_COLORS.positive,
-      },
-      {
-        label: "negative valence",
-        data: [],
-        backgroundColor: METRIC_COLORS.negative,
-      },
-    ],
-  },
-  options: {
-    indexAxis: "y",
-  },
-};
 
 // Store Management
 export const networkMetricsStore = atom<ChartConfiguration>(

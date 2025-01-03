@@ -3,9 +3,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@api/*": ["src/api/*"],
+      "@presets/*": ["src/presets/*"],
       "@stores/*": ["src/stores/*"]
     }
   }

@@ -1,10 +1,12 @@
 import { logger } from "@nanostores/logger";
 import { persistentMap } from "@nanostores/persistent";
 
-import type { ChatItem } from "@/api/inference";
+import type { ChatItem } from "@api/inference";
 
-import { STORE_PARSER } from "@/stores/constants";
+import { STORE_PARSER } from "@stores/constants";
 import type { Persona } from "@stores/personas";
+
+import { instructionsDefault } from "@presets/instructions";
 
 // Type Definitions
 export type Instructions = {
@@ -39,19 +41,6 @@ export function createChat(
     },
   ];
 }
-
-// Constants
-const instructionsDefault: Instructions = {
-  post: {
-    content: "Write a Tweet (max 20 words) about what concerns you currently.",
-    role: "system",
-  },
-  reply: {
-    content:
-      "Reply to the following content with a Tweet (max 20 words) with respect to your interests.",
-    role: "system",
-  },
-};
 
 // Store Management
 export const instructionsStore = persistentMap<Instructions>(

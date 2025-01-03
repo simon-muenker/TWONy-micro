@@ -1,8 +1,14 @@
 import { logger } from "@nanostores/logger";
 import { persistentMap } from "@nanostores/persistent";
 
-import { MODELS } from "@/constants";
-import { STORE_PARSER } from "@/stores/constants";
+import { MODELS } from "@constants";
+import { STORE_PARSER } from "@stores/constants";
+
+import {
+  settingsSimulationDefault,
+  settingsAgentDefault,
+  settingsRankingDefault,
+} from "@presets/settings";
 
 // Type Definitions
 export type SettingsSimulation = {
@@ -26,31 +32,19 @@ export type SettingsRanking = {
 // Store Management
 export const settingsSimulationStore = persistentMap<SettingsSimulation>(
   "settingsSimulation:",
-  {
-    running: false,
-    tickTime: 4000,
-    maxThreads: 20,
-  },
+  settingsSimulationDefault,
   STORE_PARSER,
 );
 
 export const settingsAgentStore = persistentMap<SettingsAgent>(
   "settingsAgent:",
-  {
-    model: "llama3.1:8b-instruct-q6_K",
-    postProp: 0.3,
-    replyProp: 0.7,
-  },
+  settingsAgentDefault,
   STORE_PARSER,
 );
 
 export const settingsRankingStore = persistentMap<SettingsRanking>(
   "settingsRanking:",
-  {
-    emotionBased: true,
-    positiveWeight: 100,
-    negativeWeight: 100,
-  },
+  settingsRankingDefault,
   STORE_PARSER,
 );
 

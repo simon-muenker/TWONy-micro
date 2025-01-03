@@ -1,6 +1,8 @@
 <script module>
   import Icon from "@iconify/svelte";
 
+  import { downloadJSON, uploadJSON } from "@common";
+
   import { instructionsStore, resetInstructions } from "@stores/instructions";
 
   import Button from "@components/common/Button.svelte";
@@ -10,16 +12,10 @@
 <script lang="ts">
   const actions: Array<Object> = [
     {
-      label: "upload",
-      icon: "mdi:file-upload-outline",
-      color: "gray",
-      clickEvent: () => console.log("upload"),
-    },
-    {
       label: "download",
       icon: "mdi:file-download-outline",
       color: "gray",
-      clickEvent: () => console.log("download"),
+      clickEvent: () => downloadJSON(instructionsStore.get(), "instructions"),
     },
     {
       label: "reset",
@@ -33,6 +29,22 @@
 <HeadingSection>Customize Instructions</HeadingSection>
 
 <div class="mb-4 flex gap-4">
+  <Button color="gray" size="small" clickEvent={null}>
+    <label for="instruction-upload" class="flex cursor-pointer items-center">
+      <Icon icon="mdi:file-upload-outline" class="mr-1 inline-block h-5 w-5" />
+      upload
+      <input
+        type="file"
+        id="instruction-upload"
+        accept=".json"
+        hidden
+        onchange={async (event) => {
+          instructionsStore.set(await uploadJSON(event));
+        }}
+      />
+    </label>
+  </Button>
+
   {#each actions as action}
     <Button color={action.color} size="small" clickEvent={action.clickEvent}>
       <Icon icon={action.icon} class="mr-1 inline-block h-5 w-5" />

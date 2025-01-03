@@ -1,12 +1,12 @@
 import _ from "lodash";
 
 import { settingsAgentStore, settingsSimulationStore } from "@/stores/settings";
-import { getRandomPersona, type Persona } from "@stores/personas";
+import { getRandomActivePersona, type Persona } from "@stores/personas";
 import { feedStore, agentPost, agentReply } from "@stores/feed";
 
 function choosePostParameters(): Persona {
   const lastPost = feedStore.get()[0]?.post;
-  const persona = getRandomPersona();
+  const persona = getRandomActivePersona();
 
   // do not post twice in a row
   if (lastPost && lastPost.name == persona.name) {
@@ -18,7 +18,7 @@ function choosePostParameters(): Persona {
 
 function chooseReplyParameters(feedLength: number): [number, Persona] {
   const selectedThreadID: number = _.random(_.floor((feedLength - 1) / 2));
-  const persona = getRandomPersona();
+  const persona = getRandomActivePersona();
 
   const thread = feedStore.get()[selectedThreadID];
 
