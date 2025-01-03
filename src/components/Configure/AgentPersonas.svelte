@@ -4,6 +4,7 @@
   import { downloadJSON, uploadJSON } from "@common";
 
   import {
+    type Persona,
     personaAgentsStore,
     addPersonaDummy,
     resetPersonas,
@@ -16,9 +17,12 @@
 </script>
 
 <script lang="ts">
-  let placeholderBinded = true;
-
-  const actions: Array<Object> = [
+  const actions: Array<{
+    label: string;
+    icon: string;
+    color: "gray" | "blue" | "red";
+    clickEvent: Function;
+  }> = [
     {
       label: "download",
       icon: "mdi:file-download-outline",
@@ -43,7 +47,7 @@
 <HeadingSection>Customize Personas</HeadingSection>
 
 <div class="mb-4 flex gap-4">
-  <Button color="gray" size="small" clickEvent={null}>
+  <Button color="gray" size="small" clickEvent={() => {}}>
     <label for="personas-upload" class="flex cursor-pointer items-center">
       <Icon icon="mdi:file-upload-outline" class="mr-1 inline-block h-5 w-5" />
       upload
@@ -53,7 +57,7 @@
         accept=".json"
         hidden
         onchange={async (event) => {
-          personaAgentsStore.set(await uploadJSON(event));
+          personaAgentsStore.set((await uploadJSON(event)) as Array<Persona>);
         }}
       />
     </label>
@@ -69,6 +73,6 @@
 
 <div class="divide-y">
   {#each Object.entries($personaAgentsStore) as [key, agent], index (index)}
-    <AgentPersonasEntry {key} persona={agent} isActive={placeholderBinded} />
+    <AgentPersonasEntry key={parseInt(key)} persona={agent} />
   {/each}
 </div>

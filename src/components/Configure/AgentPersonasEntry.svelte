@@ -4,7 +4,6 @@
   import Icon from "@iconify/svelte";
 
   import {
-    personaAgentsStore,
     updatePersona,
     updatePersonaByID,
     removePersona,
@@ -28,32 +27,37 @@
   let collapsed = $state(true);
 
   function updateIcon(event: Event): void {
-    if (event.target.textContent.length == 0) {
-      event.target.textContent = "❓";
-    }
+    if (!event.target) throw new Error("No event target.");
+    const target = event.target as unknown as { textContent: string };
+    let newValue: string = target.textContent;
 
-    if (event.target.textContent.length > 1) {
-      event.target.textContent = event.target.textContent.slice(0, 1);
-    }
-    updatePersona({
-      ...persona,
-      icon: event.target.textContent,
-    });
+    if (newValue.length == 0) newValue = "❓";
+    if (newValue.length > 1) newValue = newValue.slice(0, 1);
+
+    updatePersona({ ...persona, icon: newValue });
   }
 
-  function updateName(id: number, event: Event): void {
-    if (event.target.textContent.length == 0) {
-      event.target.textContent = "UnamedAgent";
-    }
+  function updateName(event: Event): void {
+    if (!event.target) throw new Error("No event target.");
+    const target = event.target as unknown as { textContent: string };
+    let newValue: string = target.textContent;
 
-    if (event.target.textContent.length > 24) {
-      event.target.textContent = event.target.textContent.slice(0, 14);
-    }
+    if (newValue.length == 0) newValue = "UnamedAgent";
+    if (newValue.length > 20) newValue = newValue.slice(0, 20);
 
-    updatePersonaByID(key, {
-      ...persona,
-      name: event.target.textContent,
-    });
+    updatePersonaByID(key, { ...persona, name: newValue });
+  }
+
+  function updateInstruction(event: Event): void {
+    if (!event.target) {
+      throw new Error("No event target.");
+    } else {
+      const target = event.target as HTMLTextAreaElement;
+      updatePersona({
+        ...persona,
+        instruction: target.value,
+      });
+    }
   }
 </script>
 
@@ -77,7 +81,7 @@
       <span
         class="cursor-pointer rounded-lg bg-gray-50 p-2"
         contenteditable
-        oninput={(event) => updateName(key, event)}
+        oninput={(event) => updateName(event)}
       >
         {persona.name}
       </span>
@@ -96,16 +100,12 @@
   {#if !collapsed}
     <textarea
       transition:slide
-      name={key}
-      id={key}
+      name={key.toString()}
+      id={key.toString()}
       class="mt-4 w-full grow resize-none rounded-lg border-0 bg-gray-50 p-2 text-sm text-slate-700 focus:outline-0"
       value={persona.instruction}
       rows="32"
-      onchange={(event) =>
-        updatePersona({
-          ...persona,
-          instruction: event.target.value,
-        })}
+      onchange={(event) => updateInstruction(event)}
     ></textarea>
   {/if}
 </div>
