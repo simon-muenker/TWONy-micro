@@ -67,7 +67,6 @@ export function userMetricAddObservation(
 
 // Listeners
 threadItemAvgMetricsStore.subscribe((metrics) => {
-  console.log(metrics);
   networkMetricsAddObservation(metrics);
 });
 
