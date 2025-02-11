@@ -7,7 +7,7 @@ import { networkMetricsDefault, userMetricsDefault } from "@presets/metrics";
 
 import {
   type ThreadMetrics,
-  feedAvgMetricsStore,
+  threadItemAvgMetricsStore,
   nameAvgMetricsStore,
 } from "@stores/feed";
 
@@ -66,7 +66,8 @@ export function userMetricAddObservation(
 }
 
 // Listeners
-feedAvgMetricsStore.subscribe((metrics) => {
+threadItemAvgMetricsStore.subscribe((metrics) => {
+  console.log(metrics);
   networkMetricsAddObservation(metrics);
 });
 

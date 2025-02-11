@@ -94,6 +94,14 @@ function getThreadMetrics(thread: Thread): ThreadMetrics {
   );
 }
 
+function agg_metrics(metrics: Array<ThreadMetrics>): ThreadMetrics {
+  return {
+    negValence: _.meanBy(metrics, "negValence"),
+    posValence: _.meanBy(metrics, "posValence"),
+    score: _.meanBy(metrics, "score"),
+  };
+}
+
 // Store Management
 export const feedStore = atom<Array<Thread>>([]);
 
@@ -131,14 +139,10 @@ export const threadItemsByNameStore = computed(
   },
 );
 
-export const feedAvgMetricsStore = computed(
-  feedStore,
-  (feed: Array<Thread>): ThreadMetrics => {
-    return {
-      negValence: _.meanBy(feed, "metrics.negValence"),
-      posValence: _.meanBy(feed, "metrics.posValence"),
-      score: _.meanBy(feed, "metrics.score"),
-    };
+export const threadItemAvgMetricsStore = computed(
+  threadItemStore,
+  (items: Array<ThreadItem>): ThreadMetrics => {
+    return agg_metrics(items.map((item) => getThreadItemMetrics(item)));
   },
 );
 
@@ -148,13 +152,19 @@ export const nameAvgMetricsStore = computed(
     records: Record<string, Array<ThreadItem>>,
   ): Record<string, ThreadMetrics> => {
     return _.mapValues(records, (items: Array<ThreadItem>): ThreadMetrics => {
-      const metrics = items.map((item) => getThreadItemMetrics(item));
-      return {
-        negValence: _.meanBy(metrics, "negValence"),
-        posValence: _.meanBy(metrics, "posValence"),
-        score: _.meanBy(metrics, "score"),
-      };
+      return agg_metrics(items.map((item) => getThreadItemMetrics(item)));
     });
+  },
+);
+
+export const feedAvgMetricsStore = computed(
+  feedStore,
+  (feed: Array<Thread>): ThreadMetrics => {
+    return {
+      negValence: _.meanBy(feed, "metrics.negValence"),
+      posValence: _.meanBy(feed, "metrics.posValence"),
+      score: _.meanBy(feed, "metrics.score"),
+    };
   },
 );
 
