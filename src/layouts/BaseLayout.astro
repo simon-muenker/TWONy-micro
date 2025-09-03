@@ -1,11 +1,9 @@
 ---
 import "@styles/global.css";
 
-import { PAGES } from "@_constants";
-
-import Branding from "@components/Sidebar/Branding.astro";
-import Footer from "@components/Sidebar/Footer.astro";
-import MenuItem from "@components/Sidebar/MenuItem.astro";
+import Branding from "@layouts/partials/Branding.astro";
+import Menu from "@layouts/partials/Menu.astro";
+import Footer from "@layouts/partials/Footer.astro";
 
 interface Props {
   title: string;
@@ -27,22 +25,7 @@ const { title } = Astro.props;
           <header>
             <Branding />
           </header>
-          <nav>
-            <ul class="space-y-2">
-              {
-                PAGES.map((item) => (
-                  <li class="block">
-                    <MenuItem
-                      icon={item.icon}
-                      text={item.text}
-                      route={item.route}
-                      active={item.active}
-                    />
-                  </li>
-                ))
-              }
-            </ul>
-          </nav>
+          <Menu />
           <div class="h-48"></div>
           <Footer />
         </aside>

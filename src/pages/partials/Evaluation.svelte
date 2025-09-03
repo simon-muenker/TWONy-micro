@@ -17,6 +17,7 @@
 
   import Circle from "@components/common/typography/Circle.svelte";
   import HeadingSection from "@components/common/typography/HeadingSection.svelte";
+  import ParagraphSection from "@components/common/typography/ParagraphSection.svelte";
 </script>
 
 <script lang="ts">
@@ -35,11 +36,17 @@
 </script>
 
 <HeadingSection>Network Evaluation</HeadingSection>
+<ParagraphSection>
+  TODO: shortly explain the network level evaluation
+</ParagraphSection>
 <Chart config={$networkMetricsStore} height={250} />
 
 <Divider />
 
 <HeadingSection>User Evaluation</HeadingSection>
+<ParagraphSection>
+  TODO: shortly explain the user level evaluation
+</ParagraphSection>
 <Chart config={$userMetricsStore} height={300} />
 
 <Divider />

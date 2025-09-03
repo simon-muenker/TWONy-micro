@@ -43,7 +43,10 @@
   ];
 </script>
 
-<div class="mb-4 flex gap-4">
+<div class="flex flex-col gap-4">
+
+<div class="rounded-xl bg-sky-50 px-3 py-3">
+<div class="flex gap-4">
   <Button color="gray" size="small" clickEvent={() => {}}>
     <label for="personas-upload" class="flex cursor-pointer items-center">
       <Icon icon="mdi:file-upload-outline" class="mr-1 inline-block h-5 w-5" />
@@ -67,9 +70,12 @@
     </Button>
   {/each}
 </div>
-
-<div class="divide-y">
-  {#each Object.entries($personaAgentsStore) as [key, agent], index (index)}
-    <AgentPersonasEntry key={parseInt(key)} persona={agent} />
-  {/each}
 </div>
+
+  {#each Object.entries($personaAgentsStore) as [key, agent], index (index)}
+    <div class="rounded-xl bg-sky-50 px-3 py-3">
+    <AgentPersonasEntry key={parseInt(key)} persona={agent} />
+    </div>
+  {/each}
+
+  </div>

@@ -3,7 +3,6 @@
 
   import { settingsSimulationStore } from "@stores/settings";
 
-  import Button from "@components/common/Button.svelte";
   import Caption from "@components/common/typography/Caption.svelte";
 </script>
 
@@ -34,6 +33,4 @@
     bind:value={apiKey}
     class="mb-4 block w-full w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
   />
-
-  <Button>Continue to News Feed</Button>
 </div>

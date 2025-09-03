@@ -61,7 +61,6 @@
   }
 </script>
 
-<div class="py-6">
   <div class="flex items-center justify-between gap-4">
     <button onclick={() => (collapsed = !collapsed)}>
       <Icon
@@ -72,14 +71,14 @@
 
     <h3 class="text-bold text-xl">
       <span
-        class="mr-2 cursor-pointer rounded-full bg-gray-50 p-2"
+        class="mr-2 cursor-pointer rounded-full bg-white p-2"
         contenteditable
         oninput={(event) => updateIcon(event)}
       >
         {persona.icon}
       </span>
       <span
-        class="cursor-pointer rounded-lg bg-gray-50 p-2"
+        class="cursor-pointer rounded-lg bg-white p-2"
         contenteditable
         oninput={(event) => updateName(event)}
       >
@@ -102,10 +101,9 @@
       transition:slide
       name={key.toString()}
       id={key.toString()}
-      class="mt-4 w-full grow resize-none rounded-lg border-0 bg-gray-50 p-2 text-sm text-slate-700 focus:outline-0"
+      class="mt-4 w-full grow resize-none rounded-lg border-0 bg-white p-2 text-sm text-slate-700 focus:outline-0"
       value={persona.instruction}
       rows="32"
       onchange={(event) => updateInstruction(event)}
     ></textarea>
   {/if}
-</div>

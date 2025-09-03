@@ -1,17 +1,24 @@
 ---
 import BaseLayout from "src/layouts/BaseLayout.astro";
 
+import Evaluation from "@pages/partials/Evaluation.svelte";
+
+import PostMessage from "@components/PostMessage.svelte";
+import SimulationControls from "@components/SimulationControls.svelte";
+import ThreadsWrapper from "@components/ThreadsWrapper.svelte";
+
 import Divider from "@components/common/Divider.svelte";
+import HeadingPage from "@components/common/typography/HeadingPage.svelte";
 import HeadingSection from "@components/common/typography/HeadingSection.svelte";
-
-import PostMessage from "@components/Interact/PostMessage.svelte";
-import SimulationControls from "@components/Interact/SimulationControls.svelte";
-
-import FeedWrapper from "@components/Feed/index.svelte";
-import Evaluation from "@components/Evaluation/index.svelte";
+import ParagraphSection from "@components/common/typography/ParagraphSection.svelte";
 ---
 
 <BaseLayout title="TWONy-micro" client:load>
+
+  <HeadingPage>Start the conversation.</HeadingPage>
+  <ParagraphSection>
+    TODO: how to start and use the simulation, post, pause, change language models and speed
+  </ParagraphSection>
 
   <div class="rounded-xl bg-sky-50 px-3 py-3">
     <PostMessage client:load />
@@ -19,14 +26,18 @@ import Evaluation from "@components/Evaluation/index.svelte";
 
   <Divider size="small" />
 
-  <div class="rounded-xl bg-gray-50 px-3 py-3">
+  <div class="rounded-xl bg-emerald-50 px-3 py-3">
     <SimulationControls client:load />
   </div>
 
   <Divider />
 
   <HeadingSection>News Feed</HeadingSection>
-  <FeedWrapper client:load />
+  <ParagraphSection>
+    TODO: explain wthat the feed show (post, commtents), and evaluation classified
+  </ParagraphSection>
+
+  <ThreadsWrapper client:load />
 
   <Evaluation client:load slot="sidebar-left" />
 </BaseLayout>
