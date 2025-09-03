@@ -35,9 +35,16 @@
     {step}
     class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
   />
-  <span class="absolute start-0 -bottom-6">{description.min}</span>
-  <span class="absolute start-1/2 -bottom-6 -translate-x-1/2"
-    >{description.center}</span
-  >
-  <span class="absolute end-0 -bottom-6">{description.max}</span>
+  <span class="absolute start-0 -bottom-6">
+    <span class="">{min}</span>
+    <span class="text-sm text-gray-400">({description.min})</span>
+  </span>
+  <span class="absolute start-1/2 -bottom-6 -translate-x-1/2">
+    <span class="font-bold">{value}</span>
+    <span class="text-sm text-gray-400">({description.center})</span>
+  </span>
+  <span class="absolute end-0 -bottom-6">
+    <span class="">{max}</span>
+    <span class="text-sm text-gray-400">({description.max})</span>
+  </span>
 </div>
