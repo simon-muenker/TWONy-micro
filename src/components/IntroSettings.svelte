@@ -12,7 +12,7 @@
   });
 </script>
 
-<div class="box blue">
+<div class="box green">
   <label for="api_token">
     <div class="caption">
       <Icon icon="mdi:key" class="mr-0.5 inline-block h-4 w-4" />

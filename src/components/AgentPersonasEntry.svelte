@@ -92,13 +92,15 @@
 </div>
 
 {#if !collapsed}
-  <textarea
-    transition:slide
-    name={key.toString()}
-    id={key.toString()}
-    class="textarea mt-4"
-    value={persona.instruction}
-    rows="32"
-    onchange={(event) => updateInstruction(event)}
-  ></textarea>
+  <div transition:slide>
+    <hr class="divider small">
+    <textarea
+      name={key.toString()}
+      id={key.toString()}
+      class="textarea -mb-1"
+      value={persona.instruction}
+      rows="24"
+      onchange={(event) => updateInstruction(event)}
+    ></textarea>
+  </div>
 {/if}

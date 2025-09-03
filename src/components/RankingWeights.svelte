@@ -19,7 +19,7 @@
 </script>
 
 <div class="box blue">
-  <table class="w-full table-auto">
+  <table class="w-full table-auto -mt-6">
     <tbody>
       <tr>
         <td class="w-24 py-6"

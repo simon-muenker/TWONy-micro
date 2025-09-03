@@ -41,13 +41,13 @@
         class="mt-4 flex place-content-end items-center gap-4 text-xs text-slate-500"
       >
         <span>
-          positivity <span class="circle green"></span>: {_.round(
+          avg. positivity <span class="circle green"></span>: {_.round(
             thread.metrics.classes.positive,
             2,
           )}
         </span>
         <span class="">
-          negativity <span class="circle red"></span>: {_.round(
+          avg. negativity <span class="circle red"></span>: {_.round(
             thread.metrics.classes.negative,
             2,
           )}

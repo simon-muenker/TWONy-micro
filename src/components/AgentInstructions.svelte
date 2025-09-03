@@ -97,8 +97,8 @@
       <textarea
         name={key}
         id={key}
-        class="textarea"
-        rows="8"
+        class="textarea -mb-1"
+        rows="4"
         value={instruction.content}
         onchange={(event) =>
           updateInstruction(key as keyof Instructions, instruction, event)}
