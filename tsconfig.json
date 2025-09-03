@@ -12,5 +12,7 @@
       "@presets/*": ["src/presets/*"],
       "@stores/*": ["src/stores/*"]
     }
-  }
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
 }

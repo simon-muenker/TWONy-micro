@@ -14,7 +14,7 @@
     <article class="py-8">
       <ThreadItem {...thread.post} />
       {#if thread.replies}
-        <section class="ml-4 border-l-4 pl-4 pt-4 [&>*]:py-2">
+        <section class="ml-4 border-l-4 pt-4 pl-4 [&>*]:py-2">
           {#each thread.replies as reply}
             <ThreadItem {...reply} />
           {/each}

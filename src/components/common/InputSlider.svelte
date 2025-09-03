@@ -35,9 +35,9 @@
     {step}
     class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
   />
-  <span class="absolute -bottom-6 start-0">{description.min}</span>
-  <span class="absolute -bottom-6 start-1/2 -translate-x-1/2"
+  <span class="absolute start-0 -bottom-6">{description.min}</span>
+  <span class="absolute start-1/2 -bottom-6 -translate-x-1/2"
     >{description.center}</span
   >
-  <span class="absolute -bottom-6 end-0">{description.max}</span>
+  <span class="absolute end-0 -bottom-6">{description.max}</span>
 </div>

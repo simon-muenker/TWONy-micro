@@ -20,7 +20,7 @@
     <span class="text-sm text-slate-500">@{name}</span>
     <br />
     <span>{message}</span>
-    <div class="mt-2 flex select-none gap-2 text-xs text-slate-500">
+    <div class="mt-2 flex gap-2 text-xs text-slate-500 select-none">
       <div>
         <Circle color="emerald" />
         <span class=""
