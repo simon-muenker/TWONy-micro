@@ -5,15 +5,17 @@ export interface Props {
   icon: string;
   text: string;
   route: string;
+  active: boolean;
 }
 
-const { icon, text, route } = Astro.props;
+const { icon, text, route, active = true } = Astro.props;
 ---
 
 <a
   class:list={[
     "flex content-center items-center gap-2",
     "-ml-4 rounded-full px-4 py-2 transition-colors hover:bg-blue-100",
+    !active && "opacity-40",
   ]}
   href={route}
 >

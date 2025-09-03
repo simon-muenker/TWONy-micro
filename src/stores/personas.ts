@@ -5,7 +5,7 @@ import { logger } from "@nanostores/logger";
 import { computed } from "nanostores";
 import { persistentMap } from "@nanostores/persistent";
 
-import { STORE_PARSER } from "@stores/constants";
+import { STORE_PARSER } from "@stores/_constants";
 
 import { personaUserDefault, personaAgentsDefault } from "@presets/personas";
 

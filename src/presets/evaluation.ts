@@ -1,6 +1,6 @@
 import { type ChartConfiguration } from "chart.js/auto";
 
-import { METRIC_COLORS } from "@/constants";
+import { METRIC_COLORS } from "@_constants";
 
 export const networkMetricsDefault: ChartConfiguration = {
   type: "line",
@@ -8,14 +8,14 @@ export const networkMetricsDefault: ChartConfiguration = {
     labels: [],
     datasets: [
       {
-        label: "positive valence",
+        label: "positivity",
         data: [0.0],
         fill: false,
         borderColor: METRIC_COLORS.positive,
         tension: 0.1,
       },
       {
-        label: "negative valence",
+        label: "negativity",
         data: [0.0],
         fill: false,
         borderColor: METRIC_COLORS.negative,
@@ -31,12 +31,12 @@ export const userMetricsDefault: ChartConfiguration = {
     labels: [],
     datasets: [
       {
-        label: "positive valence",
+        label: "positivity",
         data: [],
         backgroundColor: METRIC_COLORS.positive,
       },
       {
-        label: "negative valence",
+        label: "negativity",
         data: [],
         backgroundColor: METRIC_COLORS.negative,
       },

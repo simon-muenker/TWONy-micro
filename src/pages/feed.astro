@@ -1,0 +1,20 @@
+---
+import BaseLayout from "src/layouts/BaseLayout.astro";
+
+import Divider from "@components/common/Divider.svelte";
+
+import Interact from "@components/Interact/index.svelte";
+import FeedWrapper from "@components/Feed/index.svelte";
+import Evaluation from "@components/Evaluation/index.svelte";
+---
+
+<BaseLayout title="TWONy-micro" client:load>
+  <Interact client:load />
+  <Divider size="small" />
+  <FeedWrapper client:load />
+  <Evaluation client:load slot="sidebar-left" />
+</BaseLayout>
+
+<script>
+  import "@index.ts";
+</script>

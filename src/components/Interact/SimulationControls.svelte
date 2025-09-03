@@ -1,12 +1,12 @@
 <script module>
-  import { MODELS } from "@/constants";
+  import { MODELS } from "@/_constants";
 
   import {
     settingsSimulationStore,
     settingsAgentStore,
   } from "@/stores/settings";
   import { clearFeed } from "@stores/feed";
-  import { resetMetrics } from "@stores/metrics";
+  import { resetEvaluation } from "@stores/evaluation";
 
   import Button from "@components/common/Button.svelte";
   import Divider from "@components/common/Divider.svelte";
@@ -31,7 +31,7 @@
   function resetSimulation() {
     running = false;
     clearFeed();
-    resetMetrics();
+    resetEvaluation();
   }
 </script>
 

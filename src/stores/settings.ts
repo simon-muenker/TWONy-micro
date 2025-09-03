@@ -1,8 +1,8 @@
 import { logger } from "@nanostores/logger";
 import { persistentMap } from "@nanostores/persistent";
 
-import { MODELS } from "@constants";
-import { STORE_PARSER } from "@stores/constants";
+import { MODELS } from "@_constants";
+import { STORE_PARSER } from "@stores/_constants";
 
 import {
   settingsSimulationDefault,
@@ -12,6 +12,7 @@ import {
 
 // Type Definitions
 export type SettingsSimulation = {
+  apiKey: string | undefined;
   running: boolean;
   tickTime: number;
   maxThreads: number;
@@ -24,7 +25,7 @@ export type SettingsAgent = {
 };
 
 export type SettingsRanking = {
-  emotionBased: boolean;
+  sentimentBased: boolean;
   positiveWeight: number;
   negativeWeight: number;
 };

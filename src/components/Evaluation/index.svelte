@@ -1,5 +1,5 @@
 <script module>
-  import { downloadJSON } from "@common";
+  import { downloadJSON } from "@common/jsonUtil";
 
   import {
     settingsRankingStore,
@@ -9,7 +9,7 @@
   import { feedStore } from "@stores/feed";
   import { instructionsStore } from "@/stores/instructions";
   import { personaAgentsStore } from "@stores/personas";
-  import { networkMetricsStore, userMetricsStore } from "@stores/metrics";
+  import { networkMetricsStore, userMetricsStore } from "@stores/evaluation";
 
   import Divider from "@components/common/Divider.svelte";
   import Button from "@components/common/Button.svelte";
@@ -34,12 +34,12 @@
   }
 </script>
 
-<HeadingSection>Network Metrics</HeadingSection>
+<HeadingSection>Network Evaluation</HeadingSection>
 <Chart config={$networkMetricsStore} height={250} />
 
 <Divider />
 
-<HeadingSection>User Metrics</HeadingSection>
+<HeadingSection>User Evaluation</HeadingSection>
 <Chart config={$userMetricsStore} height={300} />
 
 <Divider />
@@ -49,21 +49,21 @@
 <table class="mb-8 w-full table-auto text-xs text-slate-600">
   <tbody>
     <tr>
-      <td>Emotion-based ranking</td>
-      <td>{$settingsRankingStore.emotionBased ? "yes" : "no"}</td>
+      <td>Sentiment-based ranking</td>
+      <td>{$settingsRankingStore.sentimentBased ? "yes" : "no"}</td>
     </tr>
-    {#if $settingsRankingStore.emotionBased}
+    {#if $settingsRankingStore.sentimentBased}
       <tr>
         <td>
           <Circle color="emerald" />
-          Positive valence weight
+          Positivivity Weighting
         </td>
         <td>{($settingsRankingStore.positiveWeight * 0.01).toFixed(2)}</td>
       </tr>
       <tr>
         <td>
           <Circle color="rose" />
-          Negative valence weight
+          Negativity Weighting
         </td>
         <td>{($settingsRankingStore.negativeWeight * 0.01).toFixed(2)}</td>
       </tr>

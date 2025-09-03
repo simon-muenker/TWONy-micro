@@ -1,9 +1,9 @@
 <script module>
   import Icon from "@iconify/svelte";
 
-  import { downloadJSON, uploadJSON } from "@common";
+  import { downloadJSON, uploadJSON } from "@common/jsonUtil";
 
-  import type { ChatItem } from "@api/inference";
+  import type { ChatItem } from "@api/chat";
 
   import {
     type Instructions,

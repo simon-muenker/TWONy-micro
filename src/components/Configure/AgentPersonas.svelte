@@ -1,7 +1,7 @@
 <script module>
   import Icon from "@iconify/svelte";
 
-  import { downloadJSON, uploadJSON } from "@common";
+  import { downloadJSON, uploadJSON } from "@common/jsonUtil";
 
   import {
     type Persona,

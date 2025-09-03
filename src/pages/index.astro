@@ -2,19 +2,13 @@
 import BaseLayout from "src/layouts/BaseLayout.astro";
 
 import Divider from "@components/common/Divider.svelte";
+import HeadingPage from "@components/common/typography/HeadingPage.svelte";
 
-import Interact from "@components/Interact/index.svelte";
-import Feed from "@components/Feed/index.svelte";
-import Metrics from "@components/Metrics/index.svelte";
+import SimulationSettings from "@components/Configure/SimulationSettings.svelte";
 ---
 
-<BaseLayout title="TWONy-micro">
-  <Interact client:load />
-  <Divider size="small" />
-  <Feed client:load />
-  <Metrics client:load slot="sidebar-left" />
-</BaseLayout>
+<BaseLayout title="TWONy-micro - Introduction">
+  <HeadingPage>Introduction</HeadingPage>
 
-<script>
-  import "../index.ts";
-</script>
+  <SimulationSettings client:load />
+</BaseLayout>

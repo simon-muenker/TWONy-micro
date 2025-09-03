@@ -2,12 +2,15 @@ import _ from "lodash";
 import { logger } from "@nanostores/logger";
 import { atom, computed } from "nanostores";
 
-import { METRIC_EMOTIONS } from "@constants";
+import {
+  type ItemMetrics,
+  calculateItemMetrics,
+  aggregateItemMetrics,
+} from "@simulation";
+import { chat } from "@api/chat";
+import { classify } from "@api/classify";
 
-import { chat } from "@api/inference";
-import { metric, type MetricResult } from "@api/metric";
-
-import { settingsAgentStore, settingsRankingStore } from "@stores/settings";
+import { settingsAgentStore } from "@stores/settings";
 import { personaUserStore, type Persona } from "@stores/personas";
 import { createChat } from "@stores/instructions";
 
@@ -16,89 +19,26 @@ export type ThreadItem = {
   icon: string;
   name: string;
   message: string;
-  metrics: {
-    anger: number;
-    fear: number;
-    pessimism: number;
-    joy: number;
-    trust: number;
-    optimism: number;
-  };
-};
-
-export type ThreadMetrics = {
-  negValence: number;
-  posValence: number;
-  score: number;
+  metrics: ItemMetrics;
 };
 
 export type Thread = {
   post: ThreadItem;
   replies?: Array<ThreadItem>;
-  metrics: ThreadMetrics;
+  metrics: ItemMetrics;
 };
 
 // Utility
 function createPost(
   persona: Persona,
   message: string,
-  metric: MetricResult,
+  metrics: ItemMetrics,
 ): ThreadItem {
   return {
     icon: persona.icon,
     name: persona.name,
     message: message,
-    metrics: metric.predictions[0].results.emotions,
-  };
-}
-
-function getThreadItemMetrics(item: ThreadItem): ThreadMetrics {
-  let rank: ThreadMetrics = {
-    negValence: 0,
-    posValence: 0,
-    score: 0,
-  };
-
-  Object.entries(item.metrics).forEach((obj) => {
-    if (METRIC_EMOTIONS.negative.includes(obj[0])) {
-      rank.negValence += obj[1] / METRIC_EMOTIONS.negative.length;
-    } else if (METRIC_EMOTIONS.positive.includes(obj[0])) {
-      rank.posValence += obj[1] / METRIC_EMOTIONS.positive.length;
-    }
-  });
-
-  rank.score =
-    (rank.negValence * (settingsRankingStore.get().negativeWeight * 0.01) +
-      rank.posValence * (settingsRankingStore.get().positiveWeight * 0.01)) *
-    0.5;
-
-  return rank;
-}
-
-function getThreadMetrics(thread: Thread): ThreadMetrics {
-  const threadLength: number = thread.replies?.length ?? 0;
-
-  return (
-    thread.replies?.reduce(
-      (acc: ThreadMetrics, reply: ThreadItem): ThreadMetrics => {
-        const replyRank = getThreadItemMetrics(reply);
-
-        acc.negValence += replyRank.negValence / (threadLength + 1);
-        acc.posValence += replyRank.posValence / (threadLength + 1);
-        acc.score += replyRank.score / (threadLength + 1);
-
-        return acc;
-      },
-      getThreadItemMetrics(thread.post),
-    ) ?? getThreadItemMetrics(thread.post)
-  );
-}
-
-function agg_metrics(metrics: Array<ThreadMetrics>): ThreadMetrics {
-  return {
-    negValence: _.meanBy(metrics, "negValence"),
-    posValence: _.meanBy(metrics, "posValence"),
-    score: _.meanBy(metrics, "score"),
+    metrics: metrics,
   };
 }
 
@@ -141,30 +81,17 @@ export const threadItemsByNameStore = computed(
 
 export const threadItemAvgMetricsStore = computed(
   threadItemStore,
-  (items: Array<ThreadItem>): ThreadMetrics => {
-    return agg_metrics(items.map((item) => getThreadItemMetrics(item)));
+  (items: Array<ThreadItem>): ItemMetrics => {
+    return aggregateItemMetrics(items.map((item) => item.metrics));
   },
 );
 
 export const nameAvgMetricsStore = computed(
   threadItemsByNameStore,
-  (
-    records: Record<string, Array<ThreadItem>>,
-  ): Record<string, ThreadMetrics> => {
-    return _.mapValues(records, (items: Array<ThreadItem>): ThreadMetrics => {
-      return agg_metrics(items.map((item) => getThreadItemMetrics(item)));
+  (records: Record<string, Array<ThreadItem>>): Record<string, ItemMetrics> => {
+    return _.mapValues(records, (items: Array<ThreadItem>): ItemMetrics => {
+      return aggregateItemMetrics(items.map((item) => item.metrics));
     });
-  },
-);
-
-export const feedAvgMetricsStore = computed(
-  feedStore,
-  (feed: Array<Thread>): ThreadMetrics => {
-    return {
-      negValence: _.meanBy(feed, "metrics.negValence"),
-      posValence: _.meanBy(feed, "metrics.posValence"),
-      score: _.meanBy(feed, "metrics.score"),
-    };
   },
 );
 
@@ -174,14 +101,14 @@ export function clearFeed(): void {
 }
 
 export function pushToFeed(thread: Thread): void {
-  thread.metrics = getThreadMetrics(thread);
+  updateThreadMetrics(thread);
   feedStore.set([...feedStore.get(), thread]);
 }
 
 export function addPost(item: ThreadItem): void {
   pushToFeed({
     post: item,
-    metrics: { negValence: 0, posValence: 0, score: 0 },
+    metrics: item.metrics,
   });
 }
 
@@ -194,7 +121,7 @@ export function addReply(threadID: number, item: ThreadItem): void {
     feed[threadID].replies = [item];
   }
 
-  feed[threadID].metrics = getThreadMetrics(feed[threadID]);
+  updateThreadMetrics(feed[threadID]);
   feedStore.set([...feed]);
 }
 
@@ -203,9 +130,11 @@ export async function post(
   message: string,
   persona: Persona = personaUserStore.get()[0],
 ): Promise<void> {
-  const metricsResult = await metric(message);
+  const classifyResult = await classify(message);
 
-  addPost(createPost(persona, message, metricsResult));
+  addPost(
+    createPost(persona, message, calculateItemMetrics(classifyResult[0])),
+  );
 }
 
 export async function reply(
@@ -213,9 +142,12 @@ export async function reply(
   message: string,
   persona: Persona = personaUserStore.get()[0],
 ): Promise<void> {
-  const metricsResult = await metric(message);
+  const classifyResult = await classify(message);
 
-  addReply(threadID, createPost(persona, message, metricsResult));
+  addReply(
+    threadID,
+    createPost(persona, message, calculateItemMetrics(classifyResult[0])),
+  );
 }
 
 // Agent Behavior
@@ -225,7 +157,7 @@ export async function agentPost(persona: Persona): Promise<void> {
     createChat(persona, "post", " "),
   );
 
-  post(chatResult.response, persona);
+  post(chatResult.choices[0].message.content, persona);
 }
 
 export async function agentReply(
@@ -237,5 +169,13 @@ export async function agentReply(
     createChat(persona, "reply", feedStore.get()[threadID].post.message),
   );
 
-  reply(threadID, chatResult.response, persona);
+  reply(threadID, chatResult.choices[0].message.content, persona);
+}
+
+// Util
+export function updateThreadMetrics(thread: Thread): void {
+  let metrices: Array<ItemMetrics> = [thread.post.metrics];
+  if (thread.replies != null)
+    metrices = metrices.concat(thread.replies.map((item) => item.metrics));
+  thread.metrics = aggregateItemMetrics(metrices);
 }

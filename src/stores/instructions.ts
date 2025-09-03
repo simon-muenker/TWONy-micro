@@ -1,9 +1,9 @@
 import { logger } from "@nanostores/logger";
 import { persistentMap } from "@nanostores/persistent";
 
-import type { ChatItem } from "@api/inference";
+import type { ChatItem } from "@api/chat";
 
-import { STORE_PARSER } from "@stores/constants";
+import { STORE_PARSER } from "@stores/_constants";
 import type { Persona } from "@stores/personas";
 
 import { instructionsDefault } from "@presets/instructions";
@@ -14,29 +14,18 @@ export type Instructions = {
   reply: ChatItem;
 };
 
-// Utility
-export function extendChatItem(item: ChatItem, suffix: string): ChatItem {
-  return {
-    content: `${item.content} ${suffix}`,
-    role: "system",
-  };
-}
-
 export function createChat(
   persona: Persona,
   action: "post" | "reply",
-  userContent: string,
+  content: string,
 ): Array<ChatItem> {
   return [
-    extendChatItem(
-      {
-        content: persona.instruction,
-        role: "system",
-      },
-      instructionsStore.get()[action].content,
-    ),
     {
-      content: userContent,
+      content: persona.instruction,
+      role: "system",
+    },
+    {
+      content: `${instructionsStore.get()[action].content}\n${content}`,
       role: "user",
     },
   ];

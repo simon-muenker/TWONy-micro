@@ -19,9 +19,9 @@
   });
 </script>
 
-<HeadingSection>Valence Weighting</HeadingSection>
+<HeadingSection>Sentiment Weighting</HeadingSection>
 <p class="mb-2 text-sm font-medium text-gray-900">
-  Finetune how the indivual predicted emotions impact the ranking algorithm.
+  Finetune how the indivual predicted sentiment impact the ranking algorithm.
 </p>
 
 <table class="w-full table-auto">

@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "src/layouts/BaseLayout.astro";
+import ThreeColLayout from "src/layouts/BaseLayout.astro";
 
 import Divider from "@components/common/Divider.svelte";
 import HeadingPage from "@components/common/typography/HeadingPage.svelte";
@@ -8,9 +8,9 @@ import AgentInstructions from "@components/Configure/AgentInstructions.svelte";
 import AgentPersonas from "@components/Configure/AgentPersonas.svelte";
 ---
 
-<BaseLayout title="TWONy-micro - Agents Settings">
+<ThreeColLayout title="TWONy-micro - Agents Settings">
   <HeadingPage>Agents Settings</HeadingPage>
   <AgentInstructions client:load />
   <Divider />
   <AgentPersonas client:load />
-</BaseLayout>
+</ThreeColLayout>

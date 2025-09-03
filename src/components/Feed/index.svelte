@@ -1,8 +1,6 @@
 <script module>
   import _ from "lodash";
 
-  import { cubicOut } from "svelte/easing";
-
   import { settingsRankingStore } from "@/stores/settings";
   import { reverseFeedStore, rankedFeedStore } from "@stores/feed";
 
@@ -12,7 +10,7 @@
 </script>
 
 <div class="grid grid-cols-1 divide-y">
-  {#each $settingsRankingStore.emotionBased ? $rankedFeedStore : $reverseFeedStore as thread, index (index)}
+  {#each $settingsRankingStore.sentimentBased ? $rankedFeedStore : $reverseFeedStore as thread, index (index)}
     <article class="py-8">
       <ThreadItem {...thread.post} />
       {#if thread.replies}
@@ -27,11 +25,11 @@
       >
         <span>
           <Circle color="emerald" />
-          positive valence: {_.round(thread.metrics.posValence, 2)}
+          positivivity: {_.round(thread.metrics.classes.positive, 2)}
         </span>
         <span class="">
           <Circle color="rose" />
-          negative valence: {_.round(thread.metrics.negValence, 2)}
+          negativity: {_.round(thread.metrics.classes.negative, 2)}
         </span>
         <span class="font-bold">
           thread ranking: {_.round(thread.metrics.score, 2)}

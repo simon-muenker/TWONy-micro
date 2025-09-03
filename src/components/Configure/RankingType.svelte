@@ -6,10 +6,12 @@
 </script>
 
 <script lang="ts">
-  let emotionBased: boolean = $state(settingsRankingStore.get().emotionBased);
+  let sentimentBased: boolean = $state(
+    settingsRankingStore.get().sentimentBased,
+  );
 
   $effect(() => {
-    settingsRankingStore.setKey("emotionBased", emotionBased);
+    settingsRankingStore.setKey("sentimentBased", sentimentBased);
   });
 </script>
 
@@ -17,8 +19,8 @@
 
 <label class="inline-flex cursor-pointer items-center">
   <span class="mr-3 text-sm font-medium text-gray-900">Chronological</span>
-  <InputCheckbox bind:value={emotionBased} />
+  <InputCheckbox bind:value={sentimentBased} />
   <span class="ms-3 text-sm font-medium text-gray-900">
-    Emotion-based (intense emotion rank higher)
+    Sentiment-based (intense sentiments rank higher)
   </span>
 </label>

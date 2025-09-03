@@ -1,5 +1,5 @@
 ---
-import { PAGES } from "@/constants";
+import { PAGES } from "@_constants";
 
 import Branding from "./Branding.astro";
 import Footer from "./Footer.astro";
@@ -14,7 +14,12 @@ import MenuItem from "./MenuItem.astro";
     {
       PAGES.map((item) => (
         <li class="block">
-          <MenuItem icon={item.icon} text={item.text} route={item.route} />
+          <MenuItem
+            icon={item.icon}
+            text={item.text}
+            route={item.route}
+            active={item.active}
+          />
         </li>
       ))
     }
