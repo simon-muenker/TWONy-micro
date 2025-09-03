@@ -66,15 +66,15 @@
     {#if $settingsRankingStore.sentimentBased}
       <tr>
         <td>
+          Positivity Weight
           <Circle color="emerald" />
-          Positivity Weighting
         </td>
         <td>{($settingsRankingStore.positiveWeight * 0.01).toFixed(2)}</td>
       </tr>
       <tr>
         <td>
-          <Circle color="rose" />
-          Negativity Weighting
+          Negativity Weight
+           <Circle color="rose" />
         </td>
         <td>{($settingsRankingStore.negativeWeight * 0.01).toFixed(2)}</td>
       </tr>

@@ -22,15 +22,15 @@
   <table class="w-full table-auto">
     <tbody>
       <tr>
-        <td class="w-24 py-6">{"negative valence"}</td>
+        <td class="w-24 py-6"><span class="text-sm font-medium text-gray-900">negativity</span></td>
         <td class="py-6">
-          <InputSlider label={"negative valence"} bind:value={negativeWeight} />
+          <InputSlider label={"negativity"} bind:value={negativeWeight} />
         </td>
       </tr>
       <tr>
-        <td class="w-24 py-6">{"positive valence"}</td>
+        <td class="w-24 py-6"><span class="text-sm font-medium text-gray-900">positivity</span></td>
         <td class="py-6">
-          <InputSlider label={"positive valence"} bind:value={positiveWeight} />
+          <InputSlider label={"positivity"} bind:value={positiveWeight} />
         </td>
       </tr>
     </tbody>

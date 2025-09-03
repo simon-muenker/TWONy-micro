@@ -19,7 +19,7 @@
     <span class="mr-3 text-sm font-medium text-gray-900">Chronological</span>
     <InputCheckbox bind:value={sentimentBased} />
     <span class="ms-3 text-sm font-medium text-gray-900">
-      Sentiment-based (intense sentiments rank higher)
+      Sentiment-based (weights are multiplied with the sentiments)
     </span>
   </label>
 </div>
