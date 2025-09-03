@@ -5,18 +5,18 @@ import MenuItem from "@layouts/partials/MenuItem.astro";
 ---
 
 <nav>
-    <ul class="space-y-2">
-        {
-        PAGES.map((item) => (
-            <li class="block">
-            <MenuItem
-                icon={item.icon}
-                text={item.text}
-                route={item.route}
-                active={item.active}
-            />
-            </li>
-        ))
-        }
-    </ul>
+  <ul class="space-y-2">
+    {
+      PAGES.map((item) => (
+        <li class="block">
+          <MenuItem
+            icon={item.icon}
+            text={item.text}
+            route={item.route}
+            active={item.active}
+          />
+        </li>
+      ))
+    }
+  </ul>
 </nav>

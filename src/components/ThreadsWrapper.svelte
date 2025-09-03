@@ -1,7 +1,10 @@
 <script module>
   import _ from "lodash";
 
-  import { settingsSimulationStore, settingsRankingStore } from "@/stores/settings";
+  import {
+    settingsSimulationStore,
+    settingsRankingStore,
+  } from "@/stores/settings";
   import { reverseFeedStore, rankedFeedStore } from "@stores/feed";
 
   import Circle from "@components/common/typography/Circle.svelte";
@@ -10,7 +13,7 @@
 </script>
 
 {#if $settingsSimulationStore.running}
-  <span class="text-center mx-auto block my-4 italic text-sm animate-pulse">
+  <span class="mx-auto my-4 block animate-pulse text-center text-sm italic">
     Generating Content ... Please stand by.
   </span>
 {/if}

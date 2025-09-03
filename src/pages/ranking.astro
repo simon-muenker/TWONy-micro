@@ -12,17 +12,23 @@ import ParagraphSection from "@components/common/typography/ParagraphSection.sve
 ---
 
 <BaseLayout title="TWONy-micro - Ranker Settings">
-
   <HeadingPage>Ranker Settings</HeadingPage>
   <ParagraphPage>
-    Control how posts are ordered in your feed. Just like real social media platforms use algorithms to decide what you see first, this page lets you experiment with different ranking methods to understand their impact on the conversation's visibility and tone.
+    Control how posts are ordered in your feed. Just like real social media
+    platforms use algorithms to decide what you see first, this page lets you
+    experiment with different ranking methods to understand their impact on the
+    conversation's visibility and tone.
   </ParagraphPage>
 
   <Divider />
 
   <HeadingSection>Ranker Type</HeadingSection>
   <ParagraphSection>
-    Choose between showing posts in the order they were created (chronological) or prioritizing posts based on their emotional intensity (sentiment-based). Sentiment-based ranking pushes posts with stronger emotions - whether positive or negative - to the top of your feed, similar to how engagement-driven algorithms work on real platforms.
+    Choose between showing posts in the order they were created (chronological)
+    or prioritizing posts based on their emotional intensity (sentiment-based).
+    Sentiment-based ranking pushes posts with stronger emotions - whether
+    positive or negative - to the top of your feed, similar to how
+    engagement-driven algorithms work on real platforms.
   </ParagraphSection>
   <RankingType client:load />
 
@@ -30,7 +36,13 @@ import ParagraphSection from "@components/common/typography/ParagraphSection.sve
 
   <HeadingSection>Sentiment Weighting</HeadingSection>
   <ParagraphSection>
-    Fine-tune how much positive and negative emotions influence post visibility when using sentiment-based ranking. Moving the sliders changes whether cheerful, supportive posts or critical, angry posts get more prominence in the feed. Set both high to amplify all emotional content, or adjust them differently to see how favoring one type of emotion changes the conversation's overall tone. This mirrors how real platforms might optimize for different types of engagement.
+    Fine-tune how much positive and negative emotions influence post visibility
+    when using sentiment-based ranking. Moving the sliders changes whether
+    cheerful, supportive posts or critical, angry posts get more prominence in
+    the feed. Set both high to amplify all emotional content, or adjust them
+    differently to see how favoring one type of emotion changes the
+    conversation's overall tone. This mirrors how real platforms might optimize
+    for different types of engagement.
   </ParagraphSection>
   <RankingWeighting client:load />
 </BaseLayout>

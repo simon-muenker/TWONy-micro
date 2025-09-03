@@ -12,25 +12,35 @@ import ParagraphSection from "@components/common/typography/ParagraphSection.sve
 ---
 
 <ThreeColLayout title="TWONy-micro - Agents Settings">
-
   <HeadingPage>Agents Settings</HeadingPage>
   <ParagraphPage>
-    Configure the virtual participants in your social media simulation. Each agent represents a different type of social media user with unique perspectives and communication styles. You can modify their personalities and instructions to see how different combinations of voices affect the overall conversation.
+    Configure the virtual participants in your social media simulation. Each
+    agent represents a different type of social media user with unique
+    perspectives and communication styles. You can modify their personalities
+    and instructions to see how different combinations of voices affect the
+    overall conversation.
   </ParagraphPage>
 
   <Divider />
 
   <HeadingSection>Customize Instructions</HeadingSection>
   <ParagraphSection>
-    These are the basic rules that guide how all agents create posts and replies. Think of them as the general conversation guidelines - like telling everyone at a party what topics to discuss. Changes here affect every agent's behavior equally
-  </ParagraphSection> 
+    These are the basic rules that guide how all agents create posts and
+    replies. Think of them as the general conversation guidelines - like telling
+    everyone at a party what topics to discuss. Changes here affect every
+    agent's behavior equally
+  </ParagraphSection>
   <AgentInstructions client:load />
 
   <Divider />
 
   <HeadingSection>Customize Personas</HeadingSection>
   <ParagraphSection>
-    Each persona is a unique virtual participant with their own personality, interests, and communication style. You can edit existing personas to change how they express themselves, add new ones to diversify the conversation, or remove personas to simplify the simulation. The icon and name help you identify who's speaking in the feed.
+    Each persona is a unique virtual participant with their own personality,
+    interests, and communication style. You can edit existing personas to change
+    how they express themselves, add new ones to diversify the conversation, or
+    remove personas to simplify the simulation. The icon and name help you
+    identify who's speaking in the feed.
   </ParagraphSection>
   <AgentPersonas client:load />
 </ThreeColLayout>

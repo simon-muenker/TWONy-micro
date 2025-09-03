@@ -61,49 +61,49 @@
   }
 </script>
 
-  <div class="flex items-center justify-between gap-4">
-    <button onclick={() => (collapsed = !collapsed)}>
-      <Icon
-        icon={collapsed ? "mdi:chevron-down" : "mdi:chevron-up"}
-        class="inline-block h-8 w-8"
-      />
-    </button>
+<div class="flex items-center justify-between gap-4">
+  <button onclick={() => (collapsed = !collapsed)}>
+    <Icon
+      icon={collapsed ? "mdi:chevron-down" : "mdi:chevron-up"}
+      class="inline-block h-8 w-8"
+    />
+  </button>
 
-    <h3 class="text-bold text-xl">
-      <span
-        class="mr-2 cursor-pointer rounded-full bg-white p-2"
-        contenteditable
-        oninput={(event) => updateIcon(event)}
-      >
-        {persona.icon}
-      </span>
-      <span
-        class="cursor-pointer rounded-lg bg-white p-2"
-        contenteditable
-        oninput={(event) => updateName(event)}
-      >
-        {persona.name}
-      </span>
-    </h3>
+  <h3 class="text-bold text-xl">
+    <span
+      class="mr-2 cursor-pointer rounded-full bg-white p-2"
+      contenteditable
+      oninput={(event) => updateIcon(event)}
+    >
+      {persona.icon}
+    </span>
+    <span
+      class="cursor-pointer rounded-lg bg-white p-2"
+      contenteditable
+      oninput={(event) => updateName(event)}
+    >
+      {persona.name}
+    </span>
+  </h3>
 
-    <div class="grow"></div>
+  <div class="grow"></div>
 
-    <!-- <InputCheckbox bind:value={isActive} /> -->
+  <!-- <InputCheckbox bind:value={isActive} /> -->
 
-    <Button color="red" size="small" clickEvent={() => removePersona(persona)}>
-      <Icon icon="mdi:delete-outline" class="mr-1 inline-block h-5 w-5" />
-      delete
-    </Button>
-  </div>
+  <Button color="red" size="small" clickEvent={() => removePersona(persona)}>
+    <Icon icon="mdi:delete-outline" class="mr-1 inline-block h-5 w-5" />
+    delete
+  </Button>
+</div>
 
-  {#if !collapsed}
-    <textarea
-      transition:slide
-      name={key.toString()}
-      id={key.toString()}
-      class="mt-4 w-full grow resize-none rounded-lg border-0 bg-white p-2 text-sm text-slate-700 focus:outline-0"
-      value={persona.instruction}
-      rows="32"
-      onchange={(event) => updateInstruction(event)}
-    ></textarea>
-  {/if}
+{#if !collapsed}
+  <textarea
+    transition:slide
+    name={key.toString()}
+    id={key.toString()}
+    class="mt-4 w-full grow resize-none rounded-lg border-0 bg-white p-2 text-sm text-slate-700 focus:outline-0"
+    value={persona.instruction}
+    rows="32"
+    onchange={(event) => updateInstruction(event)}
+  ></textarea>
+{/if}
