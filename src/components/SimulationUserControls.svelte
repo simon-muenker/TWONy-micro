@@ -33,7 +33,7 @@
   <div>
     <div class="caption">Simulation Control</div>
     <button
-      class="button small {running ? 'red' : 'green'} mr-1"
+      class="button small {running ? 'red animate-pulse' : 'green'} mr-1"
       onclick={() => (running = !running)}
     >
       <Icon
@@ -43,7 +43,7 @@
       {running ? "Stop" : "Start"}
     </button>
     <button class="button small red outline" onclick={() => resetSimulation()}>
-      <Icon icon="mdi:circle-arrows" class="mr-1 -ml-1 h-4 w-4" />
+      <Icon icon="mdi:circle-arrows" class="mr-1 -ml-1 h-4 w-4 hover:animate-spin" />
       Reset
     </button>
   </div>
