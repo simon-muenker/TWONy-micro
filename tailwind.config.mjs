@@ -5,10 +5,4 @@ export default {
     extend: {},
   },
   plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
-  safelist: [
-    {
-      pattern:
-        /(text|bg|border)-(red|green|blue|gray|emerald|rose)-(400|500|600)/,
-    },
-  ],
 };

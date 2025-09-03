@@ -1,7 +1,11 @@
 ---
-import Container from "@components/common/Container.svelte";
+import "@styles/global.css";
 
-import Sidebar from "@components/Sidebar/index.astro";
+import { PAGES } from "@_constants";
+
+import Branding from "@components/Sidebar/Branding.astro";
+import Footer from "@components/Sidebar/Footer.astro";
+import MenuItem from "@components/Sidebar/MenuItem.astro";
 
 interface Props {
   title: string;
@@ -17,18 +21,38 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <Container classes="my-16">
-      <div class="grid grid-cols-12 divide-x">
-        <aside class="col-span-3 flex flex-col gap-8 pr-6">
-          <Sidebar />
+    <div class="mx-auto max-w-screen-2xl px-6 py-16 md:px-8">
+      <div class="grid grid-cols-12 gap-12">
+        <aside class="col-span-3 hidden flex-col gap-6 md:flex">
+          <header>
+            <Branding />
+          </header>
+          <nav>
+            <ul class="space-y-2">
+              {
+                PAGES.map((item) => (
+                  <li class="block">
+                    <MenuItem
+                      icon={item.icon}
+                      text={item.text}
+                      route={item.route}
+                      active={item.active}
+                    />
+                  </li>
+                ))
+              }
+            </ul>
+          </nav>
+          <div class="h-48"></div>
+          <Footer />
         </aside>
-        <main class="col-span-6 px-6">
+        <main class="col-span-12 md:col-span-6">
           <slot />
         </main>
-        <aside class="col-span-3 pl-6">
+        <aside class="col-span-3 hidden md:block">
           <slot name="sidebar-left" />
         </aside>
       </div>
-    </Container>
+    </div>
   </body>
 </html>

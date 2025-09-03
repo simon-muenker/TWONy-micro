@@ -31,7 +31,23 @@
     {!outline && `bg-${color}-500 border-transparent text-white`}
     {outline && `bg-transparent border-${color}-400 text-${color}-500`}
   "
-  onclick={clickEvent}
+  onclick={(event) => clickEvent(event)}
 >
   {@render children()}
 </button>
+
+<style>
+  @reference "tailwindcss";
+  @source inline("text-blue-500");
+  @source inline("text-green-500");
+  @source inline("text-red-500");
+  @source inline("text-gray-500");
+  @source inline("border-blue-400");
+  @source inline("border-green-400");
+  @source inline("border-red-400");
+  @source inline("border-gray-400");
+  @source inline("bg-blue-500");
+  @source inline("bg-green-500");
+  @source inline("bg-red-500");
+  @source inline("bg-gray-500");
+</style>

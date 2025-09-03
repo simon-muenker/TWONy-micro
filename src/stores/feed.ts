@@ -28,20 +28,6 @@ export type Thread = {
   metrics: ItemMetrics;
 };
 
-// Utility
-function createPost(
-  persona: Persona,
-  message: string,
-  metrics: ItemMetrics,
-): ThreadItem {
-  return {
-    icon: persona.icon,
-    name: persona.name,
-    message: message,
-    metrics: metrics,
-  };
-}
-
 // Store Management
 export const feedStore = atom<Array<Thread>>([]);
 
@@ -132,9 +118,12 @@ export async function post(
 ): Promise<void> {
   const classifyResult = await classify(message);
 
-  addPost(
-    createPost(persona, message, calculateItemMetrics(classifyResult[0])),
-  );
+  addPost({
+    icon: persona.icon,
+    name: persona.name,
+    message: message,
+    metrics: calculateItemMetrics(classifyResult[0]),
+  });
 }
 
 export async function reply(
@@ -144,10 +133,12 @@ export async function reply(
 ): Promise<void> {
   const classifyResult = await classify(message);
 
-  addReply(
-    threadID,
-    createPost(persona, message, calculateItemMetrics(classifyResult[0])),
-  );
+  addReply(threadID, {
+    icon: persona.icon,
+    name: persona.name,
+    message: message,
+    metrics: calculateItemMetrics(classifyResult[0]),
+  });
 }
 
 // Agent Behavior

@@ -49,14 +49,18 @@
 <table class="mb-8 w-full table-auto text-xs text-slate-600">
   <tbody>
     <tr>
-      <td>Sentiment-based ranking</td>
-      <td>{$settingsRankingStore.sentimentBased ? "yes" : "no"}</td>
+      <td>Ranking Type</td>
+      <td
+        >{$settingsRankingStore.sentimentBased
+          ? "Sentiment-based"
+          : "Chronological"}</td
+      >
     </tr>
     {#if $settingsRankingStore.sentimentBased}
       <tr>
         <td>
           <Circle color="emerald" />
-          Positivivity Weighting
+          Positivity Weighting
         </td>
         <td>{($settingsRankingStore.positiveWeight * 0.01).toFixed(2)}</td>
       </tr>

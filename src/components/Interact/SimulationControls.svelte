@@ -9,8 +9,6 @@
   import { resetEvaluation } from "@stores/evaluation";
 
   import Button from "@components/common/Button.svelte";
-  import Divider from "@components/common/Divider.svelte";
-  import Spinner from "@components/common/Spinner.svelte";
   import InputSelect from "@components/common/InputSelect.svelte";
   import InputNumeric from "@components/common/InputNumeric.svelte";
 
@@ -46,16 +44,13 @@
       {running ? "Stop" : "Start"}
     </Button>
     <Button
-      color="gray"
+      color="red"
       size="small"
       outline
       clickEvent={() => resetSimulation()}
     >
       Reset
     </Button>
-  </div>
-  <div class="flex items-center justify-center">
-    <Spinner {running} />
   </div>
   <div class="grow"></div>
   <div>

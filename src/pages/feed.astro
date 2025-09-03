@@ -2,16 +2,32 @@
 import BaseLayout from "src/layouts/BaseLayout.astro";
 
 import Divider from "@components/common/Divider.svelte";
+import HeadingSection from "@components/common/typography/HeadingSection.svelte";
 
-import Interact from "@components/Interact/index.svelte";
+import PostMessage from "@components/Interact/PostMessage.svelte";
+import SimulationControls from "@components/Interact/SimulationControls.svelte";
+
 import FeedWrapper from "@components/Feed/index.svelte";
 import Evaluation from "@components/Evaluation/index.svelte";
 ---
 
 <BaseLayout title="TWONy-micro" client:load>
-  <Interact client:load />
+
+  <div class="rounded-xl bg-sky-50 px-3 py-3">
+    <PostMessage client:load />
+  </div>
+
   <Divider size="small" />
+
+  <div class="rounded-xl bg-gray-50 px-3 py-3">
+    <SimulationControls client:load />
+  </div>
+
+  <Divider />
+
+  <HeadingSection>News Feed</HeadingSection>
   <FeedWrapper client:load />
+
   <Evaluation client:load slot="sidebar-left" />
 </BaseLayout>
 

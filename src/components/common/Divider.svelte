@@ -2,7 +2,7 @@
   let {
     size = "base",
   }: {
-    size?: "small" | "base";
+    size?: "small" | "base" | "large";
   } = $props();
 </script>
 
@@ -10,7 +10,9 @@
   class="
     block
     border-b
-    {size == 'small' && 'my-4'}
-    {size == 'base' && 'my-12'}
+    border-transparent
+    {size == 'small' && 'my-3'}
+    {size == 'base' && 'my-6'}
+    {size == 'large' && 'my-12'}
   "
 ></div>

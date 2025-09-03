@@ -3,6 +3,7 @@ import ThreeColLayout from "src/layouts/BaseLayout.astro";
 
 import Divider from "@components/common/Divider.svelte";
 import HeadingPage from "@components/common/typography/HeadingPage.svelte";
+import HeadingSection from "@components/common/typography/HeadingSection.svelte";
 
 import AgentInstructions from "@components/Configure/AgentInstructions.svelte";
 import AgentPersonas from "@components/Configure/AgentPersonas.svelte";
@@ -10,7 +11,15 @@ import AgentPersonas from "@components/Configure/AgentPersonas.svelte";
 
 <ThreeColLayout title="TWONy-micro - Agents Settings">
   <HeadingPage>Agents Settings</HeadingPage>
+  todo: add page description
+
+  <HeadingSection>Customize Instructions</HeadingSection>
+  todo: add function description
   <AgentInstructions client:load />
+
   <Divider />
+
+  <HeadingSection>Customize Personas</HeadingSection>
+  todo: add function description
   <AgentPersonas client:load />
 </ThreeColLayout>

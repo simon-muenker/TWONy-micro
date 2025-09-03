@@ -14,7 +14,7 @@
   name={label}
   id={label}
   bind:value
-  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-xs text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+  class="block w-full rounded-lg border border-gray-500 bg-white p-2 text-xs text-gray-900 focus:border-sky-500 focus:ring-sky-500"
 >
   {#each options as option}
     <option value={option}>{option}</option>

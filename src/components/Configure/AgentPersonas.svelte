@@ -11,7 +11,6 @@
   } from "@stores/personas";
 
   import Button from "@components/common/Button.svelte";
-  import HeadingSection from "@components/common/typography/HeadingSection.svelte";
 
   import AgentPersonasEntry from "./AgentPersonasEntry.svelte";
 </script>
@@ -43,8 +42,6 @@
     },
   ];
 </script>
-
-<HeadingSection>Customize Personas</HeadingSection>
 
 <div class="mb-4 flex gap-4">
   <Button color="gray" size="small" clickEvent={() => {}}>

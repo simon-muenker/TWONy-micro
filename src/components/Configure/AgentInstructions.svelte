@@ -12,7 +12,6 @@
   } from "@stores/instructions";
 
   import Button from "@components/common/Button.svelte";
-  import HeadingSection from "@components/common/typography/HeadingSection.svelte";
 </script>
 
 <script lang="ts">
@@ -52,8 +51,6 @@
     }
   }
 </script>
-
-<HeadingSection>Customize Instructions</HeadingSection>
 
 <div class="mb-4 flex gap-4">
   <Button color="gray" size="small" clickEvent={() => {}}>

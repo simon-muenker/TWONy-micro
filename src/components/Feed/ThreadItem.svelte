@@ -23,9 +23,7 @@
     <div class="mt-2 flex gap-2 text-xs text-slate-500 select-none">
       <div>
         <Circle color="emerald" />
-        <span class=""
-          >positivivity: {_.round(metrics.classes.positive, 2)}</span
-        >
+        <span class="">positivity: {_.round(metrics.classes.positive, 2)}</span>
         <span class="px-0.5 last:hidden">·</span>
       </div>
       <div>
