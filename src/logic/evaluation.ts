@@ -2,7 +2,7 @@ import _ from "lodash";
 
 import { type ClassfiyResult, extractClassScore } from "@api/classify";
 
-import {settingsRankingStore} from "@stores/settings"
+import { settingsRankingStore } from "@stores/settings";
 
 export type ItemEvaluation = {
   score: number;
@@ -23,10 +23,11 @@ export function getItemEvaluation(
     },
   };
 
-  metrics.score = (
-    0.01 * settingsRankingStore.get().positiveWeight * metrics.classes.positive + 
-    0.01 * settingsRankingStore.get().negativeWeight * metrics.classes.negative
-  );
+  metrics.score =
+    0.01 *
+      settingsRankingStore.get().positiveWeight *
+      metrics.classes.positive +
+    0.01 * settingsRankingStore.get().negativeWeight * metrics.classes.negative;
 
   return metrics;
 }

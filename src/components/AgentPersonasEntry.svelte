@@ -68,14 +68,14 @@
 
   <span class="font-medium text-gray-900">
     <span
-      class="mr-2 cursor-pointer rounded-full bg-white py-2 px-3"
+      class="mr-2 cursor-pointer rounded-full bg-white px-3 py-2"
       contenteditable
       oninput={(event) => updateIcon(event)}
     >
       {persona.icon}
     </span>
     <span
-      class="cursor-pointer rounded-lg bg-white py-2 px-3"
+      class="cursor-pointer rounded-lg bg-white px-3 py-2"
       contenteditable
       oninput={(event) => updateName(event)}
     >

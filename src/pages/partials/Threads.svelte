@@ -5,13 +5,19 @@
     settingsSimulationStore,
     settingsRankingStore,
   } from "@/stores/settings";
-  import { feedStore, reverseFeedStore, rankedFeedStore, threadItemStore } from "@stores/feed";
+  import {
+    feedStore,
+    reverseFeedStore,
+    rankedFeedStore,
+    threadItemStore,
+  } from "@stores/feed";
 
   import ThreadItem from "@/components/SimulationThreadItem.svelte";
 </script>
 
-<span class="block text-xs mt-4 mb-4">
-  Currently {$feedStore.length} Threads and {$threadItemStore.length} Items totally in generated Feed. Content may be inaccurate or false.
+<span class="mt-4 mb-4 block text-xs">
+  Currently {$feedStore.length} Threads and {$threadItemStore.length} Items totally
+  in generated Feed. Content may be inaccurate or false.
 </span>
 
 {#if $settingsSimulationStore.running}
@@ -35,15 +41,19 @@
         class="mt-4 flex place-content-end items-center gap-4 text-xs text-slate-500"
       >
         <span>
-          <span class="circle green"></span>
-          positivity: {_.round(thread.metrics.classes.positive, 2)}
+          positivity <span class="circle green"></span>: {_.round(
+            thread.metrics.classes.positive,
+            2,
+          )}
         </span>
         <span class="">
-          <span class="circle red"></span>
-          negativity: {_.round(thread.metrics.classes.negative, 2)}
+          negativity <span class="circle red"></span>: {_.round(
+            thread.metrics.classes.negative,
+            2,
+          )}
         </span>
         <span class="font-bold">
-          thread ranking: {_.round(thread.metrics.score, 2)}
+          thread score: {_.round(thread.metrics.score, 2)}
         </span>
       </div>
     </article>

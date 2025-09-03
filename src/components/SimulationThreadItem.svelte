@@ -20,13 +20,21 @@
     <span>{message}</span>
     <div class="mt-2 flex gap-2 text-xs text-slate-500 select-none">
       <div>
-        <span class="circle green"></span>
-        <span class="">positivity: {_.round(metrics.classes.positive, 2)}</span>
+        <span class=""
+          >positivity <span class="circle green"></span>: {_.round(
+            metrics.classes.positive,
+            2,
+          )}</span
+        >
         <span class="px-0.5 last:hidden">·</span>
       </div>
       <div>
-        <span class="circle red"></span>
-        <span class="">negativity: {_.round(metrics.classes.negative, 2)}</span>
+        <span class=""
+          >negativity <span class="circle red"></span>: {_.round(
+            metrics.classes.negative,
+            2,
+          )}</span
+        >
         <span class="px-0.5 last:hidden">·</span>
       </div>
     </div>

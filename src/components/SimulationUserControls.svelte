@@ -1,4 +1,6 @@
 <script module>
+  import Icon from "@iconify/svelte";
+
   import { MODELS } from "@/_constants";
 
   import {
@@ -31,12 +33,17 @@
   <div>
     <div class="caption">Simulation Control</div>
     <button
-      class="button small {running ? 'red' : 'green'}"
+      class="button small {running ? 'red' : 'green'} mr-1"
       onclick={() => (running = !running)}
     >
+      <Icon
+        icon={running ? "mdi:stop" : "mdi:play"}
+        class="mr-1 -ml-1 h-4 w-4"
+      />
       {running ? "Stop" : "Start"}
     </button>
     <button class="button small red outline" onclick={() => resetSimulation()}>
+      <Icon icon="mdi:circle-arrows" class="mr-1 -ml-1 h-4 w-4" />
       Reset
     </button>
   </div>

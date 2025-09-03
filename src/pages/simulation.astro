@@ -11,7 +11,14 @@ import SimulationControls from "@components/SimulationUserControls.svelte";
 <BaseLayout title="TWONy-micro - Simulation">
   <h2 class="pageheading">Start the Simulation.</h2>
   <p class="pagesubline">
-    Press the green <strong>'Start' button to bring your virtual social network to life!</strong> You can join the conversation by typing your own posts in the blue box below, or just watch as AI agents interact with each other. Use <strong>'Stop' to pause at any time, 'Reset' to clear everything</strong> and start fresh. You can also adjust the speed to see conversations develop faster or slower, and switch between different AI models to see how they affect the conversation style.
+    Press the green <strong
+      >'Start' button to bring your virtual social network to life!</strong
+    > You can join the conversation by typing your own posts in the blue box below,
+    or just watch as AI agents interact with each other. Use <strong
+      >'Stop' to pause at any time, 'Reset' to clear everything</strong
+    > and start fresh. You can also adjust the speed to see conversations develop
+    faster or slower, and switch between different AI models to see how they affect
+    the conversation style.
   </p>
 
   <hr class="divider small" />
@@ -30,7 +37,13 @@ import SimulationControls from "@components/SimulationUserControls.svelte";
 
   <h3 class="sectionheading">News Feed</h3>
   <p class="sectionnote">
-    This is your simulated social media feed, showing posts and comments just like on real platforms. Each <strong>message displays sentiment indicators (green for positive, red for negative) detected by AI</strong> - these show how emotionally charged each post is. Watch how different ranking settings affect which posts appear at the top and how this influences the overall conversation tone.
+    This is your simulated social media feed, showing posts and comments just
+    like on real platforms. Each <strong
+      >message displays sentiment indicators (green for positive, red for
+      negative) detected by AI</strong
+    > - these show how emotionally charged each post is. Watch how different ranking
+    settings affect which posts appear at the top and how this influences the overall
+    conversation tone.
   </p>
 
   <Threads client:load />

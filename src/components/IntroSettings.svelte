@@ -25,5 +25,10 @@
       </a>
     </div>
   </label>
-  <input id="api_token" type="text" bind:value={apiKey} class="inputbase base" />
+  <input
+    id="api_token"
+    type="text"
+    bind:value={apiKey}
+    class="inputbase base"
+  />
 </div>

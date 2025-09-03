@@ -13,7 +13,7 @@
 }
 
 .button.outline {
-  @apply border-slate-600 text-slate-600 bg-slate-50;
+  @apply border-slate-600 bg-slate-50 text-slate-600;
 }
 
 .button.red {
@@ -29,13 +29,13 @@
 }
 
 .button.outline.red {
-  @apply text-rose-600 bg-rose-50;
+  @apply bg-rose-50 text-rose-600;
 }
 
 .button.outline.green {
-  @apply text-emerald-600 bg-emerald-50;
+  @apply bg-emerald-50 text-emerald-600;
 }
 
 .button.outline.blue {
-  @apply text-sky-600 bg-sky-50;
+  @apply bg-sky-50 text-sky-600;
 }

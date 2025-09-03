@@ -52,8 +52,9 @@
 
 <div class="flex flex-col gap-4">
   <div class="box">
-    <div class="flex gap-4 items-center">
-      <span class="grow text-sm font-medium text-gray-900">Batch Controls:</span>
+    <div class="flex items-center gap-4">
+      <span class="grow text-sm font-medium text-gray-900">Batch Controls:</span
+      >
       <button class="button small">
         <label
           for="instruction-upload"
@@ -90,7 +91,9 @@
 
   {#each Object.entries($instructionsStore) as [key, instruction], index (index)}
     <div class="box blue">
-      <h3 class="text-sm font-medium text-gray-900 mb-1.5">Adapt {key} instruction</h3>
+      <h3 class="mb-1.5 text-sm font-medium text-gray-900">
+        Adapt {key} instruction
+      </h3>
       <textarea
         name={key}
         id={key}
