@@ -12,8 +12,8 @@ export const PAGES: Array<{
   },
   {
     icon: "mdi:message-text-fast",
-    text: "News Feed",
-    route: "/TWONy-micro/feed",
+    text: "Simulation",
+    route: "/TWONy-micro/simulation",
     active: true,
   },
   {

@@ -11,13 +11,7 @@
   import { personaAgentsStore } from "@stores/personas";
   import { networkMetricsStore, userMetricsStore } from "@stores/evaluation";
 
-  import Divider from "@components/common/Divider.svelte";
-  import Button from "@components/common/Button.svelte";
-  import Chart from "@components/common/Chart.svelte";
-
-  import Circle from "@components/common/typography/Circle.svelte";
-  import HeadingSection from "@components/common/typography/HeadingSection.svelte";
-  import ParagraphSection from "@components/common/typography/ParagraphSection.svelte";
+  import Chart from "@components/atoms/Chart.svelte";
 </script>
 
 <script lang="ts">
@@ -35,26 +29,23 @@
   }
 </script>
 
-<HeadingSection>Network Evaluation</HeadingSection>
-<ParagraphSection>
-  TODO: shortly explain the network level evaluation
-</ParagraphSection>
+<h3 class="sectionheading">Network Evaluation</h3>
+<p class="sectionsubline">TODO: shortly explain the network level evaluation</p>
 <div class="rounded-xl bg-gray-50 p-3 px-3">
   <Chart config={$networkMetricsStore} height={250} />
 </div>
-<Divider />
 
-<HeadingSection>User Evaluation</HeadingSection>
-<ParagraphSection>
-  TODO: shortly explain the user level evaluation
-</ParagraphSection>
+<hr class="divider" />
+
+<h3 class="sectionheading">User Evaluation</h3>
+<p class="sectionsubline">TODO: shortly explain the user level evaluation</p>
 <div class="rounded-xl bg-gray-50 p-3 px-3">
   <Chart config={$userMetricsStore} height={300} />
 </div>
 
-<Divider />
+<hr class="divider" />
 
-<HeadingSection>Settings</HeadingSection>
+<h3 class="sectionheading">Settings</h3>
 
 <table class="mb-8 w-full table-auto text-xs text-slate-600">
   <tbody>
@@ -70,14 +61,14 @@
       <tr>
         <td>
           Positivity Weight
-          <Circle color="emerald" />
+          <span class="circle green"></span>
         </td>
         <td>{($settingsRankingStore.positiveWeight * 0.01).toFixed(2)}</td>
       </tr>
       <tr>
         <td>
           Negativity Weight
-          <Circle color="rose" />
+          <span class="circle red"></span>
         </td>
         <td>{($settingsRankingStore.negativeWeight * 0.01).toFixed(2)}</td>
       </tr>
@@ -86,12 +77,7 @@
 </table>
 
 <div class="flex justify-center">
-  <Button
-    color="gray"
-    size="small"
-    outline
-    clickEvent={downloadApplicationState}
-  >
+  <button class="button small outline" onclick={() => downloadApplicationState}>
     Download Application State
-  </Button>
+  </button>
 </div>

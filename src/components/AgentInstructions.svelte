@@ -10,8 +10,6 @@
     instructionsStore,
     resetInstructions,
   } from "@stores/instructions";
-
-  import Button from "@components/common/Button.svelte";
 </script>
 
 <script lang="ts">
@@ -53,9 +51,9 @@
 </script>
 
 <div class="flex flex-col gap-4">
-  <div class="rounded-xl bg-gray-50 px-3 py-3">
+  <div class="box">
     <div class="flex gap-4">
-      <Button color="gray" size="small" clickEvent={() => {}}>
+      <button class="gray small">
         <label
           for="instruction-upload"
           class="flex cursor-pointer items-center"
@@ -75,28 +73,27 @@
             }}
           />
         </label>
-      </Button>
+      </button>
 
       {#each actions as action}
-        <Button
-          color={action.color}
-          size="small"
-          clickEvent={action.clickEvent}
+        <button
+          class="button small {action.color}"
+          onclick={() => action.clickEvent()}
         >
           <Icon icon={action.icon} class="mr-1 inline-block h-5 w-5" />
           {action.label}
-        </Button>
+        </button>
       {/each}
     </div>
   </div>
 
   {#each Object.entries($instructionsStore) as [key, instruction], index (index)}
-    <div class="rounded-xl bg-sky-50 px-3 py-3">
+    <div class="box blue">
       <h3 class="text-bold mb-1 text-xl">Adapt {key} instruction</h3>
       <textarea
         name={key}
         id={key}
-        class="w-full grow resize-none rounded-lg border-0 bg-white p-2 text-sm text-slate-700 focus:outline-0"
+        class="textarea"
         rows="8"
         value={instruction.content}
         onchange={(event) =>

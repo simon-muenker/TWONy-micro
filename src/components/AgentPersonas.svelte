@@ -10,8 +10,6 @@
     resetPersonas,
   } from "@stores/personas";
 
-  import Button from "@components/common/Button.svelte";
-
   import AgentPersonasEntry from "./AgentPersonasEntry.svelte";
 </script>
 
@@ -44,9 +42,9 @@
 </script>
 
 <div class="flex flex-col gap-4">
-  <div class="rounded-xl bg-gray-50 px-3 py-3">
+  <div class="box">
     <div class="flex gap-4">
-      <Button color="gray" size="small" clickEvent={() => {}}>
+      <button class="button gray small">
         <label for="personas-upload" class="flex cursor-pointer items-center">
           <Icon
             icon="mdi:file-upload-outline"
@@ -65,23 +63,22 @@
             }}
           />
         </label>
-      </Button>
+      </button>
 
       {#each actions as action}
-        <Button
-          color={action.color}
-          size="small"
-          clickEvent={action.clickEvent}
+        <button
+          class="button small {action.color}"
+          onclick={() => action.clickEvent()}
         >
           <Icon icon={action.icon} class="mr-1 inline-block h-5 w-5" />
           {action.label}
-        </Button>
+        </button>
       {/each}
     </div>
   </div>
 
   {#each Object.entries($personaAgentsStore) as [key, agent], index (index)}
-    <div class="rounded-xl bg-sky-50 px-3 py-3">
+    <div class="box blue">
       <AgentPersonasEntry key={parseInt(key)} persona={agent} />
     </div>
   {/each}

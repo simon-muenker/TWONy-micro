@@ -2,7 +2,9 @@ import _ from "lodash";
 
 import { settingsAgentStore, settingsSimulationStore } from "@/stores/settings";
 import { getRandomActivePersona, type Persona } from "@stores/personas";
-import { feedStore, agentPost, agentReply } from "@stores/feed";
+import { feedStore } from "@stores/feed";
+
+import { agentPost, agentReply } from "@logic/agent";
 
 function choosePostParameters(): Persona {
   const lastPost = feedStore.get()[0]?.post;

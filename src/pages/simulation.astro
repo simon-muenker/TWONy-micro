@@ -1,0 +1,45 @@
+---
+import BaseLayout from "src/layouts/BaseLayout.astro";
+
+import Threads from "@pages/partials/Threads.svelte";
+import Evaluation from "@pages/partials/Evaluation.svelte";
+
+import SimulationUserPost from "@components/SimulationUserPost.svelte";
+import SimulationControls from "@components/SimulationUserControls.svelte";
+---
+
+<BaseLayout title="TWONy-micro - Simulation">
+  <h2 class="pageheading">Start the Simulation.</h2>
+  <p class="pagesubline">
+    TODO: how to start and use the simulation, post, pause, change language
+    models and speed
+  </p>
+
+  <hr class="divider small" />
+
+  <div class="box blue">
+    <SimulationUserPost client:load />
+  </div>
+
+  <hr class="divider small" />
+
+  <div class="box green">
+    <SimulationControls client:load />
+  </div>
+
+  <hr class="divider" />
+
+  <h3 class="sectionheading">News Feed</h3>
+  <p class="sectionsubline">
+    TODO: explain wthat the feed show (post, commtents), and evaluation
+    classified
+  </p>
+
+  <Threads client:load />
+
+  <Evaluation client:load slot="sidebar-left" />
+</BaseLayout>
+
+<script>
+  import "@logic/simulation";
+</script>

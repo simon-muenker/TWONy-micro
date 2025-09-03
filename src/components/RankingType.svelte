@@ -1,7 +1,7 @@
 <script module>
   import { settingsRankingStore } from "@/stores/settings";
 
-  import InputCheckbox from "@components/common/InputCheckbox.svelte";
+  import InputPill from "@components/atoms/InputPill.svelte";
 </script>
 
 <script lang="ts">
@@ -14,10 +14,10 @@
   });
 </script>
 
-<div class="rounded-xl bg-sky-50 px-3 py-3">
+<div class="box blue">
   <label class="inline-flex cursor-pointer items-center">
     <span class="mr-3 text-sm font-medium text-gray-900">Chronological</span>
-    <InputCheckbox bind:value={sentimentBased} />
+    <InputPill bind:value={sentimentBased} />
     <span class="ms-3 text-sm font-medium text-gray-900">
       Sentiment-based (weights are multiplied with the sentiments)
     </span>

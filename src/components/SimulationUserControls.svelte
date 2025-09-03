@@ -7,12 +7,6 @@
   } from "@/stores/settings";
   import { clearFeed } from "@stores/feed";
   import { resetEvaluation } from "@stores/evaluation";
-
-  import Button from "@components/common/Button.svelte";
-  import InputSelect from "@components/common/InputSelect.svelte";
-  import InputNumeric from "@components/common/InputNumeric.svelte";
-
-  import Caption from "@components/common/typography/Caption.svelte";
 </script>
 
 <script lang="ts">
@@ -35,30 +29,34 @@
 
 <div class="flex justify-between gap-6">
   <div>
-    <Caption>Simulation Control</Caption>
-    <Button
-      color={running ? "red" : "green"}
-      size="small"
-      clickEvent={() => (running = !running)}
+    <div class="caption">Simulation Control</div>
+    <button
+      class="button small {running ? 'red' : 'green'}"
+      onclick={() => (running = !running)}
     >
       {running ? "Stop" : "Start"}
-    </Button>
-    <Button
-      color="red"
-      size="small"
-      outline
-      clickEvent={() => resetSimulation()}
-    >
+    </button>
+    <button class="button small red outline" onclick={() => resetSimulation()}>
       Reset
-    </Button>
+    </button>
   </div>
   <div class="grow"></div>
   <div>
-    <Caption>Language Model</Caption>
-    <InputSelect label="model" options={[...MODELS]} bind:value={model} />
+    <div class="caption">Language Model</div>
+    <select name="model" id="model" bind:value={model} class="inputbase">
+      {#each MODELS as option}
+        <option value={option}>{option}</option>
+      {/each}
+    </select>
   </div>
   <div>
-    <Caption>Speed (ms)</Caption>
-    <InputNumeric min="100" max="4000" bind:value={tickTime} />
+    <div class="caption">Speed (ms)</div>
+    <input
+      type="number"
+      class="inputbase"
+      bind:value={tickTime}
+      min="100"
+      max="4000"
+    />
   </div>
 </div>

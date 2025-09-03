@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+.pageheading {
+  @apply mb-2 text-2xl md:text-4xl;
+}
+
+.pagesubline {
+  @apply mb-4 leading-8 md:text-lg;
+}
+
+.sectionheading {
+  @apply mb-2 text-xl md:text-2xl;
+}
+
+.sectionsubline {
+  @apply mb-4 leading-6 text-slate-900;
+}
+
+.caption {
+  @apply mb-1 block text-xs text-slate-500;
+}
+
+.divider {
+  @apply block h-12 border-transparent;
+}
+
+.divider.small {
+  @apply block h-6 border-transparent;
+}
+
+.divider.large {
+  @apply block h-24 border-transparent;
+}

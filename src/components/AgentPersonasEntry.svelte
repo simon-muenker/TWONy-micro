@@ -9,9 +9,6 @@
     removePersona,
     type Persona,
   } from "@stores/personas";
-
-  import Button from "@components/common/Button.svelte";
-  import InputCheckbox from "@components/common/InputCheckbox.svelte";
 </script>
 
 <script lang="ts">
@@ -88,12 +85,10 @@
 
   <div class="grow"></div>
 
-  <!-- <InputCheckbox bind:value={isActive} /> -->
-
-  <Button color="red" size="small" clickEvent={() => removePersona(persona)}>
+  <button class="button small red" onclick={() => removePersona(persona)}>
     <Icon icon="mdi:delete-outline" class="mr-1 inline-block h-5 w-5" />
     delete
-  </Button>
+  </button>
 </div>
 
 {#if !collapsed}
@@ -101,7 +96,7 @@
     transition:slide
     name={key.toString()}
     id={key.toString()}
-    class="mt-4 w-full grow resize-none rounded-lg border-0 bg-white p-2 text-sm text-slate-700 focus:outline-0"
+    class="textarea mt-4"
     value={persona.instruction}
     rows="32"
     onchange={(event) => updateInstruction(event)}

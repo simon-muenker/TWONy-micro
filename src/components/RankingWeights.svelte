@@ -1,7 +1,7 @@
 <script module>
   import { settingsRankingStore } from "@/stores/settings";
 
-  import InputSlider from "@components/common/InputSlider.svelte";
+  import InputSlider from "@components/atoms/InputSlider.svelte";
 </script>
 
 <script lang="ts">
@@ -18,7 +18,7 @@
   });
 </script>
 
-<div class="rounded-xl bg-sky-50 px-3 py-3">
+<div class="box blue">
   <table class="w-full table-auto">
     <tbody>
       <tr>

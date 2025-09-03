@@ -1,41 +1,35 @@
 ---
 import BaseLayout from "src/layouts/BaseLayout.astro";
 
-import RankingType from "@components/Configure/RankingType.svelte";
-import RankingWeighting from "@components/Configure/RankingWeighting.svelte";
-
-import Divider from "@components/common/Divider.svelte";
-import HeadingPage from "@components/common/typography/HeadingPage.svelte";
-import HeadingSection from "@components/common/typography/HeadingSection.svelte";
-import ParagraphPage from "@components/common/typography/ParagraphPage.svelte";
-import ParagraphSection from "@components/common/typography/ParagraphSection.svelte";
+import RankingType from "@components/RankingType.svelte";
+import RankingWeights from "@components/RankingWeights.svelte";
 ---
 
 <BaseLayout title="TWONy-micro - Ranker Settings">
-  <HeadingPage>Ranker Settings</HeadingPage>
-  <ParagraphPage>
+  <h2 class="pageheading">Ranker Settings</h2>
+  <p class="pagesubline">
     Control how posts are ordered in your feed. Just like real social media
     platforms use algorithms to decide what you see first, this page lets you
     experiment with different ranking methods to understand their impact on the
     conversation's visibility and tone.
-  </ParagraphPage>
+  </p>
 
-  <Divider />
+  <hr class="divider" />
 
-  <HeadingSection>Ranker Type</HeadingSection>
-  <ParagraphSection>
+  <h3 class="sectionheading">Ranker Type</h3>
+  <p class="sectionsubline">
     Choose between showing posts in the order they were created (chronological)
     or prioritizing posts based on their emotional intensity (sentiment-based).
     Sentiment-based ranking pushes posts with stronger emotions - whether
     positive or negative - to the top of your feed, similar to how
     engagement-driven algorithms work on real platforms.
-  </ParagraphSection>
+  </p>
   <RankingType client:load />
 
-  <Divider />
+  <hr class="divider" />
 
-  <HeadingSection>Sentiment Weighting</HeadingSection>
-  <ParagraphSection>
+  <h3 class="sectionheading">Sentiment Weighting</h3>
+  <p class="sectionsubline">
     Fine-tune how much positive and negative emotions influence post visibility
     when using sentiment-based ranking. Moving the sliders changes whether
     cheerful, supportive posts or critical, angry posts get more prominence in
@@ -43,6 +37,6 @@ import ParagraphSection from "@components/common/typography/ParagraphSection.sve
     differently to see how favoring one type of emotion changes the
     conversation's overall tone. This mirrors how real platforms might optimize
     for different types of engagement.
-  </ParagraphSection>
-  <RankingWeighting client:load />
+  </p>
+  <RankingWeights client:load />
 </BaseLayout>

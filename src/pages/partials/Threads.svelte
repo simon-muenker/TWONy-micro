@@ -7,9 +7,7 @@
   } from "@/stores/settings";
   import { reverseFeedStore, rankedFeedStore } from "@stores/feed";
 
-  import Circle from "@components/common/typography/Circle.svelte";
-
-  import ThreadItem from "./ThreadItem.svelte";
+  import ThreadItem from "@/components/SimulationThreadItem.svelte";
 </script>
 
 {#if $settingsSimulationStore.running}
@@ -20,7 +18,7 @@
 
 <div class="grid grid-cols-1 gap-4">
   {#each $settingsRankingStore.sentimentBased ? $rankedFeedStore : $reverseFeedStore as thread, index (index)}
-    <article class="rounded-xl bg-gray-50 p-3 px-3">
+    <article class="box">
       <ThreadItem {...thread.post} />
       {#if thread.replies}
         <section class="ml-4 border-l-4 border-gray-200 pt-4 pl-4 [&>*]:py-2">
@@ -33,11 +31,11 @@
         class="mt-4 flex place-content-end items-center gap-4 text-xs text-slate-500"
       >
         <span>
-          <Circle color="emerald" />
+          <span class="circle green"></span>
           positivity: {_.round(thread.metrics.classes.positive, 2)}
         </span>
         <span class="">
-          <Circle color="rose" />
+          <span class="circle red"></span>
           negativity: {_.round(thread.metrics.classes.negative, 2)}
         </span>
         <span class="font-bold">

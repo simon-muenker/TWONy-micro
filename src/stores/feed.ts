@@ -3,29 +3,26 @@ import { logger } from "@nanostores/logger";
 import { atom, computed } from "nanostores";
 
 import {
-  type ItemMetrics,
-  calculateItemMetrics,
-  aggregateItemMetrics,
-} from "@simulation";
-import { chat } from "@api/chat";
+  type ItemEvaluation,
+  getItemEvaluation,
+  aggItemsEvaluation,
+} from "@logic/evaluation";
 import { classify } from "@api/classify";
 
-import { settingsAgentStore } from "@stores/settings";
 import { personaUserStore, type Persona } from "@stores/personas";
-import { createChat } from "@stores/instructions";
 
 // Type Definitions
 export type ThreadItem = {
   icon: string;
   name: string;
   message: string;
-  metrics: ItemMetrics;
+  metrics: ItemEvaluation;
 };
 
 export type Thread = {
   post: ThreadItem;
   replies?: Array<ThreadItem>;
-  metrics: ItemMetrics;
+  metrics: ItemEvaluation;
 };
 
 // Store Management
@@ -65,22 +62,6 @@ export const threadItemsByNameStore = computed(
   },
 );
 
-export const threadItemAvgMetricsStore = computed(
-  threadItemStore,
-  (items: Array<ThreadItem>): ItemMetrics => {
-    return aggregateItemMetrics(items.map((item) => item.metrics));
-  },
-);
-
-export const nameAvgMetricsStore = computed(
-  threadItemsByNameStore,
-  (records: Record<string, Array<ThreadItem>>): Record<string, ItemMetrics> => {
-    return _.mapValues(records, (items: Array<ThreadItem>): ItemMetrics => {
-      return aggregateItemMetrics(items.map((item) => item.metrics));
-    });
-  },
-);
-
 // Modifiers
 export function clearFeed(): void {
   feedStore.set([]);
@@ -111,7 +92,6 @@ export function addReply(threadID: number, item: ThreadItem): void {
   feedStore.set([...feed]);
 }
 
-// User Behavior
 export async function post(
   message: string,
   persona: Persona = personaUserStore.get()[0],
@@ -122,7 +102,7 @@ export async function post(
     icon: persona.icon,
     name: persona.name,
     message: message,
-    metrics: calculateItemMetrics(classifyResult[0]),
+    metrics: getItemEvaluation(classifyResult[0]),
   });
 }
 
@@ -137,36 +117,14 @@ export async function reply(
     icon: persona.icon,
     name: persona.name,
     message: message,
-    metrics: calculateItemMetrics(classifyResult[0]),
+    metrics: getItemEvaluation(classifyResult[0]),
   });
-}
-
-// Agent Behavior
-export async function agentPost(persona: Persona): Promise<void> {
-  const chatResult = await chat(
-    settingsAgentStore.get().model,
-    createChat(persona, "post", " "),
-  );
-
-  post(chatResult.choices[0].message.content, persona);
-}
-
-export async function agentReply(
-  threadID: number,
-  persona: Persona,
-): Promise<void> {
-  const chatResult = await chat(
-    settingsAgentStore.get().model,
-    createChat(persona, "reply", feedStore.get()[threadID].post.message),
-  );
-
-  reply(threadID, chatResult.choices[0].message.content, persona);
 }
 
 // Util
 export function updateThreadMetrics(thread: Thread): void {
-  let metrices: Array<ItemMetrics> = [thread.post.metrics];
+  let metrices: Array<ItemEvaluation> = [thread.post.metrics];
   if (thread.replies != null)
     metrices = metrices.concat(thread.replies.map((item) => item.metrics));
-  thread.metrics = aggregateItemMetrics(metrices);
+  thread.metrics = aggItemsEvaluation(metrices);
 }

@@ -8,6 +8,7 @@
       "@common/*": ["src/common/*"],
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
+      "@logic/*": ["src/logic/*"],
       "@pages/*": ["src/pages/*"],
       "@presets/*": ["src/presets/*"],
       "@stores/*": ["src/stores/*"]

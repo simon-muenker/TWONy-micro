@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+.button {
+  @apply inline-flex cursor-pointer items-center rounded-full border-1 border-transparent bg-slate-500 font-bold text-white transition-opacity hover:opacity-60;
+}
+
+.button.base {
+  @apply px-3 py-1.5 text-base;
+}
+
+.button.small {
+  @apply px-3 py-1 text-xs;
+}
+
+.button.outline {
+  @apply border-slate-500 bg-transparent text-slate-500;
+}
+
+.button.red {
+  @apply border-rose-500 bg-rose-500;
+}
+
+.button.green {
+  @apply border-emerald-500 bg-emerald-500;
+}
+
+.button.blue {
+  @apply border-sky-500 bg-sky-500;
+}
+
+.button.outline.red {
+  @apply bg-transparent text-red-500;
+}
+
+.button.outline.green {
+  @apply bg-transparent text-emerald-500;
+}
+
+.button.outline.blue {
+  @apply bg-transparent text-sky-500;
+}

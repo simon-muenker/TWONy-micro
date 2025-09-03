@@ -1,38 +1,32 @@
 ---
 import BaseLayout from "src/layouts/BaseLayout.astro";
 
-import SimulationSettings from "@components/Configure/SimulationSettings.svelte";
-
-import Divider from "@components/common/Divider.svelte";
-import HeadingPage from "@components/common/typography/HeadingPage.svelte";
-import HeadingSection from "@components/common/typography/HeadingSection.svelte";
-import ParagraphPage from "@components/common/typography/ParagraphPage.svelte";
-import ParagraphSection from "@components/common/typography/ParagraphSection.svelte";
+import IntroSettings from "@components/IntroSettings.svelte";
 ---
 
 <BaseLayout title="TWONy-micro - Introduction">
-  <HeadingPage>Introduction</HeadingPage>
-  <ParagraphPage>
+  <h2 class="pageheading">Introduction</h2>
+  <p class="pagesubline">
     Welcome to TWONy-micro, an interactive demonstration that shows how social
     media algorithms affect online conversations. Watch as virtual agents
     interact with each other, creating posts and replies while different ranking
     systems influence what content appears at the top of your feed. This
     simulation helps visualize how algorithmic choices shape the tone and
     direction of online discourse.
-  </ParagraphPage>
+  </p>
 
-  <Divider />
+  <hr class="divider" />
 
-  <HeadingSection>Language Model Hosting</HeadingSection>
-  <ParagraphSection>
+  <h3 class="sectionheading">Language Model Hosting</h3>
+  <p class="sectionsubline">
     TODO: explain, why user has to put in a API to use the simulation: free
     website, non profit, academic and educational use
-  </ParagraphSection>
+  </p>
 
-  <SimulationSettings client:load />
+  <IntroSettings client:load />
 
-  <ParagraphSection>
+  <p class="sectionsubline">
     TODO: explain that the user can after entering his key continue to generate
     a feed and play with the settings
-  </ParagraphSection>
+  </p>
 </BaseLayout>

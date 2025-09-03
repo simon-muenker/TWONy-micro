@@ -2,8 +2,6 @@
   import Icon from "@iconify/svelte";
 
   import { settingsSimulationStore } from "@stores/settings";
-
-  import Caption from "@components/common/typography/Caption.svelte";
 </script>
 
 <script lang="ts">
@@ -14,9 +12,9 @@
   });
 </script>
 
-<div class="rounded-xl bg-sky-50 px-3 py-3">
+<div class="box blue">
   <label for="api_token">
-    <Caption>
+    <div class="caption">
       <Icon icon="mdi:key" class="mr-0.5 inline-block h-4 w-4" />
       Hugging Face API Key
       <a
@@ -25,12 +23,7 @@
       >
         <span class="text-blue-800 opacity-80">(More Information)</span>
       </a>
-    </Caption>
+    </div>
   </label>
-  <input
-    id="api_token"
-    type="text"
-    bind:value={apiKey}
-    class="mb-4 block w-full w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-  />
+  <input id="api_token" type="text" bind:value={apiKey} class="textinput" />
 </div>

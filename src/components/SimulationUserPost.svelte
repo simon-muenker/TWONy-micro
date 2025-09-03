@@ -1,9 +1,6 @@
 <script module>
   import { post } from "@stores/feed";
   import { personaUserStore } from "@stores/personas";
-
-  import Button from "@components/common/Button.svelte";
-  import Caption from "@components/common/typography/Caption.svelte";
 </script>
 
 <script lang="ts">
@@ -30,7 +27,7 @@
     ></textarea>
   </div>
   <div class="flex place-content-between items-center gap-2">
-    <Caption>Generated content may be inaccurate or false.</Caption>
-    <Button clickEvent={sendPost}>Post</Button>
+    <span class="caption">Generated content may be inaccurate or false.</span>
+    <button class="button base blue" onclick={() => sendPost()}>Post</button>
   </div>
 </div>

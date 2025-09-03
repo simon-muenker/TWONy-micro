@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+.box {
+  @apply rounded-xl bg-slate-50 px-3 py-3;
+}
+
+.box.blue {
+  @apply bg-sky-50;
+}
+
+.box.green {
+  @apply bg-emerald-50;
+}

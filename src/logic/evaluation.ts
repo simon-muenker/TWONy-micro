@@ -2,7 +2,7 @@ import _ from "lodash";
 
 import { type ClassfiyResult, extractClassScore } from "@api/classify";
 
-export type ItemMetrics = {
+export type ItemEvaluation = {
   score: number;
   classes: {
     positive: number;
@@ -10,10 +10,10 @@ export type ItemMetrics = {
   };
 };
 
-export function calculateItemMetrics(
+export function getItemEvaluation(
   classes: Array<ClassfiyResult>,
-): ItemMetrics {
-  let metrics: ItemMetrics = {
+): ItemEvaluation {
+  let metrics: ItemEvaluation = {
     score: 0.0,
     classes: {
       positive: extractClassScore("positive", classes),
@@ -26,12 +26,10 @@ export function calculateItemMetrics(
   return metrics;
 }
 
-export function aggregateItemMetrics(
-  metrices: Array<ItemMetrics>,
-): ItemMetrics {
+export function aggItemsEvaluation(
+  metrices: Array<ItemEvaluation>,
+): ItemEvaluation {
   if (metrices.length === 1) return metrices[0];
-
-  console.debug(metrices);
   return {
     score: _.meanBy(metrices, "score"),
     classes: {

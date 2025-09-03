@@ -3,8 +3,6 @@
   import { fade } from "svelte/transition";
 
   import { type ThreadItem } from "@stores/feed";
-
-  import Circle from "@components/common/typography/Circle.svelte";
 </script>
 
 <script lang="ts">
@@ -22,12 +20,12 @@
     <span>{message}</span>
     <div class="mt-2 flex gap-2 text-xs text-slate-500 select-none">
       <div>
-        <Circle color="emerald" />
+        <span class="circle green"></span>
         <span class="">positivity: {_.round(metrics.classes.positive, 2)}</span>
         <span class="px-0.5 last:hidden">·</span>
       </div>
       <div>
-        <Circle color="rose" />
+        <span class="circle red"></span>
         <span class="">negativity: {_.round(metrics.classes.negative, 2)}</span>
         <span class="px-0.5 last:hidden">·</span>
       </div>
