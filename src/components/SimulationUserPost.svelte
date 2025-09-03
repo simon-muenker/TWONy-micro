@@ -25,9 +25,8 @@
       placeholder="What is happening?!"
       bind:value={message}
     ></textarea>
-  </div>
-  <div class="flex place-content-between items-center gap-2">
-    <span class="caption">Generated content may be inaccurate or false.</span>
-    <button class="button base blue" onclick={() => sendPost()}>Post</button>
+    <div class="self-end">
+      <button class="button base blue" onclick={() => sendPost()}>Post</button>
+    </div>
   </div>
 </div>

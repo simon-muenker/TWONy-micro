@@ -11,7 +11,7 @@
 </script>
 
 <span class="block text-xs mt-4 mb-4">
-  Currently {$feedStore.length} Threads and {$threadItemStore.length} Items totally in generated Feed.
+  Currently {$feedStore.length} Threads and {$threadItemStore.length} Items totally in generated Feed. Content may be inaccurate or false.
 </span>
 
 {#if $settingsSimulationStore.running}
