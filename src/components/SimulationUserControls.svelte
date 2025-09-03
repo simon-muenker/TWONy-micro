@@ -29,27 +29,29 @@
   }
 </script>
 
-<div class="flex justify-between gap-6">
-  <div>
-    <div class="caption">Simulation Control</div>
+<div class="flex justify-between gap-6 items-center">
+  <div class="">
     <button
-      class="button small {running ? 'red animate-pulse' : 'green'} mr-1"
+      class="button base {running ? 'red animate-pulse' : 'green'} mr-1"
       onclick={() => (running = !running)}
     >
       <Icon
         icon={running ? "mdi:stop" : "mdi:play"}
-        class="mr-1 -ml-1 h-4 w-4"
+        class="mr-1 -ml-1 h-5 w-5"
       />
       {running ? "Stop" : "Start"}
     </button>
-    <button class="button small red outline" onclick={() => resetSimulation()}>
-      <Icon icon="mdi:circle-arrows" class="mr-1 -ml-1 h-4 w-4 hover:animate-spin" />
+    <button class="button base red outline" onclick={() => resetSimulation()}>
+      <Icon icon="mdi:circle-arrows" class="mr-1 -ml-1 h-5 w-5 hover:animate-spin" />
       Reset
     </button>
   </div>
   <div class="grow"></div>
   <div>
-    <div class="caption">Language Model</div>
+    <div class="caption">
+      <Icon icon="mdi:robot-outline" class="inline-block h-4 w-4" /> 
+      Language Model (Hugging Face)
+    </div>
     <select name="model" id="model" bind:value={model} class="inputbase">
       {#each MODELS as option}
         <option value={option}>{option}</option>
@@ -57,7 +59,10 @@
     </select>
   </div>
   <div>
-    <div class="caption">Speed (ms)</div>
+    <div class="caption">
+      <Icon icon="mdi:speedometer" class="inline-block h-4 w-4" />
+      Speed (ms)
+    </div>
     <input
       type="number"
       class="inputbase"
