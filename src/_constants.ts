@@ -18,14 +18,14 @@ export const PAGES: Array<{
   },
   {
     icon: "mdi:swap-vertical",
-    text: "Ranking Settings",
-    route: "/TWONy-micro/ranking",
+    text: "Ranker",
+    route: "/TWONy-micro/ranker",
     active: true,
   },
   {
     icon: "mdi:account-group",
-    text: "Agent Settings",
-    route: "/TWONy-micro/agent",
+    text: "Agents",
+    route: "/TWONy-micro/agents",
     active: true,
   },
 ];

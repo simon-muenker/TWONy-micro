@@ -62,26 +62,26 @@
   <button onclick={() => (collapsed = !collapsed)}>
     <Icon
       icon={collapsed ? "mdi:chevron-down" : "mdi:chevron-up"}
-      class="inline-block h-8 w-8"
+      class="inline-block h-8 w-8 cursor-pointer"
     />
   </button>
 
-  <h3 class="text-bold text-xl">
+  <span class="font-medium text-gray-900">
     <span
-      class="mr-2 cursor-pointer rounded-full bg-white p-2"
+      class="mr-2 cursor-pointer rounded-full bg-white py-2 px-3"
       contenteditable
       oninput={(event) => updateIcon(event)}
     >
       {persona.icon}
     </span>
     <span
-      class="cursor-pointer rounded-lg bg-white p-2"
+      class="cursor-pointer rounded-lg bg-white py-2 px-3"
       contenteditable
       oninput={(event) => updateName(event)}
     >
       {persona.name}
     </span>
-  </h3>
+  </span>
 
   <div class="grow"></div>
 

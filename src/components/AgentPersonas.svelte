@@ -43,7 +43,8 @@
 
 <div class="flex flex-col gap-4">
   <div class="box">
-    <div class="flex gap-4">
+    <div class="flex gap-4 items-center">
+      <span class="grow text-sm font-medium text-gray-900">Batch Controls:</span>
       <button class="button small">
         <label for="personas-upload" class="flex cursor-pointer items-center">
           <Icon

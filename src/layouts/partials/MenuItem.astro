@@ -14,7 +14,7 @@ const { icon, text, route, active = true } = Astro.props;
 <a
   class:list={[
     "flex content-center items-center gap-2",
-    "-ml-2 px-4 py-2",
+    "-ml-2 px-4 py-2 hover:animate-pulse",
     !active && "opacity-40",
   ]}
   href={route}

@@ -13,11 +13,15 @@
 }
 
 .sectionsubline {
-  @apply mb-4 leading-6 text-slate-900;
+  @apply leading-6 text-slate-900;
+}
+
+.sectionnote {
+  @apply text-sm text-slate-700;
 }
 
 .caption {
-  @apply mb-1 block text-xs text-slate-500;
+  @apply mb-1 block text-xs text-slate-700;
 }
 
 .divider {

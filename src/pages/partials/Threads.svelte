@@ -5,10 +5,14 @@
     settingsSimulationStore,
     settingsRankingStore,
   } from "@/stores/settings";
-  import { reverseFeedStore, rankedFeedStore } from "@stores/feed";
+  import { feedStore, reverseFeedStore, rankedFeedStore, threadItemStore } from "@stores/feed";
 
   import ThreadItem from "@/components/SimulationThreadItem.svelte";
 </script>
+
+<span class="block text-xs mt-4 mb-4">
+  Currently {$feedStore.length} Threads and {$threadItemStore.length} Items totally in generated Feed.
+</span>
 
 {#if $settingsSimulationStore.running}
   <span class="mx-auto my-4 block animate-pulse text-center text-sm italic">

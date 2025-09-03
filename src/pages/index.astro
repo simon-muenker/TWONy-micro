@@ -7,7 +7,7 @@ import IntroSettings from "@components/IntroSettings.svelte";
 <BaseLayout title="TWONy-micro - Introduction">
   <h2 class="pageheading">Introduction</h2>
   <p class="pagesubline">
-    Welcome to TWONy-micro, an interactive demonstration that shows how social
+    Welcome to <strong>TWONy-micro, an interactive demonstration</strong> that shows how social
     media algorithms affect online conversations. Watch as virtual agents
     interact with each other, creating posts and replies while different ranking
     systems influence what content appears at the top of your feed. This
@@ -19,14 +19,16 @@ import IntroSettings from "@components/IntroSettings.svelte";
 
   <h3 class="sectionheading">Language Model Hosting</h3>
   <p class="sectionsubline">
-    TODO: explain, why user has to put in a API to use the simulation: free
-    website, non profit, academic and educational use
+    This simulation uses AI to generate realistic social media posts and replies. To keep this educational tool free and accessible for everyone, <strong>we ask you to provide your own Hugging Face API key</strong> - it's like bringing your own ticket to use the AI service. This is completely <strong>free for light use, and your key is stored only in your browser.</strong> As a non-profit research project, this approach lets us demonstrate how social media algorithms work without charging users or bearing hosting costs.
   </p>
+
+  <hr class="divider small" />
 
   <IntroSettings client:load />
 
+  <hr class="divider small" />
+
   <p class="sectionsubline">
-    TODO: explain that the user can after entering his key continue to generate
-    a feed and play with the settings
+    Once you've entered your API key above, you're ready to explore! Head to the <strong>Simulation page to watch virtual users interact, or visit the Settings pages to customize</strong> how the conversation unfolds. Everything happens in your browser - no data is sent to our servers.
   </p>
 </BaseLayout>

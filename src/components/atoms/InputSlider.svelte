@@ -24,7 +24,7 @@
   } = $props();
 </script>
 
-<div class="relative text-sm text-slate-500">
+<div class="relative text-sm text-slate-900">
   <label for={label} class="sr-only">{label}</label>
   <input
     id={label}
@@ -37,14 +37,14 @@
   />
   <span class="absolute start-0 -bottom-6">
     <span class="">{min}</span>
-    <span class="text-sm text-slate-400">({description.min})</span>
+    <span class="text-xs text-slate-600">({description.min})</span>
   </span>
   <span class="absolute start-1/2 -bottom-6 -translate-x-1/2">
     <span class="font-bold">{value}</span>
-    <span class="text-sm text-slate-400">({description.center})</span>
+    <span class="text-xs text-slate-600">({description.center})</span>
   </span>
   <span class="absolute end-0 -bottom-6">
     <span class="">{max}</span>
-    <span class="text-sm text-slate-400">({description.max})</span>
+    <span class="text-xs text-slate-600">({description.max})</span>
   </span>
 </div>

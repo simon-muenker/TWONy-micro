@@ -30,7 +30,9 @@
 </script>
 
 <h3 class="sectionheading">Network Evaluation</h3>
-<p class="sectionsubline">TODO: shortly explain the network level evaluation</p>
+<p class="sectionnote mb-1">
+  This graph tracks the overall emotional tone of your social network over time. Watch how these change as the conversation evolves and how different ranker shift the balance.
+</p>
 <div class="rounded-xl bg-gray-50 p-3 px-3">
   <Chart config={$networkMetricsStore} height={250} />
 </div>
@@ -38,7 +40,9 @@
 <hr class="divider" />
 
 <h3 class="sectionheading">User Evaluation</h3>
-<p class="sectionsubline">TODO: shortly explain the user level evaluation</p>
+<p class="sectionnote mb-1">
+  This chart compares the average emotional tone of each virtual participant. See which personas tend to be more positive or negative in their posts, and observe how the ranker amplifies certain voices while diminishing others.
+</p>
 <div class="rounded-xl bg-gray-50 p-3 px-3">
   <Chart config={$userMetricsStore} height={300} />
 </div>
