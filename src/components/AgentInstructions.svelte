@@ -53,7 +53,7 @@
 <div class="flex flex-col gap-4">
   <div class="box">
     <div class="flex gap-4">
-      <button class="gray small">
+      <button class="button small">
         <label
           for="instruction-upload"
           class="flex cursor-pointer items-center"

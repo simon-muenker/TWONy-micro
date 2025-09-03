@@ -44,7 +44,7 @@
 <div class="flex flex-col gap-4">
   <div class="box">
     <div class="flex gap-4">
-      <button class="button gray small">
+      <button class="button small">
         <label for="personas-upload" class="flex cursor-pointer items-center">
           <Icon
             icon="mdi:file-upload-outline"
