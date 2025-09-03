@@ -21,9 +21,21 @@ export async function agentReply(
   threadID: number,
   persona: Persona,
 ): Promise<void> {
+  const thread = feedStore.get()[threadID]
+
+  let numberComments: number = 5
+  let message = `post: ${thread.post.message} by ${thread.post.name}\n`
+
+  if (thread.replies != null) {
+    if (thread.replies.length < 4) numberComments = thread.replies.length
+    _.takeRight(thread.replies, numberComments).forEach((item) => {
+      message.concat(`comment: ${item.message} by ${item.name}\n`)
+    })
+  }
+
   const chatResult = await chat(
     settingsAgentStore.get().model,
-    createChat(persona, "reply", feedStore.get()[threadID].post.message),
+    createChat(persona, "reply", message),
   );
 
   reply(threadID, chatResult.choices[0].message.content, persona);
