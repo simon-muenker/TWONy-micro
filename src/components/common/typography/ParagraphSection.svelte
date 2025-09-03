@@ -12,4 +12,6 @@
   } = $props();
 </script>
 
-<p class="{spacing && 'mb-4'} leading-6 text-gray-900">{@render children()}</p>
+<p class="{spacing && 'mb-2 md:mb-4'} leading-6 text-gray-900">
+  {@render children()}
+</p>

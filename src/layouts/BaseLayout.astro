@@ -5,6 +5,8 @@ import Branding from "@layouts/partials/Branding.astro";
 import Menu from "@layouts/partials/Menu.astro";
 import Footer from "@layouts/partials/Footer.astro";
 
+import Divider from "@components/common/Divider.svelte";
+
 interface Props {
   title: string;
 }
@@ -15,24 +17,27 @@ const { title } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
   </head>
   <body>
     <div class="mx-auto max-w-screen-2xl px-6 py-16 md:px-8">
-      <div class="grid grid-cols-12 gap-12">
-        <aside class="col-span-3 hidden flex-col gap-6 md:flex">
-          <header>
-            <Branding />
-          </header>
-          <Menu />
-          <div class="h-48"></div>
-          <Footer />
-        </aside>
-        <main class="col-span-12 md:col-span-6">
+      <div class="grid grid-cols-12 gap-16">
+        <div class="relative col-span-3 hidden lg:block">
+          <aside class="sticky top-4 flex flex-col gap-12">
+            <header>
+              <Branding />
+            </header>
+            <div class="rounded-xl bg-sky-50 px-3 py-3">
+              <Menu />
+            </div>
+            <Footer />
+          </aside>
+        </div>
+        <main class="col-span-12 lg:col-span-9 xl:col-span-6">
           <slot />
         </main>
-        <aside class="col-span-3 hidden md:block">
+        <aside class="col-span-3 hidden xl:block">
           <slot name="sidebar-left" />
         </aside>
       </div>

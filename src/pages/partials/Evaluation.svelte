@@ -39,15 +39,18 @@
 <ParagraphSection>
   TODO: shortly explain the network level evaluation
 </ParagraphSection>
-<Chart config={$networkMetricsStore} height={250} />
-
+<div class="rounded-xl bg-gray-50 p-3 px-3">
+  <Chart config={$networkMetricsStore} height={250} />
+</div>
 <Divider />
 
 <HeadingSection>User Evaluation</HeadingSection>
 <ParagraphSection>
   TODO: shortly explain the user level evaluation
 </ParagraphSection>
-<Chart config={$userMetricsStore} height={300} />
+<div class="rounded-xl bg-gray-50 p-3 px-3">
+  <Chart config={$userMetricsStore} height={300} />
+</div>
 
 <Divider />
 
@@ -74,7 +77,7 @@
       <tr>
         <td>
           Negativity Weight
-           <Circle color="rose" />
+          <Circle color="rose" />
         </td>
         <td>{($settingsRankingStore.negativeWeight * 0.01).toFixed(2)}</td>
       </tr>

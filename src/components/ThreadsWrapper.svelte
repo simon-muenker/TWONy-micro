@@ -20,7 +20,7 @@
 
 <div class="grid grid-cols-1 gap-4">
   {#each $settingsRankingStore.sentimentBased ? $rankedFeedStore : $reverseFeedStore as thread, index (index)}
-    <article class="rounded-xl bg-sky-50 p-3 px-3">
+    <article class="rounded-xl bg-gray-50 p-3 px-3">
       <ThreadItem {...thread.post} />
       {#if thread.replies}
         <section class="ml-4 border-l-4 border-gray-200 pt-4 pl-4 [&>*]:py-2">

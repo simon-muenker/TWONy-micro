@@ -6,4 +6,4 @@
   let { children }: { children: Snippet } = $props();
 </script>
 
-<h2 class="mb-8 text-4xl">{@render children()}</h2>
+<h2 class="mb-8 text-2xl md:text-4xl">{@render children()}</h2>

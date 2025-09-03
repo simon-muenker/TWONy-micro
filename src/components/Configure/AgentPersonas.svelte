@@ -44,7 +44,7 @@
 </script>
 
 <div class="flex flex-col gap-4">
-  <div class="rounded-xl bg-sky-50 px-3 py-3">
+  <div class="rounded-xl bg-gray-50 px-3 py-3">
     <div class="flex gap-4">
       <Button color="gray" size="small" clickEvent={() => {}}>
         <label for="personas-upload" class="flex cursor-pointer items-center">

@@ -12,4 +12,6 @@
   } = $props();
 </script>
 
-<h3 class="{spacing && 'mb-4'} text-2xl">{@render children()}</h3>
+<h3 class="{spacing && 'mb-2 md:mb-4'} text-xl md:text-2xl">
+  {@render children()}
+</h3>
