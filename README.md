@@ -2,7 +2,7 @@
 
 A micro-simulation of the impact of social network mechanics on the sentiment of online discourse. This interactive demonstration shows how social media algorithms affect online conversations by simulating virtual agents creating posts and replies while different ranking systems influence content visibility.
 
-### Overview
+## Overview
 
 TWONy-micro is an educational tool that visualizes how algorithmic choices shape the tone and direction of online discourse. Users can:
 
@@ -12,34 +12,34 @@ TWONy-micro is an educational tool that visualizes how algorithmic choices shape
 - **Analyze conversation patterns** through real-time sentiment analysis
 - **Participate in conversations** by posting their own messages
 
-### Features
+## Features
 
-#### LLM-Powered Agents
+### LLM-Powered Agents
 - Multiple configurable personas with distinct personalities
 - Realistic post and reply generation using Hugging Face language models
 - Customizable instructions for agent behavior
 
-#### Sentiment Analysis
+### Sentiment Analysis
 - Real-time sentiment classification of all posts and replies
 - Visual indicators for positive and negative emotional content
 - Network-wide sentiment tracking over time
 
-#### Algorithm Comparison
+### Algorithm Comparison
 - **Chronological ranking**: Traditional timeline ordering
 - **Sentiment-based ranking**: Promotes emotionally charged content
 - Adjustable sentiment weights to fine-tune algorithmic behavior
 
-#### Data Visualization
+### Data Visualization
 - Live charts showing sentiment trends across the network
 - Per-user sentiment analysis
 - Thread-level emotional impact scoring
 
-#### Data Management
+### Data Management
 - Export simulation results and settings
 - Import/export agent configurations
 - Session state persistence in browser
 
-### Installation
+## Installation
 
 1. Clone the repository:
    ```bash
