@@ -30,10 +30,7 @@
     ></textarea>
     <div class="self-end">
       <button class="button base blue" onclick={() => sendPost()}>
-         <Icon
-            icon="mdi:send"
-            class="mr-1 inline-block h-5 w-5"
-          />
+        <Icon icon="mdi:send" class="mr-1 inline-block h-5 w-5" />
         Post
       </button>
     </div>

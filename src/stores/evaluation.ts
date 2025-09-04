@@ -17,10 +17,14 @@ import {
 
 // Store Management
 export const networkMetricsStore = persistentAtom<ChartConfiguration>(
-  "networkMetrics:", structuredClone(networkMetricsDefault), STORE_PARSER,
+  "networkMetrics:",
+  structuredClone(networkMetricsDefault),
+  STORE_PARSER,
 );
 export const userMetricsStore = persistentAtom<ChartConfiguration>(
-  "userMetrics:", structuredClone(userMetricsDefault), STORE_PARSER,
+  "userMetrics:",
+  structuredClone(userMetricsDefault),
+  STORE_PARSER,
 );
 
 export const threadItemAvgMetricsStore = computed(

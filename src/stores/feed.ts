@@ -28,7 +28,11 @@ export type Thread = {
 };
 
 // Store Management
-export const feedStore = persistentAtom<Array<Thread>>("feed:", [], STORE_PARSER);
+export const feedStore = persistentAtom<Array<Thread>>(
+  "feed:",
+  [],
+  STORE_PARSER,
+);
 
 // Logger
 logger({

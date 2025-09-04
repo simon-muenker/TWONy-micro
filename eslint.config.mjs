@@ -1,5 +1,4 @@
 import eslintPluginAstro from "eslint-plugin-astro";
-import tailwind from "eslint-plugin-tailwindcss";
 import eslintPluginSvelte from "eslint-plugin-svelte";
 
 import * as svelteParser from "svelte-eslint-parser";
@@ -9,7 +8,6 @@ export default [
   // js.configs.recommended,
   ...eslintPluginAstro.configs["flat/recommended"],
   ...eslintPluginSvelte.configs["flat/recommended"],
-  ...tailwind.configs["flat/recommended"],
   {
     files: ["**/*.svelte"],
     languageOptions: {
@@ -18,6 +16,13 @@ export default [
         parser: typescriptParser,
         project: "./tsconfig.json",
         extraFileExtensions: [".svelte"],
+      },
+    },
+  },
+  {
+    settings: {
+      "better-tailwindcss": {
+        entryPoint: "src/global.css",
       },
     },
   },

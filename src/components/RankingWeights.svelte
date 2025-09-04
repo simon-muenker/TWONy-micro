@@ -19,7 +19,7 @@
 </script>
 
 <div class="box blue">
-  <table class="w-full table-auto -mt-6">
+  <table class="-mt-6 w-full table-auto">
     <tbody>
       <tr>
         <td class="w-24 py-6"
@@ -27,7 +27,7 @@
           ><span class="circle green ml-1.5"></span></td
         >
         <td class="py-6">
-          <InputSlider label={"positivity"} bind:value={positiveWeight} />
+          <InputSlider label="positivity" bind:value={positiveWeight} />
         </td>
       </tr>
       <tr>
@@ -36,7 +36,7 @@
           ><span class="circle red ml-1.5"></span></td
         >
         <td class="py-6">
-          <InputSlider label={"negativity"} bind:value={negativeWeight} />
+          <InputSlider label="negativity" bind:value={negativeWeight} />
         </td>
       </tr>
     </tbody>

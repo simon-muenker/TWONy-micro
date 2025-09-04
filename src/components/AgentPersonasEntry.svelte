@@ -93,7 +93,7 @@
 
 {#if !collapsed}
   <div transition:slide>
-    <hr class="divider small">
+    <hr class="divider small" />
     <textarea
       name={key.toString()}
       id={key.toString()}
