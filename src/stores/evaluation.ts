@@ -1,10 +1,13 @@
 import _ from "lodash";
+import { computed } from "nanostores";
+import { persistentAtom } from "@nanostores/persistent";
 import { logger } from "@nanostores/logger";
-import { atom, computed } from "nanostores";
 import { type ChartConfiguration } from "chart.js/auto";
 
 import { networkMetricsDefault, userMetricsDefault } from "@presets/evaluation";
 import { type ItemEvaluation, aggItemsEvaluation } from "@logic/evaluation";
+
+import { STORE_PARSER } from "@stores/_constants";
 
 import {
   type ThreadItem,
@@ -13,11 +16,11 @@ import {
 } from "@stores/feed";
 
 // Store Management
-export const networkMetricsStore = atom<ChartConfiguration>(
-  structuredClone(networkMetricsDefault),
+export const networkMetricsStore = persistentAtom<ChartConfiguration>(
+  "networkMetrics:", structuredClone(networkMetricsDefault), STORE_PARSER,
 );
-export const userMetricsStore = atom<ChartConfiguration>(
-  structuredClone(userMetricsDefault),
+export const userMetricsStore = persistentAtom<ChartConfiguration>(
+  "userMetrics:", structuredClone(userMetricsDefault), STORE_PARSER,
 );
 
 export const threadItemAvgMetricsStore = computed(
