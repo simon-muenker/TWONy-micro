@@ -1,6 +1,7 @@
 import _ from "lodash";
+import { computed } from "nanostores";
+import { persistentAtom } from "@nanostores/persistent";
 import { logger } from "@nanostores/logger";
-import { atom, computed } from "nanostores";
 
 import {
   type ItemEvaluation,
@@ -9,6 +10,7 @@ import {
 } from "@logic/evaluation";
 import { classify } from "@api/classify";
 
+import { STORE_PARSER } from "@stores/_constants";
 import { personaUserStore, type Persona } from "@stores/personas";
 
 // Type Definitions
@@ -26,7 +28,7 @@ export type Thread = {
 };
 
 // Store Management
-export const feedStore = atom<Array<Thread>>([]);
+export const feedStore = persistentAtom<Array<Thread>>("feed:", [], STORE_PARSER);
 
 // Logger
 logger({
