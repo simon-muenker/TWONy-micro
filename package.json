@@ -45,6 +45,10 @@
     "prettier-plugin-tailwindcss": "^0.6.14"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.50.0"
+    "@tailwindcss/oxide-linux-arm64-musl": "^4.0.1",
+    "@tailwindcss/oxide-linux-x64-musl": "^4.0.1",
+    "@rollup/rollup-linux-x64-gnu": "4.50.0",
+    "lightningcss-linux-arm64-musl": "^1.29.1",
+    "lightningcss-linux-x64-musl": "^1.29.1"
   }
 }
