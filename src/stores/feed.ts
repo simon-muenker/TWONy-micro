@@ -43,14 +43,22 @@ logger({
 export const reverseFeedStore = computed(
   feedStore,
   (feed: Array<Thread>): Array<Thread> => {
-    return [...feed].reverse();
+    const userName = personaUserStore.get()[0].name;
+    const sorted = [...feed].reverse();
+    const userThreads = sorted.filter((t) => t.post.name === userName);
+    const otherThreads = sorted.filter((t) => t.post.name !== userName);
+    return [...userThreads, ...otherThreads];
   },
 );
 
 export const rankedFeedStore = computed(
   feedStore,
   (feed: Array<Thread>): Array<Thread> => {
-    return [...feed].sort((a, b) => b.metrics.score - a.metrics.score);
+    const userName = personaUserStore.get()[0].name;
+    const sorted = [...feed].sort((a, b) => b.metrics.score - a.metrics.score);
+    const userThreads = sorted.filter((t) => t.post.name === userName);
+    const otherThreads = sorted.filter((t) => t.post.name !== userName);
+    return [...userThreads, ...otherThreads];
   },
 );
 

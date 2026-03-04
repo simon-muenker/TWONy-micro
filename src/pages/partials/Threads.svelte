@@ -11,6 +11,7 @@
     rankedFeedStore,
     threadItemStore,
   } from "@stores/feed";
+  import { personaUserStore } from "@stores/personas";
 
   import ThreadItem from "@/components/SimulationThreadItem.svelte";
 </script>
@@ -28,7 +29,15 @@
 
 <div class="grid grid-cols-1 gap-4">
   {#each $settingsRankingStore.sentimentBased ? $rankedFeedStore : $reverseFeedStore as thread, index (index)}
-    <article class="box">
+    <article class="box relative">
+      {#if thread.post.name === $personaUserStore[0].name}
+        <div
+          class="absolute top-4 right-4 text-sm text-gray-400"
+          title="Pinned Post"
+        >
+          📌 Pinned
+        </div>
+      {/if}
       <ThreadItem {...thread.post} />
       {#if thread.replies}
         <section class="ml-4 border-l-4 border-gray-200 pt-4 pl-4 [&>*]:py-2">

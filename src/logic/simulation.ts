@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 import { settingsAgentStore, settingsSimulationStore } from "@/stores/settings";
-import { getRandomActivePersona, type Persona } from "@stores/personas";
+import { getRandomActivePersona, personaUserStore, type Persona } from "@stores/personas";
 import { feedStore } from "@stores/feed";
 
 import { agentPost, agentReply } from "@logic/agent";
@@ -19,8 +19,21 @@ function choosePostParameters(): Persona {
 }
 
 function chooseReplyParameters(feedLength: number): [number, Persona] {
-  const selectedThreadID: number = _.random(_.floor((feedLength - 1) / 2));
   const persona = getRandomActivePersona();
+  const feed = feedStore.get();
+
+  let selectedThreadID: number;
+  const userName = personaUserStore.get()[0].name;
+
+  // Collect indices of all threads created by the user
+  const userThreadIndices = feed.map((t, i) => t.post.name === userName ? i : -1).filter(i => i !== -1);
+
+  // 50% chance to select a user's post if one exists
+  if (userThreadIndices.length > 0 && Math.random() < 0.5) {
+    selectedThreadID = _.sample(userThreadIndices) as number;
+  } else {
+    selectedThreadID = _.random(_.floor((feedLength - 1) / 2));
+  }
 
   const thread = feedStore.get()[selectedThreadID];
 
