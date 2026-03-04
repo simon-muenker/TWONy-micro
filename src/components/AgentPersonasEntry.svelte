@@ -83,15 +83,17 @@
       class="mr-2 w-12 cursor-pointer rounded-full bg-white px-3 py-2 text-center focus:outline-0"
       value={persona.icon}
       maxlength="2"
-      onchange={(event) => updateIcon(event)}
+      oninput={(event) => updateIcon(event)}
     />
     <input
       use:initSize
       type="text"
       class="cursor-pointer rounded-lg bg-white px-3 py-2 text-center focus:outline-0"
       value={persona.name}
-      onchange={(event) => updateName(event)}
-      oninput={updateSize}
+      maxlength="24"
+      oninput={(event) => {
+        (updateName(event), updateSize(event));
+      }}
     />
   </span>
 
