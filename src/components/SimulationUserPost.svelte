@@ -9,7 +9,7 @@
   let message: string = $state("");
 
   function sendPost() {
-    if (message == "") {
+    if (message.length < 2) {
       return;
     }
     post(message);
@@ -29,7 +29,11 @@
       bind:value={message}
     ></textarea>
     <div class="self-end">
-      <button class="button base blue" onclick={() => sendPost()}>
+      <button
+        class="button base blue"
+        onclick={() => sendPost()}
+        disabled={message.length < 2}
+      >
         <Icon icon="mdi:send" class="mr-1 inline-block h-5 w-5" />
         Post
       </button>

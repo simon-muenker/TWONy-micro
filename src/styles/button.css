@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .button {
-  @apply inline-flex cursor-pointer items-center rounded-full border-1 border-transparent bg-slate-500 font-bold text-white transition-opacity hover:opacity-60;
+  @apply inline-flex cursor-pointer items-center rounded-full border-1 border-transparent bg-slate-500 font-bold text-white transition-opacity hover:opacity-60 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:opacity-50;
 }
 
 .button.base {
