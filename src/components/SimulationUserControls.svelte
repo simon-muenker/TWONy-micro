@@ -9,6 +9,7 @@
   } from "@/stores/settings";
   import { clearFeed } from "@stores/feed";
   import { resetEvaluation } from "@stores/evaluation";
+  import { resetAssignedModels } from "@logic/agent";
 </script>
 
 <script lang="ts">
@@ -26,6 +27,7 @@
     running = false;
     clearFeed();
     resetEvaluation();
+    resetAssignedModels();
   }
 </script>
 

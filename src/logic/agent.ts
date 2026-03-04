@@ -9,12 +9,35 @@ import { createChat } from "@stores/instructions";
 import { settingsAgentStore } from "@stores/settings";
 
 // Agent Behavior
-export async function agentPost(persona: Persona): Promise<void> {
-  let model = settingsAgentStore.get().model;
+const assignedModels = new Map<string, string>();
+
+export function resetAssignedModels(): void {
+  assignedModels.clear();
+}
+
+function resolveModelForAgent(model: string, persona: Persona): string {
   if (model === "mixer") {
-    const validModels = MODELS.filter((m) => m !== "mixer");
-    model = _.sample(validModels) as string;
+    const validModels = MODELS.filter((m) => m !== "mixer" && m !== "assigned");
+    return _.sample(validModels) as string;
   }
+
+  if (model === "assigned") {
+    if (!assignedModels.has(persona.name)) {
+      const validModels = MODELS.filter((m) => m !== "mixer" && m !== "assigned");
+      const usedModels = Array.from(assignedModels.values());
+      const availableModels = validModels.filter(m => !usedModels.includes(m));
+
+      const poolToSampleFrom = availableModels.length > 0 ? availableModels : validModels;
+      assignedModels.set(persona.name, _.sample(poolToSampleFrom) as string);
+    }
+    return assignedModels.get(persona.name) as string;
+  }
+
+  return model;
+}
+
+export async function agentPost(persona: Persona): Promise<void> {
+  const model = resolveModelForAgent(settingsAgentStore.get().model, persona);
 
   const chatResult = await chat(
     model,
@@ -40,11 +63,7 @@ export async function agentReply(
     });
   }
 
-  let model = settingsAgentStore.get().model;
-  if (model === "mixer") {
-    const validModels = MODELS.filter((m) => m !== "mixer");
-    model = _.sample(validModels) as string;
-  }
+  const model = resolveModelForAgent(settingsAgentStore.get().model, persona);
 
   const chatResult = await chat(
     model,

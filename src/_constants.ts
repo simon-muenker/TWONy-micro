@@ -32,6 +32,7 @@ export const PAGES: Array<{
 
 export const MODELS: readonly string[] = [
   "mixer",
+  "assigned",
   "meta-llama/Llama-3.2-3B-Instruct",
   "meta-llama/Llama-3.1-8B-Instruct",
   "meta-llama/Llama-3.3-70B-Instruct",
