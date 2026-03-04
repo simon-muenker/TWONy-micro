@@ -4,33 +4,34 @@ export const PAGES: Array<{
   route: string;
   active: boolean;
 }> = [
-  {
-    icon: "mdi:information-outline",
-    text: "Introduction",
-    route: "/TWONy-micro",
-    active: true,
-  },
-  {
-    icon: "mdi:message-text-fast",
-    text: "Simulation",
-    route: "/TWONy-micro/simulation",
-    active: true,
-  },
-  {
-    icon: "mdi:swap-vertical",
-    text: "Ranker",
-    route: "/TWONy-micro/ranker",
-    active: true,
-  },
-  {
-    icon: "mdi:account-group",
-    text: "Agents",
-    route: "/TWONy-micro/agents",
-    active: true,
-  },
-];
+    {
+      icon: "mdi:information-outline",
+      text: "Introduction",
+      route: "/TWONy-micro",
+      active: true,
+    },
+    {
+      icon: "mdi:message-text-fast",
+      text: "Simulation",
+      route: "/TWONy-micro/simulation",
+      active: true,
+    },
+    {
+      icon: "mdi:swap-vertical",
+      text: "Ranker",
+      route: "/TWONy-micro/ranker",
+      active: true,
+    },
+    {
+      icon: "mdi:account-group",
+      text: "Agents",
+      route: "/TWONy-micro/agents",
+      active: true,
+    },
+  ];
 
-export const MODELS: Array<string> = [
+export const MODELS: readonly string[] = [
+  "mixer",
   "meta-llama/Llama-3.2-3B-Instruct",
   "meta-llama/Llama-3.1-8B-Instruct",
   "meta-llama/Llama-3.3-70B-Instruct",

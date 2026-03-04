@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { MODELS } from "@/_constants";
 
 import { chat } from "@api/chat";
 
@@ -9,7 +10,12 @@ import { settingsAgentStore } from "@stores/settings";
 
 // Agent Behavior
 export async function agentPost(persona: Persona): Promise<void> {
-  const model = settingsAgentStore.get().model;
+  let model = settingsAgentStore.get().model;
+  if (model === "mixer") {
+    const validModels = MODELS.filter((m) => m !== "mixer");
+    model = _.sample(validModels) as string;
+  }
+
   const chatResult = await chat(
     model,
     createChat(persona, "post", " "),
@@ -34,7 +40,12 @@ export async function agentReply(
     });
   }
 
-  const model = settingsAgentStore.get().model;
+  let model = settingsAgentStore.get().model;
+  if (model === "mixer") {
+    const validModels = MODELS.filter((m) => m !== "mixer");
+    model = _.sample(validModels) as string;
+  }
+
   const chatResult = await chat(
     model,
     createChat(persona, "reply", message),
