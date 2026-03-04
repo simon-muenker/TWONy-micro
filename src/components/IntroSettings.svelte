@@ -27,7 +27,7 @@
   </label>
   <input
     id="api_token"
-    type="text"
+    type="password"
     bind:value={apiKey}
     class="inputbase base"
   />
