@@ -10,6 +10,7 @@
     reverseFeedStore,
     rankedFeedStore,
     threadItemStore,
+    isClassifyingStore,
   } from "@stores/feed";
   import { personaUserStore } from "@stores/personas";
 
@@ -21,9 +22,9 @@
   in generated Feed. Content may be inaccurate or false.
 </span>
 
-{#if $settingsSimulationStore.running}
+{#if $settingsSimulationStore.running || $isClassifyingStore}
   <span class="mx-auto my-4 block animate-pulse text-center text-sm italic">
-    Generating Content ... Please stand by.
+    Generating & Classifying Content ... Please stand by.
   </span>
 {/if}
 

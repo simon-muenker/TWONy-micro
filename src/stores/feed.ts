@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { computed } from "nanostores";
+import { atom, computed } from "nanostores";
 import { persistentAtom } from "@nanostores/persistent";
 import { logger } from "@nanostores/logger";
 
@@ -34,6 +34,22 @@ export const feedStore = persistentAtom<Array<Thread>>(
   [],
   STORE_PARSER,
 );
+
+export const isClassifyingStore = atom<boolean>(false);
+let classifyingCount = 0;
+
+function startClassifying() {
+  classifyingCount++;
+  isClassifyingStore.set(true);
+}
+
+function stopClassifying() {
+  classifyingCount--;
+  if (classifyingCount <= 0) {
+    classifyingCount = 0;
+    isClassifyingStore.set(false);
+  }
+}
 
 // Logger
 logger({
@@ -112,15 +128,20 @@ export async function post(
   persona: Persona = personaUserStore.get()[0],
   model?: string,
 ): Promise<void> {
-  const classifyResult = await classify(message);
+  startClassifying();
+  try {
+    const classifyResult = await classify(message);
 
-  addPost({
-    icon: persona.icon,
-    name: persona.name,
-    message: message,
-    metrics: getItemEvaluation(classifyResult[0]),
-    model: model,
-  });
+    addPost({
+      icon: persona.icon,
+      name: persona.name,
+      message: message,
+      metrics: getItemEvaluation(classifyResult[0]),
+      model: model,
+    });
+  } finally {
+    stopClassifying();
+  }
 }
 
 export async function reply(
@@ -129,15 +150,20 @@ export async function reply(
   persona: Persona = personaUserStore.get()[0],
   model?: string,
 ): Promise<void> {
-  const classifyResult = await classify(message);
+  startClassifying();
+  try {
+    const classifyResult = await classify(message);
 
-  addReply(threadID, {
-    icon: persona.icon,
-    name: persona.name,
-    message: message,
-    metrics: getItemEvaluation(classifyResult[0]),
-    model: model,
-  });
+    addReply(threadID, {
+      icon: persona.icon,
+      name: persona.name,
+      message: message,
+      metrics: getItemEvaluation(classifyResult[0]),
+      model: model,
+    });
+  } finally {
+    stopClassifying();
+  }
 }
 
 // Util
