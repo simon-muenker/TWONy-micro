@@ -54,23 +54,39 @@ function chooseReplyParameters(feedLength: number): [number, Persona] {
   return [selectedThreadID, persona];
 }
 
+let isRunningTick = false;
+
 async function run() {
-  const feedLength: number = feedStore.get().length;
+  if (isRunningTick) return;
+  isRunningTick = true;
 
-  if (
-    settingsSimulationStore.get().running &&
-    feedLength < settingsSimulationStore.get().maxThreads
-  ) {
-    setTimeout(run, settingsSimulationStore.get().tickTime);
-  }
+  try {
+    const feedLength: number = feedStore.get().length;
 
-  if (_.random(true) < settingsAgentStore.get().postProp) {
-    await agentPost(choosePostParameters());
-  }
+    // Check maximum threads rule before we start processing tasks
+    if (feedLength >= settingsSimulationStore.get().maxThreads) {
+      return;
+    }
 
-  if (feedLength > 0 && _.random(true) < settingsAgentStore.get().replyProp) {
-    const replyParameters = chooseReplyParameters(feedLength);
-    await agentReply(...replyParameters);
+    if (_.random(true) < settingsAgentStore.get().postProp) {
+      await agentPost(choosePostParameters());
+    }
+
+    if (feedLength > 0 && _.random(true) < settingsAgentStore.get().replyProp) {
+      const replyParameters = chooseReplyParameters(feedLength);
+      await agentReply(...replyParameters);
+    }
+  } finally {
+    isRunningTick = false;
+
+    // Only schedule the next tick when the previous network calls are truly done
+    const newFeedLength: number = feedStore.get().length;
+    if (
+      settingsSimulationStore.get().running &&
+      newFeedLength < settingsSimulationStore.get().maxThreads
+    ) {
+      setTimeout(run, settingsSimulationStore.get().tickTime);
+    }
   }
 }
 
