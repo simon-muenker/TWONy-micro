@@ -32,7 +32,7 @@ function chooseReplyParameters(feedLength: number): [number, Persona] {
   if (userThreadIndices.length > 0 && Math.random() < 0.5) {
     selectedThreadID = _.sample(userThreadIndices) as number;
   } else {
-    selectedThreadID = _.random(_.floor((feedLength - 1) / 2));
+    selectedThreadID = Math.min(_.random(feedLength - 1), _.random(feedLength - 1));
   }
 
   const thread = feedStore.get()[selectedThreadID];
