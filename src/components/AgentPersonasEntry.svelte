@@ -25,24 +25,35 @@
 
   function updateIcon(event: Event): void {
     if (!event.target) throw new Error("No event target.");
-    const target = event.target as unknown as { textContent: string };
-    let newValue: string = target.textContent;
+    const target = event.target as HTMLInputElement;
+    let newValue: string = target.value;
 
     if (newValue.length == 0) newValue = "❓";
-    if (newValue.length > 1) newValue = newValue.slice(0, 1);
+    if (newValue.length > 2) newValue = newValue.slice(0, 2);
 
     updatePersona({ ...persona, icon: newValue });
   }
 
   function updateName(event: Event): void {
     if (!event.target) throw new Error("No event target.");
-    const target = event.target as unknown as { textContent: string };
-    let newValue: string = target.textContent;
+    const target = event.target as HTMLInputElement;
+    let newValue: string = target.value;
 
     if (newValue.length == 0) newValue = "UnamedAgent";
-    if (newValue.length > 20) newValue = newValue.slice(0, 20);
+    if (newValue.length > 24) newValue = newValue.slice(0, 24);
 
     updatePersonaByID(key, { ...persona, name: newValue });
+  }
+
+  function updateSize(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    if (target) {
+      target.size = target.value.length || 1;
+    }
+  }
+
+  function initSize(node: HTMLInputElement) {
+    node.size = node.value.length || 1;
   }
 
   function updateInstruction(event: Event): void {
@@ -66,21 +77,22 @@
     />
   </button>
 
-  <span class="font-medium text-gray-900">
-    <span
-      class="mr-2 cursor-pointer rounded-full bg-white px-3 py-2"
-      contenteditable
-      oninput={(event) => updateIcon(event)}
-    >
-      {persona.icon}
-    </span>
-    <span
-      class="cursor-pointer rounded-lg bg-white px-3 py-2"
-      contenteditable
-      oninput={(event) => updateName(event)}
-    >
-      {persona.name}
-    </span>
+  <span class="flex font-medium text-gray-900">
+    <input
+      type="text"
+      class="mr-2 w-12 cursor-pointer rounded-full bg-white px-3 py-2 text-center focus:outline-0"
+      value={persona.icon}
+      maxlength="2"
+      onchange={(event) => updateIcon(event)}
+    />
+    <input
+      use:initSize
+      type="text"
+      class="cursor-pointer rounded-lg bg-white px-3 py-2 text-center focus:outline-0"
+      value={persona.name}
+      onchange={(event) => updateName(event)}
+      oninput={updateSize}
+    />
   </span>
 
   <div class="grow"></div>
