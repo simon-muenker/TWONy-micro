@@ -9,12 +9,55 @@
   import { feedStore } from "@stores/feed";
   import { instructionsStore } from "@/stores/instructions";
   import { personaAgentsStore } from "@stores/personas";
-  import { networkMetricsStore, userMetricsStore } from "@stores/evaluation";
+  import { userMetricsStore } from "@stores/evaluation";
+  import { threadMetricsDefault } from "@presets/evaluation";
 
   import Chart from "@components/atoms/Chart.svelte";
 </script>
 
 <script lang="ts">
+  import type { Thread } from "@stores/feed";
+  import type { ChartConfiguration } from "chart.js/auto";
+
+  function getTopThreadsChartConfig(
+    feed: readonly Thread[],
+  ): ChartConfiguration {
+    const config = structuredClone(threadMetricsDefault);
+    config.data.datasets = [];
+
+    const topThreads = [...feed]
+      .sort((a, b) => b.metrics.score - a.metrics.score)
+      .slice(0, 5);
+
+    let maxLen = 0;
+    topThreads.forEach((t) => {
+      const len = 1 + (t.replies?.length || 0);
+      if (len > maxLen) maxLen = len;
+    });
+
+    config.data.labels = Array.from({ length: maxLen }, (_, i) => i.toString());
+
+    const COLORS = ["#ef4444", "#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"];
+
+    topThreads.forEach((thread, i) => {
+      const components = [thread.post, ...(thread.replies || [])];
+      config.data.datasets.push({
+        label: `Thread ${feed.indexOf(thread) + 1}`,
+        data: components.map((_, index) => {
+          const slice = components.slice(0, index + 1);
+          return (
+            slice.reduce((sum, c) => sum + c.metrics.score, 0) / slice.length
+          );
+        }),
+        fill: false,
+        borderColor: COLORS[i % COLORS.length],
+        tension: 0.1,
+      });
+    });
+
+    return config as ChartConfiguration;
+  }
+
   function downloadApplicationState() {
     downloadJSON({
       settings: {
@@ -31,12 +74,12 @@
 
 <h3 class="sectionheading">Network Evaluation</h3>
 <p class="sectionnote mb-1">
-  This graph tracks the overall emotional tone of your social network over time.
-  Watch how these change as the conversation evolves and how different ranker
-  shift the balance.
+  This graph tracks the sentiment score of the top 5 threads over their
+  components. Watch how these change as the conversation evolves and how
+  different ranker shift the balance.
 </p>
 <div class="rounded-xl bg-gray-50 p-3 px-3">
-  <Chart config={$networkMetricsStore} height={250} />
+  <Chart config={getTopThreadsChartConfig($feedStore)} height={250} />
 </div>
 
 <hr class="divider" />

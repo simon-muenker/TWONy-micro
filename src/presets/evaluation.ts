@@ -2,7 +2,7 @@ import { type ChartConfiguration } from "chart.js/auto";
 
 import { METRIC_COLORS } from "@_constants";
 
-export const networkMetricsDefault: ChartConfiguration = {
+export const threadMetricsDefault: ChartConfiguration = {
   type: "line",
   data: {
     labels: [],

@@ -4,7 +4,7 @@ import { persistentAtom } from "@nanostores/persistent";
 import { logger } from "@nanostores/logger";
 import { type ChartConfiguration } from "chart.js/auto";
 
-import { networkMetricsDefault, userMetricsDefault } from "@presets/evaluation";
+import { userMetricsDefault } from "@presets/evaluation";
 import { type ItemEvaluation, aggItemsEvaluation } from "@logic/evaluation";
 
 import { STORE_PARSER } from "@stores/_constants";
@@ -15,12 +15,7 @@ import {
   threadItemsByNameStore,
 } from "@stores/feed";
 
-// Store Management
-export const networkMetricsStore = persistentAtom<ChartConfiguration>(
-  "networkMetrics:",
-  structuredClone(networkMetricsDefault),
-  STORE_PARSER,
-);
+
 export const userMetricsStore = persistentAtom<ChartConfiguration>(
   "userMetrics:",
   structuredClone(userMetricsDefault),
@@ -47,30 +42,15 @@ export const nameAvgMetricsStore = computed(
 
 // Logger
 logger({
-  networkMetricsStore: networkMetricsStore,
   userMetricsStore: userMetricsStore,
 });
 
 // Modifiers
 export function resetEvaluation(): void {
-  networkMetricsStore.set(structuredClone(networkMetricsDefault));
   userMetricsStore.set(structuredClone(userMetricsDefault));
 }
 
-export function networkMetricsAddObservation(metrics: ItemEvaluation): void {
-  if (isNaN(metrics.score)) return;
 
-  const networkMetrics = { ...networkMetricsStore.get() };
-
-  if (networkMetrics.data.labels) {
-    networkMetrics.data.labels.push(networkMetrics.data.labels.length);
-  }
-
-  networkMetrics.data.datasets[0].data.push(metrics.classes.positive);
-  networkMetrics.data.datasets[1].data.push(metrics.classes.negative);
-
-  networkMetricsStore.set(networkMetrics);
-}
 
 export function userMetricAddObservation(
   metrics: Record<string, ItemEvaluation>,
@@ -92,10 +72,6 @@ export function userMetricAddObservation(
 }
 
 // Listeners
-threadItemAvgMetricsStore.subscribe((metrics) => {
-  networkMetricsAddObservation(metrics);
-});
-
 nameAvgMetricsStore.subscribe((metrics) => {
   userMetricAddObservation(metrics);
 });
