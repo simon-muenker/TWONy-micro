@@ -19,6 +19,7 @@ export type ThreadItem = {
   name: string;
   message: string;
   metrics: ItemEvaluation;
+  model?: string;
 };
 
 export type Thread = {
@@ -109,6 +110,7 @@ export function addReply(threadID: number, item: ThreadItem): void {
 export async function post(
   message: string,
   persona: Persona = personaUserStore.get()[0],
+  model?: string,
 ): Promise<void> {
   const classifyResult = await classify(message);
 
@@ -117,6 +119,7 @@ export async function post(
     name: persona.name,
     message: message,
     metrics: getItemEvaluation(classifyResult[0]),
+    model: model,
   });
 }
 
@@ -124,6 +127,7 @@ export async function reply(
   threadID: number,
   message: string,
   persona: Persona = personaUserStore.get()[0],
+  model?: string,
 ): Promise<void> {
   const classifyResult = await classify(message);
 
@@ -132,6 +136,7 @@ export async function reply(
     name: persona.name,
     message: message,
     metrics: getItemEvaluation(classifyResult[0]),
+    model: model,
   });
 }
 

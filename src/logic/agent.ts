@@ -9,12 +9,13 @@ import { settingsAgentStore } from "@stores/settings";
 
 // Agent Behavior
 export async function agentPost(persona: Persona): Promise<void> {
+  const model = settingsAgentStore.get().model;
   const chatResult = await chat(
-    settingsAgentStore.get().model,
+    model,
     createChat(persona, "post", " "),
   );
 
-  post(chatResult.choices[0].message.content, persona);
+  post(chatResult.choices[0].message.content, persona, model);
 }
 
 export async function agentReply(
@@ -33,10 +34,11 @@ export async function agentReply(
     });
   }
 
+  const model = settingsAgentStore.get().model;
   const chatResult = await chat(
-    settingsAgentStore.get().model,
+    model,
     createChat(persona, "reply", message),
   );
 
-  reply(threadID, chatResult.choices[0].message.content, persona);
+  reply(threadID, chatResult.choices[0].message.content, persona, model);
 }

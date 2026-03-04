@@ -6,7 +6,7 @@
 </script>
 
 <script lang="ts">
-  let { icon, name, message, metrics }: ThreadItem = $props();
+  let { icon, name, message, metrics, model }: ThreadItem = $props();
 </script>
 
 <div class="flex gap-4" transition:fade>
@@ -16,6 +16,9 @@
   <div class="grow">
     <span class="mr-0.5 font-extrabold text-black">{name}</span>
     <span class="text-sm text-slate-500">@{name}</span>
+    {#if model}
+      <span class="text-xs text-slate-400">({model})</span>
+    {/if}
     <br />
     <span>{message}</span>
     <div class="mt-2 flex gap-2 text-xs text-slate-500 select-none">
