@@ -39,7 +39,7 @@
     let newValue: string = target.value;
 
     if (newValue.length == 0) newValue = "UnamedAgent";
-    if (newValue.length > 24) newValue = newValue.slice(0, 24);
+    if (newValue.length > 20) newValue = newValue.slice(20);
 
     updatePersonaByID(key, { ...persona, name: newValue });
   }
@@ -89,7 +89,7 @@
       type="text"
       class="cursor-pointer rounded-lg bg-white px-2 py-2 text-center text-sm sm:text-base focus:outline-0"
       value={persona.name}
-      maxlength="24"
+      maxlength="20"
       oninput={(event) => {
         (updateName(event), updateSize(event));
       }}
