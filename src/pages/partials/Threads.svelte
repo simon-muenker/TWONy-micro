@@ -41,7 +41,7 @@
       {/if}
       <ThreadItem {...thread.post} />
       {#if thread.replies}
-        <section class="ml-4 border-l-4 border-gray-200 pt-4 pl-4 [&>*]:py-2">
+        <section class="ml-4 border-t-4 sm:border-t-0 sm:border-l-4 border-gray-200 mt-4 sm:pl-4 [&>*]:py-2">
           {#each thread.replies as reply}
             <ThreadItem {...reply} />
           {/each}

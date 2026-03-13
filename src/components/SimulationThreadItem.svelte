@@ -10,12 +10,15 @@
 </script>
 
 <div class="flex gap-4" transition:fade>
-  <div class="p-1 text-center text-3xl">
+  <div class="hidden sm:block p-1 text-center text-3xl">
     {icon}
   </div>
   <div class="grow">
-    <span class="mr-0.5 font-extrabold text-black">{name}</span>
-    <span class="text-sm text-slate-500">@{name}</span>
+    <div class="inline sm:hidden mr-1 text-center text-2xl">
+      {icon}
+    </div>
+    <span class="mr-0.5 font-extrabold text-black">@{name}</span>
+    <br class="sm:hidden">
     {#if model}
       <span class="text-xs text-slate-400">({model})</span>
     {/if}
