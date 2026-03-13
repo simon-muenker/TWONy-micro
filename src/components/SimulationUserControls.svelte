@@ -65,7 +65,7 @@
         {/each}
       </select>
     </label>
-    <label class="block">
+    <label class="hidden sm:block">
       <div class="caption">
         <Icon icon="mdi:speedometer" class="inline-block h-4 w-4" />
         Speed (ms)
