@@ -28,9 +28,9 @@
   </span>
 {/if}
 
-<div class="grid grid-cols-1 gap-4">
+<div class="grid grid-cols-1 gap-16 mt-8">
   {#each $settingsRankingStore.sentimentBased ? $rankedFeedStore : $reverseFeedStore as thread, index (index)}
-    <article class="box relative">
+    <article class="relative">
       {#if thread.post.name === $personaUserStore[0].name}
         <div
           class="absolute top-4 right-4 text-sm text-gray-400"
@@ -39,13 +39,15 @@
           📌 Pinned
         </div>
       {/if}
-      <ThreadItem {...thread.post} />
+      <section class="box green">
+        <ThreadItem {...thread.post} />
+      </section>
       {#if thread.replies}
-        <section class="ml-4 border-t-4 sm:border-t-0 sm:border-l-4 border-gray-200 mt-4 sm:pl-4 [&>*]:py-2">
           {#each thread.replies as reply}
+          <section class="ml-4 sm:ml-16 mt-3 sm:mt-6 box">
             <ThreadItem {...reply} />
+          </section>
           {/each}
-        </section>
       {/if}
       <div
         class="mt-4 flex place-content-end items-center gap-4 text-xs text-slate-500"

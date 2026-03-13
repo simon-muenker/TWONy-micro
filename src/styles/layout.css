@@ -11,3 +11,7 @@
 .box.green {
   @apply bg-emerald-50;
 }
+
+.box.pink {
+  @apply bg-pink-50;
+}
