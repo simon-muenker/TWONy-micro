@@ -69,7 +69,7 @@
   }
 </script>
 
-<div class="flex items-center justify-between gap-4">
+<div class="flex items-center justify-between gap-1 sm:gap-4">
   <button onclick={() => (collapsed = !collapsed)}>
     <Icon
       icon={collapsed ? "mdi:chevron-down" : "mdi:chevron-up"}
@@ -80,7 +80,7 @@
   <span class="flex font-medium text-gray-900">
     <input
       type="text"
-      class="mr-2 w-12 cursor-pointer rounded-full bg-white px-3 py-2 text-center focus:outline-0"
+      class="mr-2 w-10 sm:12 cursor-pointer rounded-full bg-white px-3 py-2 text-center text-sm sm:text-base focus:outline-0"
       value={persona.icon}
       maxlength="2"
       oninput={(event) => updateIcon(event)}
@@ -88,7 +88,7 @@
     <input
       use:initSize
       type="text"
-      class="cursor-pointer rounded-lg bg-white px-3 py-2 text-center focus:outline-0"
+      class="cursor-pointer rounded-lg bg-white px-2 py-2 text-center text-sm sm:text-base focus:outline-0"
       value={persona.name}
       maxlength="24"
       oninput={(event) => {
@@ -99,9 +99,9 @@
 
   <div class="grow"></div>
 
-  <button class="button small red" onclick={() => removePersona(persona)}>
-    <Icon icon="mdi:delete-outline" class="mr-1 inline-block h-5 w-5" />
-    delete
+  <button class="button p-1.5 sm:small red" onclick={() => removePersona(persona)}>
+    <Icon icon="mdi:delete-outline" class="sm:mr-1 inline-block h-5 w-5" />
+    <span class="hidden sm:inline">delete</span>
   </button>
 </div>
 
