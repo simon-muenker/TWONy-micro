@@ -18,12 +18,14 @@
     label: string;
     icon: string;
     color: "gray" | "blue" | "red";
-    clickEvent: Function;
+    hideSmall?: boolean;
+    clickEvent: () => void;
   }> = [
     {
       label: "download",
       icon: "mdi:file-download-outline",
       color: "gray",
+      hideSmall: true,
       clickEvent: () => downloadJSON(personaAgentsStore.get(), "personas"),
     },
     {
@@ -46,7 +48,7 @@
     <div class="flex items-center gap-4">
       <span class="grow text-sm font-medium text-gray-900">Batch Controls:</span
       >
-      <button class="button small">
+      <button class="hidden sm:button small">
         <label for="personas-upload" class="flex cursor-pointer items-center">
           <Icon
             icon="mdi:file-upload-outline"
@@ -69,7 +71,9 @@
 
       {#each actions as action}
         <button
-          class="button small {action.color}"
+          class="small {action.color} {action.hideSmall
+            ? 'hidden sm:button'
+            : 'button'}"
           onclick={() => action.clickEvent()}
         >
           <Icon icon={action.icon} class="mr-1 inline-block h-5 w-5" />
