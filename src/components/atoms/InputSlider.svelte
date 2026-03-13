@@ -2,6 +2,7 @@
   let {
     label,
     value = $bindable(100),
+    disabled = false,
     min = "-100",
     max = "100",
     step = "20",
@@ -13,6 +14,7 @@
   }: {
     label: string;
     value: number;
+    disabled?: boolean;
     min?: string | number;
     max?: string | number;
     step?: string | number;
@@ -30,10 +32,13 @@
     id={label}
     type="range"
     bind:value
+    {disabled}
     {min}
     {max}
     {step}
-    class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-200"
+    class={`h-2 w-full appearance-none rounded-lg bg-slate-200 ${
+      disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"
+    }`}
   />
   <span class="absolute start-0 -bottom-6">
     <span class="">{min}</span>

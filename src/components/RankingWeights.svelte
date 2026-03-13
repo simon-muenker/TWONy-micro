@@ -18,7 +18,11 @@
   });
 </script>
 
-<div class="box blue">
+<div
+  class={`box blue transition-opacity ${
+    $settingsRankingStore.sentimentBased ? "opacity-100" : "opacity-40"
+  }`}
+>
   <table class="-mt-6 w-full table-auto">
     <tbody>
       <tr>
@@ -27,7 +31,11 @@
           ><span class="circle green ml-1.5"></span></td
         >
         <td class="py-6">
-          <InputSlider label="positivity" bind:value={positiveWeight} />
+          <InputSlider
+            label="positivity"
+            bind:value={positiveWeight}
+            disabled={!$settingsRankingStore.sentimentBased}
+          />
         </td>
       </tr>
       <tr>
@@ -36,7 +44,11 @@
           ><span class="circle red ml-1.5"></span></td
         >
         <td class="py-6">
-          <InputSlider label="negativity" bind:value={negativeWeight} />
+          <InputSlider
+            label="negativity"
+            bind:value={negativeWeight}
+            disabled={!$settingsRankingStore.sentimentBased}
+          />
         </td>
       </tr>
     </tbody>
