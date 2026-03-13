@@ -29,7 +29,7 @@
       clickEvent: () => downloadJSON(personaAgentsStore.get(), "personas"),
     },
     {
-      label: "add New",
+      label: "add new",
       icon: "mdi:person-add",
       color: "blue",
       clickEvent: () => addPersonaDummy(),
