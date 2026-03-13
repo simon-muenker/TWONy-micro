@@ -18,8 +18,8 @@
 </script>
 
 <div class="flex flex-col gap-4">
-  <div class="flex gap-4">
-    <span class="inline-block w-8 text-3xl">{$personaUserStore[0].icon}</span>
+  <div class="flex flex-col sm:flex-row gap-4">
+    <span class="hidden sm:inline-block w-8 text-3xl">{$personaUserStore[0].icon}</span>
     <textarea
       name=""
       id=""
