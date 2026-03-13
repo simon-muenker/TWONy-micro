@@ -25,13 +25,13 @@
 }
 
 .divider {
-  @apply block h-12 border-transparent;
+  @apply block h-6 sm:h-12 border-transparent;
 }
 
 .divider.small {
-  @apply block h-6 border-transparent;
+  @apply block h-3 sm:h-6 border-transparent;
 }
 
 .divider.large {
-  @apply block h-24 border-transparent;
+  @apply block h-16 sm:h-24 border-transparent;
 }
