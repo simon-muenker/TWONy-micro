@@ -20,7 +20,9 @@
 
 <div
   class={`box blue transition-opacity ${
-    $settingsRankingStore.sentimentBased ? "opacity-100" : "opacity-40"
+    $settingsRankingStore.sentimentBased
+      ? "opacity-100"
+      : "opacity-40 select-none cursor-not-allowed"
   }`}
 >
   <table class="-mt-6 w-full table-auto">
