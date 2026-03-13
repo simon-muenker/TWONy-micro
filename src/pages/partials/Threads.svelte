@@ -24,7 +24,7 @@
 
 {#if $settingsSimulationStore.running || $isClassifyingStore}
   <span class="mx-auto my-4 block animate-pulse text-center text-sm italic">
-    Generating & Classifying Content ... Please stand by.
+    Generating & Classifying Content ...<br class="sm:hidden">Please stand by.
   </span>
 {/if}
 
