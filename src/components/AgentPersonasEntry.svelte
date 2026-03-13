@@ -98,7 +98,7 @@
 
   <div class="grow"></div>
 
-  <button class="button p-1.5 sm:small red" onclick={() => removePersona(persona)}>
+  <button class="button small red" onclick={() => removePersona(persona)}>
     <Icon icon="mdi:delete-outline" class="sm:mr-1 inline-block h-5 w-5" />
     <span class="hidden sm:inline">delete</span>
   </button>
