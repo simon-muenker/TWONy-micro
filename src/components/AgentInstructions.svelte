@@ -55,7 +55,7 @@
 <div class="flex flex-col gap-4">
   <div class="box">
     <div class="flex items-center gap-4">
-      <span class="grow text-sm font-medium text-gray-900">Batch Controls:</span
+      <span class="grow text-sm font-medium text-gray-900">batch controls</span
       >
       <button class="hidden sm:button small">
         <label
@@ -81,9 +81,9 @@
 
       {#each actions as action}
         <button
-          class="button small {action.color} {action.hideSmall
-            ? 'hidden sm:inline-flex'
-            : ''}"
+          class="small {action.color} {action.hideSmall
+            ? 'hidden sm:button'
+            : 'button'}"
           onclick={() => action.clickEvent()}
         >
           <Icon icon={action.icon} class="mr-1 inline-block h-5 w-5" />
@@ -95,8 +95,8 @@
 
   {#each Object.entries($instructionsStore) as [key, instruction], index (index)}
     <div class="box blue">
-      <h3 class="mb-1.5 text-sm font-medium text-gray-900">
-        Adapt {key} instruction
+      <h3 class="mb-1.5 text-sm text-slate-600">
+        adapt <span class="font-medium text-slate-800">{key}</span> instruction
       </h3>
       <textarea
         name={key}

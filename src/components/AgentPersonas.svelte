@@ -46,7 +46,7 @@
 <div class="flex flex-col gap-4">
   <div class="box">
     <div class="flex items-center gap-4">
-      <span class="grow text-sm font-medium text-gray-900">Batch Controls:</span
+      <span class="grow text-sm font-medium text-gray-900">batch controls</span
       >
       <button class="hidden sm:button small">
         <label for="personas-upload" class="flex cursor-pointer items-center">
