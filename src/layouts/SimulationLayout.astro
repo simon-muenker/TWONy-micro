@@ -32,7 +32,7 @@ const { title } = Astro.props;
       <Footer />
     </Flyout>
 
-    <Flyout id="eval" side="right" width="w-80" hideOn="xl:hidden" padding="p-4" gap="gap-4">
+    <Flyout id="eval" side="right" hideOn="xl:hidden" padding="p-4" gap="gap-4">
       <span slot="header" class="text-base font-semibold text-slate-700">Evaluation</span>
       <Evaluation client:load />
     </Flyout>
