@@ -1,5 +1,6 @@
 ---
 import "@styles/global.css";
+import { Icon } from "astro-icon/components";
 
 import MobileTopBar from "@layouts/partials/MobileTopBar.astro";
 import Flyout from "@layouts/partials/Flyout.astro";
@@ -42,7 +43,16 @@ const { title } = Astro.props;
     <div class="mx-auto max-w-screen-2xl px-6 py-16 md:px-8">
       <div class="grid grid-cols-12 gap-0 lg:gap-16">
         <div class="relative col-span-3 hidden lg:block">
-          <Sidebar />
+          <Sidebar>
+            <button
+              data-flyout-toggle="eval"
+              class="button base blue hidden w-full items-center justify-center xl:hidden!"
+              aria-label="Open evaluation"
+            >
+              <Icon name="mdi:chart-bar" class="mr-2 text-xl" />
+              Show Evaluation
+            </button>
+          </Sidebar>
         </div>
 
         <main class="col-span-12 lg:col-span-9 xl:col-span-6">
