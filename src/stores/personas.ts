@@ -60,7 +60,7 @@ export function addPersona(persona: Persona): void {
 export function addPersonaDummy(): void {
   addPersona({
     icon: "❓",
-    name: `UnamedAgent_${uuid().slice(0, 8)}`,
+    name: `uknown_${uuid().slice(0, 4)}`,
     instruction: "Describe its behavior...",
     active: true,
   });
