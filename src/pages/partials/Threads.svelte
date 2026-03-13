@@ -44,7 +44,7 @@
       </section>
       {#if thread.replies}
           {#each thread.replies as reply}
-          <section class="ml-4 sm:ml-16 mt-3 sm:mt-6 box">
+          <section class="sm:ml-16 mt-3 sm:mt-6 box">
             <ThreadItem {...reply} />
           </section>
           {/each}
@@ -65,7 +65,7 @@
           )}
         </span>
         <span class="font-bold">
-          thread score: {_.round(thread.metrics.score, 2)}
+          score: {_.round(thread.metrics.score, 2)}
         </span>
       </div>
     </article>

@@ -14,16 +14,18 @@
     {icon}
   </div>
   <div class="grow">
+  <div class="flex gap-2 items-center">
     <div class="inline sm:hidden mr-1 text-center text-2xl">
       {icon}
     </div>
-    <span class="mr-0.5 font-extrabold text-black">@{name}</span>
-    <br class="sm:hidden">
-    {#if model}
-      <span class="text-xs text-slate-400">({model})</span>
-    {/if}
-    <br />
-    <span>{message}</span>
+    <div class="flex flex-col sm:flex-row gap-1 sm:items-center">
+      <span class="mr-0.5 font-extrabold text-black">@{name}</span>
+      {#if model}
+        <span class="text-xs text-slate-400">({model})</span>
+      {/if}
+    </div>
+  </div>
+    <span class="text-sm sm:text-base">{message}</span>
     <div class="mt-2 flex gap-2 text-xs text-slate-500 select-none">
       <div>
         <span class=""
