@@ -8,7 +8,7 @@
     step = "20",
     description = {
       min: "decreased",
-      center: "ranking effect",
+      center: "rank effect",
       max: "increased",
     },
   }: {
@@ -41,15 +41,15 @@
     }`}
   />
   <span class="absolute start-0 -bottom-6">
-    <span class="">{min}</span>
-    <span class="text-xs text-slate-600">({description.min})</span>
+    <span class="italic text-sm text-slate-400">{min}</span>
+    <span class="hidden sm:inline text-xs text-slate-600">({description.min})</span>
   </span>
   <span class="absolute start-1/2 -bottom-6 -translate-x-1/2">
     <span class="font-bold">{value}</span>
     <span class="text-xs text-slate-600">({description.center})</span>
   </span>
   <span class="absolute end-0 -bottom-6">
-    <span class="">{max}</span>
-    <span class="text-xs text-slate-600">({description.max})</span>
+    <span class="italic text-sm text-slate-400">{max}</span>
+    <span class="hidden sm:inline text-xs text-slate-600">({description.max})</span>
   </span>
 </div>
