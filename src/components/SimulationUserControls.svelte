@@ -31,10 +31,10 @@
   }
 </script>
 
-<div class="flex items-center justify-between gap-6">
-  <div class="">
+<div class="flex gap-4 justify-between md:items-end p-1 flex-col-reverse sm:flex-row">
+  <div class="flex items-center gap-2 shrink mt-4">
     <button
-      class="button base {running ? 'red animate-pulse' : 'green'} mr-1"
+      class="button base {running ? 'red animate-pulse' : 'green'} w-full justify-center sm:w-auto"
       onclick={() => (running = !running)}
     >
       <Icon
@@ -43,7 +43,10 @@
       />
       {running ? "Stop" : "Start"}
     </button>
-    <button class="button base red outline" onclick={() => resetSimulation()}>
+    <button
+      class="button base red outline w-full justify-center sm:w-auto"
+      onclick={() => resetSimulation()}
+    >
       <Icon
         icon="mdi:circle-arrows"
         class="mr-1 -ml-1 h-5 w-5 hover:animate-spin"
@@ -51,29 +54,28 @@
       Reset
     </button>
   </div>
-  <div class="grow"></div>
-  <div>
-    <div class="caption">
-      <Icon icon="mdi:robot-outline" class="inline-block h-4 w-4" />
-      Language Model (Hugging Face)
-    </div>
-    <select name="model" id="model" bind:value={model} class="inputbase">
-      {#each MODELS as option}
-        <option value={option}>{option}</option>
-      {/each}
-    </select>
-  </div>
-  <div>
-    <div class="caption">
-      <Icon icon="mdi:speedometer" class="inline-block h-4 w-4" />
-      Speed (ms)
-    </div>
-    <input
-      type="number"
-      class="inputbase"
-      bind:value={tickTime}
-      min="100"
-      max="4000"
-    />
-  </div>
+  <label class="block width-100%">
+      <div class="caption">
+        <Icon icon="mdi:robot-outline" class="inline-block h-4 w-4" />
+        Language Model (Hugging Face)
+      </div>
+      <select name="model" id="model" bind:value={model} class="inputbase">
+        {#each MODELS as option}
+          <option value={option}>{option}</option>
+        {/each}
+      </select>
+    </label>
+    <label class="block">
+      <div class="caption">
+        <Icon icon="mdi:speedometer" class="inline-block h-4 w-4" />
+        Speed (ms)
+      </div>
+      <input
+        type="number"
+        class="inputbase"
+        bind:value={tickTime}
+        min="100"
+        max="4000"
+      />
+    </label>
 </div>
