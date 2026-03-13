@@ -1,0 +1,63 @@
+---
+/**
+ * Flyout panel component.
+ *
+ * Props:
+ *   id        – unique string used by FlyoutController to wire toggle/close buttons
+ *   side      – "left" | "right"  determines slide-in direction
+ *   width     – Tailwind width class            (default: "w-72")
+ *   duration  – Tailwind transition-duration    (default: "duration-300")
+ *   hideOn    – Tailwind responsive hidden class (default: "", e.g. "lg:hidden")
+ *   padding   – inner padding class             (default: "p-5")
+ *   gap       – flex column gap class           (default: "gap-6")
+ *
+ * Slots:
+ *   header  – content placed left of the close button in the flyout header row
+ *   default – main body content
+ */
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  id: string;
+  side: "left" | "right";
+  width?: string;
+  duration?: string;
+  hideOn?: string;
+  padding?: string;
+  gap?: string;
+}
+
+const {
+  id,
+  side,
+  width = "w-96",
+  duration = "duration-300",
+  hideOn = "",
+  padding = "p-5",
+  gap = "gap-6",
+} = Astro.props;
+
+const closedClass = side === "left" ? "-translate-x-full" : "translate-x-full";
+const positionClass = side === "left" ? "left-0" : "right-0";
+---
+
+<div
+  data-flyout
+  data-flyout-id={id}
+  data-flyout-side={side}
+  class={`${closedClass} fixed inset-y-0 ${positionClass} z-50 ${width} max-w-[90vw] overflow-y-auto bg-white shadow-2xl transition-transform ${duration} ease-in-out ${hideOn}`}
+>
+  <div class={`flex min-h-full flex-col ${gap} ${padding}`}>
+    <div class="flex items-start justify-between">
+      <slot name="header" />
+      <button
+        data-flyout-close={id}
+        aria-label="Close panel"
+        class="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-600 transition-colors hover:bg-slate-100"
+      >
+        <Icon name="mdi:close" class="text-3xl" />
+      </button>
+    </div>
+    <slot />
+  </div>
+</div>

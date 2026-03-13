@@ -1,0 +1,57 @@
+---
+/**
+ * Sticky mobile top bar (visible below lg).
+ *
+ * Props:
+ *   navFlyoutId      – flyout id for the left hamburger toggle
+ *   rightFlyoutId    – flyout id for the optional right action button
+ *   rightIcon        – mdi icon name for the right button (e.g. "mdi:chart-bar")
+ *   rightHideClass   – extra Tailwind class(es) on the right button (e.g. "xl:invisible")
+ */
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  navFlyoutId: string;
+  rightFlyoutId?: string;
+  rightIcon?: string;
+  rightHideClass?: string;
+}
+
+const {
+  navFlyoutId,
+  rightFlyoutId,
+  rightIcon,
+  rightHideClass = "",
+} = Astro.props;
+---
+
+<div
+  class="sticky top-0 z-30 flex items-center justify-between border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur-sm lg:hidden"
+>
+  <button
+    data-flyout-toggle={navFlyoutId}
+    aria-label="Open navigation"
+    class="flex h-10 w-10 items-center justify-center rounded-lg text-slate-700 transition-colors hover:bg-slate-100"
+  >
+    <Icon name="mdi:menu" class="text-3xl" />
+  </button>
+
+  <span class="text-2xl font-bold">
+    T<span class="text-sky-500">W</span>ONy
+    <span class="text-sm font-normal text-slate-500">(micro)</span>
+  </span>
+
+  {
+    rightFlyoutId && rightIcon ? (
+      <button
+        data-flyout-toggle={rightFlyoutId}
+        aria-label="Open panel"
+        class={`flex h-10 w-10 items-center justify-center rounded-lg text-slate-700 transition-colors hover:bg-slate-100 ${rightHideClass}`}
+      >
+        <Icon name={rightIcon} class="text-3xl" />
+      </button>
+    ) : (
+      <div class="h-10 w-10" />
+    )
+  }
+</div>

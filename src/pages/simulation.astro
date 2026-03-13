@@ -1,14 +1,13 @@
 ---
-import BaseLayout from "src/layouts/BaseLayout.astro";
+import SimulationLayout from "src/layouts/SimulationLayout.astro";
 
 import Threads from "@pages/partials/Threads.svelte";
-import Evaluation from "@pages/partials/Evaluation.svelte";
 
 import SimulationUserPost from "@components/SimulationUserPost.svelte";
 import SimulationControls from "@components/SimulationUserControls.svelte";
 ---
 
-<BaseLayout title="TWONy-micro - Simulation">
+<SimulationLayout title="TWONy-micro - Simulation">
   <h2 class="pageheading">Start the Simulation.</h2>
   <p class="pagesubline">
     Press the green <strong
@@ -47,9 +46,7 @@ import SimulationControls from "@components/SimulationUserControls.svelte";
   </p>
 
   <Threads client:load />
-
-  <Evaluation client:load slot="sidebar-left" />
-</BaseLayout>
+</SimulationLayout>
 
 <script>
   import "@logic/simulation";

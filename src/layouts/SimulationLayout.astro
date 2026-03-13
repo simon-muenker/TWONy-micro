@@ -8,6 +8,7 @@ import Sidebar from "@layouts/partials/Sidebar.astro";
 import Branding from "@layouts/partials/Branding.astro";
 import Menu from "@layouts/partials/Menu.astro";
 import Footer from "@layouts/partials/Footer.astro";
+import Evaluation from "@pages/partials/Evaluation.svelte";
 
 interface Props {
   title: string;
@@ -23,12 +24,17 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <MobileTopBar navFlyoutId="nav" />
+    <MobileTopBar navFlyoutId="nav" rightFlyoutId="eval" rightIcon="mdi:chart-bar" rightHideClass="xl:invisible" />
 
     <Flyout id="nav" side="left" hideOn="lg:hidden" padding="p-6" gap="gap-8">
       <header slot="header"><Branding /></header>
       <div class="rounded-xl bg-sky-50 px-3 py-3"><Menu /></div>
       <Footer />
+    </Flyout>
+
+    <Flyout id="eval" side="right" width="w-80" hideOn="xl:hidden" padding="p-4" gap="gap-4">
+      <span slot="header" class="text-base font-semibold text-slate-700">Evaluation</span>
+      <Evaluation client:load />
     </Flyout>
 
     <FlyoutController />
@@ -38,11 +44,13 @@ const { title } = Astro.props;
         <div class="relative col-span-3 hidden lg:block">
           <Sidebar />
         </div>
+
         <main class="col-span-12 lg:col-span-9 xl:col-span-6">
           <slot />
         </main>
+
         <aside class="col-span-3 hidden xl:block">
-          <slot name="sidebar-left" />
+          <Evaluation client:load />
         </aside>
       </div>
     </div>

@@ -1,0 +1,67 @@
+---
+/**
+ * Renders the shared backdrop overlay and wires all [data-flyout] elements
+ * on the page via data attributes.
+ *
+ * Include exactly once per layout that uses Flyout components.
+ * Relies on these data attributes placed by Flyout.astro and MobileTopBar.astro:
+ *   data-flyout            – marks a flyout panel element
+ *   data-flyout-id         – unique string id on the panel
+ *   data-flyout-side       – "left" | "right"
+ *   data-flyout-toggle     – on toggle buttons: value = target flyout id
+ *   data-flyout-close      – on close buttons inside panels: value = flyout id
+ */
+---
+
+<div id="flyout-overlay" class="fixed inset-0 z-40 hidden bg-black/50"></div>
+
+<script>
+  const overlay = document.getElementById("flyout-overlay");
+  const flyouts = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-flyout]"),
+  );
+
+  function closedClass(el: HTMLElement): string {
+    return el.dataset.flyoutSide === "left" ? "-translate-x-full" : "translate-x-full";
+  }
+
+  function isOpen(el: HTMLElement): boolean {
+    return el.classList.contains("translate-x-0");
+  }
+
+  function anyOpen(): boolean {
+    return flyouts.some(isOpen);
+  }
+
+  function open(el: HTMLElement): void {
+    el.classList.replace(closedClass(el), "translate-x-0");
+    overlay?.classList.remove("hidden");
+  }
+
+  function close(el: HTMLElement): void {
+    el.classList.replace("translate-x-0", closedClass(el));
+    if (!anyOpen()) overlay?.classList.add("hidden");
+  }
+
+  document
+    .querySelectorAll<HTMLElement>("[data-flyout-toggle]")
+    .forEach((btn) => {
+      const id = btn.dataset.flyoutToggle!;
+      const flyout = document.querySelector<HTMLElement>(
+        `[data-flyout-id="${id}"]`,
+      );
+      if (flyout) btn.addEventListener("click", () => open(flyout));
+    });
+
+  document
+    .querySelectorAll<HTMLElement>("[data-flyout-close]")
+    .forEach((btn) => {
+      const id = btn.dataset.flyoutClose!;
+      const flyout = document.querySelector<HTMLElement>(
+        `[data-flyout-id="${id}"]`,
+      );
+      if (flyout) btn.addEventListener("click", () => close(flyout));
+    });
+
+  overlay?.addEventListener("click", () => flyouts.forEach(close));
+</script>
