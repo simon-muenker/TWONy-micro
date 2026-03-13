@@ -102,7 +102,7 @@
         name={key}
         id={key}
         class="textarea -mb-1"
-        rows="4"
+        rows="5"
         value={instruction.content}
         onchange={(event) =>
           updateInstruction(key as keyof Instructions, instruction, event)}
