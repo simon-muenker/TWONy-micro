@@ -20,7 +20,6 @@
     persona: Persona;
   } = $props();
 
-  let isActive = $state(persona.active);
   let collapsed = $state(true);
 
   function updateIcon(event: Event): void {
