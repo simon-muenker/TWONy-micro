@@ -50,10 +50,18 @@ export const settingsRankingStore = persistentMap<SettingsRanking>(
 );
 
 if (typeof window !== "undefined") {
-  const apiKey = new URLSearchParams(window.location.search).get("apiKey");
+  const params = new URLSearchParams(window.location.search);
+  const apiKey = params.get("apiKey");
 
   if (apiKey !== null) {
     settingsSimulationStore.setKey("apiKey", apiKey);
+
+    params.delete("apiKey");
+    const nextQuery = params.toString();
+    const nextUrl = `${window.location.pathname}${
+      nextQuery ? `?${nextQuery}` : ""
+    }${window.location.hash}`;
+    window.history.replaceState(window.history.state, "", nextUrl);
   }
 }
 
