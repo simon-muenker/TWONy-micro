@@ -49,6 +49,14 @@ export const settingsRankingStore = persistentMap<SettingsRanking>(
   STORE_PARSER,
 );
 
+if (typeof window !== "undefined") {
+  const apiKey = new URLSearchParams(window.location.search).get("apiKey");
+
+  if (apiKey !== null) {
+    settingsSimulationStore.setKey("apiKey", apiKey);
+  }
+}
+
 logger({
   settingsSimulationStore: settingsSimulationStore,
   settingsAgentStore: settingsAgentStore,
