@@ -1,41 +1,58 @@
 <script module>
-  import Icon from "@iconify/svelte";
+  import Icon from "@components/atoms/Icon.svelte";
 
   import { MODELS } from "@/_constants";
 
   import {
     settingsSimulationStore,
     settingsAgentStore,
-  } from "@/stores/settings";
+  } from "@stores/settings";
   import { clearFeed } from "@stores/feed";
-  import { resetEvaluation } from "@stores/evaluation";
+  import { setNotice } from "@stores/simulation";
   import { resetAssignedModels } from "@logic/agent";
 </script>
 
 <script lang="ts">
-  let running: boolean = $state(settingsSimulationStore.get().running);
-  let tickTime: number = $state(settingsSimulationStore.get().tickTime);
-  let model: (typeof MODELS)[number] = $state(settingsAgentStore.get().model);
+  // The stores are the single source of truth: the simulation itself may
+  // stop a run (e.g. on an invalid API key), which must be reflected here.
+  let running = $derived($settingsSimulationStore.running);
 
-  $effect(() => {
-    settingsSimulationStore.setKey("running", running);
-    settingsSimulationStore.setKey("tickTime", tickTime);
-    settingsAgentStore.setKey("model", model);
-  });
+  function toggleRunning(): void {
+    settingsSimulationStore.setKey("running", !running);
+  }
 
-  function resetSimulation() {
-    running = false;
+  function resetSimulation(): void {
+    settingsSimulationStore.setKey("running", false);
     clearFeed();
-    resetEvaluation();
     resetAssignedModels();
+    setNotice(null);
+  }
+
+  function updateTickTime(event: Event): void {
+    const value = (event.currentTarget as HTMLInputElement).valueAsNumber;
+    if (Number.isFinite(value)) {
+      settingsSimulationStore.setKey("tickTime", value);
+    }
+  }
+
+  function updateModel(event: Event): void {
+    settingsAgentStore.setKey(
+      "model",
+      (event.currentTarget as HTMLSelectElement).value,
+    );
   }
 </script>
 
-<div class="flex gap-4 justify-between md:items-end p-1 flex-col-reverse sm:flex-row">
-  <div class="flex items-center gap-2 shrink mt-4">
+<div
+  class="flex flex-col-reverse gap-4 p-1 sm:flex-row sm:items-end sm:justify-between"
+>
+  <div class="flex shrink-0 items-center gap-2">
     <button
-      class="button base {running ? 'red animate-pulse' : 'green'} w-full justify-center sm:w-auto"
-      onclick={() => (running = !running)}
+      type="button"
+      class="button base {running
+        ? 'red'
+        : 'green'} w-full justify-center sm:w-auto"
+      onclick={toggleRunning}
     >
       <Icon
         icon={running ? "mdi:stop" : "mdi:play"}
@@ -44,38 +61,46 @@
       {running ? "Stop" : "Start"}
     </button>
     <button
-      class="button base red outline w-full justify-center sm:w-auto"
-      onclick={() => resetSimulation()}
+      type="button"
+      class="button base ghost red w-full justify-center sm:w-auto"
+      onclick={resetSimulation}
     >
-      <Icon
-        icon="mdi:circle-arrows"
-        class="mr-1 -ml-1 h-5 w-5 hover:animate-spin"
-      />
+      <Icon icon="mdi:circle-arrows" class="mr-1 -ml-1 h-5 w-5" />
       Reset
     </button>
   </div>
-  <label class="block width-100%">
-      <div class="caption">
+
+  <div class="flex min-w-0 gap-4 sm:justify-end">
+    <label class="block min-w-0 grow sm:max-w-72">
+      <span class="caption">
         <Icon icon="mdi:robot-outline" class="inline-block h-4 w-4" />
         Language Model (Hugging Face)
-      </div>
-      <select name="model" id="model" bind:value={model} class="inputbase">
-        {#each MODELS as option}
+      </span>
+      <select
+        name="model"
+        class="inputbase"
+        value={$settingsAgentStore.model}
+        onchange={updateModel}
+      >
+        {#each MODELS as option (option)}
           <option value={option}>{option}</option>
         {/each}
       </select>
     </label>
-    <label class="hidden sm:block">
-      <div class="caption">
+    <label class="hidden w-24 shrink-0 sm:block">
+      <span class="caption">
         <Icon icon="mdi:speedometer" class="inline-block h-4 w-4" />
         Speed (ms)
-      </div>
+      </span>
       <input
         type="number"
         class="inputbase"
-        bind:value={tickTime}
         min="100"
-        max="4000"
+        max="10000"
+        step="100"
+        value={$settingsSimulationStore.tickTime}
+        onchange={updateTickTime}
       />
     </label>
+  </div>
 </div>

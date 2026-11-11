@@ -72,7 +72,7 @@ TWONy-micro is an educational tool that visualizes how algorithmic choices shape
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 | `npm run prettier`        | Format code with Prettier                        |
-| `npm run eslint`          | Lint code and fix issues   
+| `npm run eslint`          | Lint code and fix issues                         |
 
 ## Privacy & Data
 
