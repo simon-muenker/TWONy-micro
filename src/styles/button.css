@@ -1,7 +1,5 @@
-@import "tailwindcss";
-
 .button {
-  @apply inline-flex cursor-pointer items-center rounded-lg border-1 border-transparent bg-slate-500 font-bold text-white transition-opacity hover:opacity-60 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:opacity-50;
+  @apply inline-flex cursor-pointer items-center rounded-lg border border-transparent bg-slate-500 font-bold whitespace-nowrap text-white transition-opacity select-none hover:opacity-60 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:opacity-50;
 }
 
 .button.base {
@@ -10,10 +8,6 @@
 
 .button.small {
   @apply px-2 py-1 text-xs;
-}
-
-.button.outline {
-  @apply border-slate-600 bg-white text-slate-600;
 }
 
 .button.red {
@@ -28,14 +22,19 @@
   @apply border-sky-500 bg-sky-500;
 }
 
-.button.outline.red {
-  @apply bg-white text-rose-600;
+/* outlined variants ("ghost" avoids clashing with Tailwind's `outline` utility) */
+.button.ghost {
+  @apply border-slate-600 bg-white text-slate-600;
 }
 
-.button.outline.green {
-  @apply bg-white text-emerald-600;
+.button.ghost.red {
+  @apply border-rose-500 text-rose-600;
 }
 
-.button.outline.blue {
-  @apply bg-white text-sky-600;
+.button.ghost.green {
+  @apply border-emerald-500 text-emerald-600;
+}
+
+.button.ghost.blue {
+  @apply border-sky-500 text-sky-600;
 }

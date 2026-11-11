@@ -1,27 +1,29 @@
-import { v4 as uuid } from "uuid";
-import fileSaver from "file-saver";
-
-export function downloadJSON(data: Object, label = "state"): void {
-  fileSaver.saveAs(
+export function downloadJSON(data: unknown, label = "state"): void {
+  const url = URL.createObjectURL(
     new Blob([JSON.stringify(data, null, 4)], { type: "application/json" }),
-    label + "." + uuid() + ".json",
   );
+  const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${label}.${stamp}.json`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  // give the browser a moment to start the download before releasing the blob
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export async function uploadJSON(event: Event): Promise<Object> {
-  return new Promise((resolve, reject) => {
-    const target = event.target as unknown as { files: File[] };
-    const file: File = target?.files[0];
+export async function uploadJSON(event: Event): Promise<unknown> {
+  const input = event.target as HTMLInputElement | null;
+  const file = input?.files?.[0];
+  if (!file) throw new Error("No file selected.");
 
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      if (!e.target) throw new Error("No event target.");
-      if (!e.target.result) throw new Error("No target results.");
-
-      resolve(JSON.parse(e.target.result as string));
-    };
-    reader.onerror = (err) => reject(err);
-    reader.readAsText(file);
-  });
+  try {
+    return JSON.parse(await file.text());
+  } finally {
+    // allow selecting the same file again
+    if (input) input.value = "";
+  }
 }

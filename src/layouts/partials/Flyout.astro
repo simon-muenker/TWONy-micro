@@ -1,63 +1,99 @@
 ---
 /**
- * Flyout panel component.
+ * Responsive side panel.
+ *
+ * Below the `staticFrom` breakpoint the panel is an off-canvas flyout that
+ * slides in from `side`. From that breakpoint on it is a regular, sticky
+ * column of the page grid. The content is rendered (and hydrated) only once
+ * for both presentations.
+ *
+ * Opening/closing is wired by the script in BaseLayout via data attributes:
+ *   data-flyout="<id>"         – on the panel
+ *   data-flyout-toggle="<id>"  – on buttons that open the panel
+ *   data-flyout-close          – on the close button inside the panel
+ *   data-open                  – set on the panel while it is open
  *
  * Props:
- *   id        – unique string used by FlyoutController to wire toggle/close buttons
- *   side      – "left" | "right"  determines slide-in direction
- *   width     – Tailwind width class            (default: "w-72")
- *   duration  – Tailwind transition-duration    (default: "duration-300")
- *   hideOn    – Tailwind responsive hidden class (default: "", e.g. "lg:hidden")
- *   padding   – inner padding class             (default: "p-5")
- *   gap       – flex column gap class           (default: "gap-6")
+ *   id         – unique id referenced by toggle buttons
+ *   side       – "left" | "right", slide-in direction
+ *   staticFrom – "lg" | "xl", breakpoint from which the panel is a grid column
+ *   label      – accessible name of the panel
  *
  * Slots:
- *   header  – content placed left of the close button in the flyout header row
- *   default – main body content
+ *   header  – shown left of the close button; stays visible in column mode.
+ *             Without it the whole header row is hidden in column mode.
+ *   default – panel content
  */
 import { Icon } from "astro-icon/components";
 
 interface Props {
   id: string;
   side: "left" | "right";
-  width?: string;
-  duration?: string;
-  hideOn?: string;
-  padding?: string;
-  gap?: string;
+  staticFrom: "lg" | "xl";
+  label: string;
 }
 
-const {
-  id,
-  side,
-  width = "w-96",
-  duration = "duration-300",
-  hideOn = "",
-  padding = "p-5",
-  gap = "gap-6",
-} = Astro.props;
+const { id, side, staticFrom, label } = Astro.props;
 
-const closedClass = side === "left" ? "-translate-x-full" : "translate-x-full";
-const positionClass = side === "left" ? "left-0" : "right-0";
+// Complete class names are spelled out so Tailwind can detect them.
+const sideClass = {
+  left: "left-0 -translate-x-full",
+  right: "right-0 translate-x-full",
+}[side];
+
+const staticClass = {
+  lg: "lg:visible lg:sticky lg:inset-auto lg:top-4 lg:z-auto lg:col-span-4 lg:max-h-[calc(100dvh-2rem)] lg:w-auto lg:max-w-none lg:translate-x-0 lg:self-start lg:bg-transparent lg:p-0 lg:shadow-none lg:transition-none xl:col-span-3",
+  xl: "xl:visible xl:sticky xl:inset-auto xl:top-4 xl:z-auto xl:col-span-3 xl:max-h-[calc(100dvh-2rem)] xl:w-auto xl:max-w-none xl:translate-x-0 xl:self-start xl:bg-transparent xl:p-0 xl:shadow-none xl:transition-none",
+}[staticFrom];
+
+const staticHidden = { lg: "lg:hidden", xl: "xl:hidden" }[staticFrom];
+const staticQuery = { lg: "(min-width: 64rem)", xl: "(min-width: 80rem)" }[
+  staticFrom
+];
+
+const hasHeader = Astro.slots.has("header");
 ---
 
-<div
-  data-flyout
-  data-flyout-id={id}
-  data-flyout-side={side}
-  class={`${closedClass} fixed inset-y-0 ${positionClass} z-50 ${width} max-w-[90vw] overflow-y-auto bg-white shadow-xl transition-transform ${duration} ease-in-out ${hideOn}`}
+<aside
+  data-flyout={id}
+  data-flyout-static={staticQuery}
+  aria-label={label}
+  class:list={[
+    "invisible fixed inset-y-0 z-50 w-96 max-w-[90vw] overflow-y-auto overscroll-contain bg-white p-5 shadow-xl",
+    "transition-[translate,visibility] duration-300 ease-in-out",
+    "data-open:visible data-open:translate-x-0",
+    sideClass,
+    staticClass,
+  ]}
 >
-  <div class={`flex min-h-full flex-col ${gap} ${padding}`}>
-    <div class="flex items-start justify-between">
-      <slot name="header" />
+  <div class="flex min-h-full flex-col gap-8">
+    <div
+      class:list={[
+        "flex items-start justify-between gap-4",
+        !hasHeader && staticHidden,
+      ]}
+    >
+      {
+        hasHeader ? (
+          <slot name="header" />
+        ) : (
+          <span class="mt-2 text-base font-semibold text-slate-700">
+            {label}
+          </span>
+        )
+      }
       <button
-        data-flyout-close={id}
-        aria-label="Close panel"
-        class="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-600 transition-colors hover:bg-slate-100"
+        type="button"
+        data-flyout-close
+        aria-label={`Close ${label.toLowerCase()}`}
+        class:list={[
+          "flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-lg text-slate-600 transition-colors hover:bg-slate-100",
+          staticHidden,
+        ]}
       >
         <Icon name="mdi:close" class="text-3xl" />
       </button>
     </div>
     <slot />
   </div>
-</div>
+</aside>

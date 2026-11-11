@@ -1,12 +1,12 @@
 ---
 /**
- * Sticky mobile top bar (visible below lg).
+ * Sticky top bar (visible below lg).
  *
  * Props:
- *   navFlyoutId      – flyout id for the left hamburger toggle
- *   rightFlyoutId    – flyout id for the optional right action button
- *   rightIcon        – mdi icon name for the right button (e.g. "mdi:chart-bar")
- *   rightHideClass   – extra Tailwind class(es) on the right button (e.g. "xl:invisible")
+ *   navFlyoutId    – flyout id for the left hamburger toggle
+ *   rightFlyoutId  – flyout id for the optional right action button
+ *   rightIcon      – mdi icon name for the right button (e.g. "mdi:chart-bar")
+ *   rightLabel     – accessible name of the panel opened by the right button
  */
 import { Icon } from "astro-icon/components";
 
@@ -14,24 +14,24 @@ interface Props {
   navFlyoutId: string;
   rightFlyoutId?: string;
   rightIcon?: string;
-  rightHideClass?: string;
+  rightLabel?: string;
 }
 
-const {
-  navFlyoutId,
-  rightFlyoutId,
-  rightIcon,
-  rightHideClass = "",
-} = Astro.props;
+const { navFlyoutId, rightFlyoutId, rightIcon, rightLabel } = Astro.props;
+
+const buttonClass =
+  "flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-slate-700 transition-colors hover:bg-white/60";
 ---
 
 <div
-  class="sticky top-4 z-30 m-4 flex items-center justify-between bg-sky-100 px-4 py-3 backdrop-blur-sm rounded-2xl shadow-md lg:hidden"
+  class="sticky top-4 z-30 m-4 flex items-center justify-between rounded-2xl bg-sky-100/90 px-4 py-3 shadow-md backdrop-blur-sm lg:hidden"
 >
   <button
+    type="button"
     data-flyout-toggle={navFlyoutId}
     aria-label="Open navigation"
-    class="flex h-10 w-10 items-center justify-center rounded-lg text-slate-700 transition-colors hover:bg-slate-100"
+    aria-expanded="false"
+    class={buttonClass}
   >
     <Icon name="mdi:menu" class="text-3xl" />
   </button>
@@ -44,9 +44,11 @@ const {
   {
     rightFlyoutId && rightIcon ? (
       <button
+        type="button"
         data-flyout-toggle={rightFlyoutId}
-        aria-label="Open panel"
-        class={`flex h-10 w-10 items-center justify-center rounded-lg text-slate-700 transition-colors hover:bg-slate-100 ${rightHideClass}`}
+        aria-label={`Open ${(rightLabel ?? "panel").toLowerCase()}`}
+        aria-expanded="false"
+        class={buttonClass}
       >
         <Icon name={rightIcon} class="text-3xl" />
       </button>

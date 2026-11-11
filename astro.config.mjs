@@ -13,6 +13,12 @@ export default defineConfig({
   site: "https://simon-muenker.github.io",
   base: "TWONy-micro",
 
+  // prefetch internal pages when a navigation link is hovered or focused
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "hover",
+  },
+
   vite: {
     plugins: [tailwindcss()],
   },

@@ -1,13 +1,16 @@
 ---
-import SimulationLayout from "src/layouts/SimulationLayout.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
 
+import Evaluation from "@pages/partials/Evaluation.svelte";
 import Threads from "@pages/partials/Threads.svelte";
 
 import SimulationUserPost from "@components/SimulationUserPost.svelte";
 import SimulationControls from "@components/SimulationUserControls.svelte";
 ---
 
-<SimulationLayout title="TWONy-micro - Simulation">
+<BaseLayout title="TWONy-micro - Simulation" asideLabel="Evaluation">
+  <link slot="head" rel="preconnect" href="https://router.huggingface.co" />
+
   <h2 class="pageheading">Start the Simulation.</h2>
   <p class="pagesubline">
     Press the green <strong
@@ -46,7 +49,10 @@ import SimulationControls from "@components/SimulationUserControls.svelte";
   </p>
 
   <Threads client:load />
-</SimulationLayout>
+
+  <!-- Chart.js is only loaded once the evaluation panel scrolls/slides into view -->
+  <Evaluation slot="aside" client:visible />
+</BaseLayout>
 
 <script>
   import "@logic/simulation";

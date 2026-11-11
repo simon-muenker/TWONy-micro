@@ -1,35 +1,45 @@
-import _ from "lodash";
-
 import { type ClassfiyResult, extractClassScore } from "@api/classify";
 
-import { settingsRankingStore } from "@stores/settings";
+import { mean } from "@common/util";
+
+import { settingsRankingStore, type SettingsRanking } from "@stores/settings";
+
+export type SentimentClasses = {
+  positive: number;
+  negative: number;
+};
 
 export type ItemEvaluation = {
   score: number;
-  classes: {
-    positive: number;
-    negative: number;
-  };
+  classes: SentimentClasses;
 };
+
+/**
+ * Ranking score of an item or thread. The score is linear in the sentiment
+ * classes, so the score of averaged classes equals the average score.
+ */
+export function computeScore(
+  classes: SentimentClasses,
+  ranking: Pick<SettingsRanking, "positiveWeight" | "negativeWeight">,
+): number {
+  return (
+    0.01 * ranking.positiveWeight * classes.positive +
+    0.01 * ranking.negativeWeight * classes.negative
+  );
+}
 
 export function getItemEvaluation(
   classes: Array<ClassfiyResult>,
 ): ItemEvaluation {
-  let metrics: ItemEvaluation = {
-    score: 0.0,
-    classes: {
-      positive: extractClassScore("positive", classes),
-      negative: extractClassScore("negative", classes),
-    },
+  const sentiment: SentimentClasses = {
+    positive: extractClassScore("positive", classes),
+    negative: extractClassScore("negative", classes),
   };
 
-  metrics.score =
-    0.01 *
-      settingsRankingStore.get().positiveWeight *
-      metrics.classes.positive +
-    0.01 * settingsRankingStore.get().negativeWeight * metrics.classes.negative;
-
-  return metrics;
+  return {
+    score: computeScore(sentiment, settingsRankingStore.get()),
+    classes: sentiment,
+  };
 }
 
 export function aggItemsEvaluation(
@@ -37,10 +47,10 @@ export function aggItemsEvaluation(
 ): ItemEvaluation {
   if (metrices.length === 1) return metrices[0];
   return {
-    score: _.meanBy(metrices, "score"),
+    score: mean(metrices.map((m) => m.score)),
     classes: {
-      positive: _.meanBy(metrices, "classes.positive"),
-      negative: _.meanBy(metrices, "classes.negative"),
+      positive: mean(metrices.map((m) => m.classes.positive)),
+      negative: mean(metrices.map((m) => m.classes.negative)),
     },
   };
 }

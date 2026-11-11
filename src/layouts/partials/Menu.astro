@@ -4,11 +4,11 @@ import { PAGES } from "@_constants";
 import MenuItem from "@layouts/partials/MenuItem.astro";
 ---
 
-<nav>
-  <ul class="space-y-2">
+<nav aria-label="Main">
+  <ul class="space-y-1">
     {
       PAGES.map((item) => (
-        <li class="block">
+        <li>
           <MenuItem
             icon={item.icon}
             text={item.text}

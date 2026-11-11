@@ -1,12 +1,12 @@
 <script module>
-  import { settingsRankingStore } from "@/stores/settings";
+  import { settingsRankingStore } from "@stores/settings";
 </script>
 
 <div
   class={`transition-opacity ${
     $settingsRankingStore.sentimentBased
       ? "opacity-100"
-      : "opacity-40 select-none cursor-not-allowed"
+      : "cursor-not-allowed opacity-40 select-none"
   }`}
 >
   <h3 class="sectionheading">Sentiment Weighting</h3>

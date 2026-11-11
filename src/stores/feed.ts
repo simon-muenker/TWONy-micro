@@ -1,17 +1,18 @@
-import _ from "lodash";
 import { atom, computed } from "nanostores";
 import { persistentAtom } from "@nanostores/persistent";
-import { logger } from "@nanostores/logger";
 
 import {
   type ItemEvaluation,
   getItemEvaluation,
   aggItemsEvaluation,
+  computeScore,
 } from "@logic/evaluation";
 import { classify } from "@api/classify";
 
 import { STORE_PARSER } from "@stores/_constants";
+import { devLogger } from "@stores/_logger";
 import { personaUserStore, type Persona } from "@stores/personas";
+import { settingsRankingStore } from "@stores/settings";
 
 // Type Definitions
 export type ThreadItem = {
@@ -20,12 +21,23 @@ export type ThreadItem = {
   message: string;
   metrics: ItemEvaluation;
   model?: string;
+  /** Creation time (ms since epoch); missing on items stored by older versions. */
+  createdAt?: number;
 };
 
 export type Thread = {
   post: ThreadItem;
   replies?: Array<ThreadItem>;
   metrics: ItemEvaluation;
+};
+
+export type DisplayThread = {
+  /** Index of the thread in the feed store; stable while the feed is not cleared. */
+  id: number;
+  thread: Thread;
+  /** Ranking score under the current ranking weights. */
+  score: number;
+  pinned: boolean;
 };
 
 // Store Management
@@ -51,50 +63,62 @@ function stopClassifying() {
   }
 }
 
+// Incremented whenever the feed is cleared, so results of requests that were
+// still in flight at that moment can be discarded instead of re-populating it.
+let feedEpoch = 0;
+
+export function getFeedEpoch(): number {
+  return feedEpoch;
+}
+
 // Logger
-logger({
+devLogger({
   feedStore: feedStore,
 });
 
 // Derived Stores
-export const reverseFeedStore = computed(
-  feedStore,
-  (feed: Array<Thread>): Array<Thread> => {
-    const userName = personaUserStore.get()[0].name;
-    const sorted = [...feed].reverse();
-    const userThreads = sorted.filter((t) => t.post.name === userName);
-    const otherThreads = sorted.filter((t) => t.post.name !== userName);
-    return [...userThreads, ...otherThreads];
+
+/**
+ * The feed in display order: the user's own threads are pinned to the top,
+ * the rest is ordered by the selected ranker. Scores are derived from the
+ * current ranking weights, so changing them re-ranks the existing feed.
+ */
+export const displayFeedStore = computed(
+  [feedStore, settingsRankingStore, personaUserStore],
+  (feed, ranking, user): Array<DisplayThread> => {
+    const userName = user[0]?.name;
+
+    const threads: Array<DisplayThread> = feed.map((thread, id) => ({
+      id,
+      thread,
+      score: computeScore(thread.metrics.classes, ranking),
+      pinned: thread.post.name === userName,
+    }));
+
+    // newest first; ties in the sentiment ranking keep this order (stable sort)
+    threads.reverse();
+    if (ranking.sentimentBased) threads.sort((a, b) => b.score - a.score);
+
+    return [
+      ...threads.filter((t) => t.pinned),
+      ...threads.filter((t) => !t.pinned),
+    ];
   },
 );
 
-export const rankedFeedStore = computed(
-  feedStore,
-  (feed: Array<Thread>): Array<Thread> => {
-    const userName = personaUserStore.get()[0].name;
-    const sorted = [...feed].sort((a, b) => b.metrics.score - a.metrics.score);
-    const userThreads = sorted.filter((t) => t.post.name === userName);
-    const otherThreads = sorted.filter((t) => t.post.name !== userName);
-    return [...userThreads, ...otherThreads];
-  },
-);
-
+/** All posts and replies in the order they were created. */
 export const threadItemStore = computed(
   feedStore,
   (feed: Array<Thread>): Array<ThreadItem> => {
-    return feed.flatMap((thread) => [thread.post, ...(thread.replies ?? [])]);
-  },
-);
-
-export const threadItemsByNameStore = computed(
-  threadItemStore,
-  (items: Array<ThreadItem>): Record<string, Array<ThreadItem>> => {
-    return _.groupBy(items, "name");
+    return feed
+      .flatMap((thread) => [thread.post, ...(thread.replies ?? [])])
+      .sort((a, b) => (a.createdAt ?? 0) - (b.createdAt ?? 0));
   },
 );
 
 // Modifiers
 export function clearFeed(): void {
+  feedEpoch++;
   feedStore.set([]);
 }
 
@@ -111,16 +135,44 @@ export function addPost(item: ThreadItem): void {
 }
 
 export function addReply(threadID: number, item: ThreadItem): void {
-  let feed: Array<Thread> = feedStore.get();
+  const feed: Array<Thread> = feedStore.get();
+  const thread: Thread | undefined = feed[threadID];
+  if (!thread) return;
 
-  if (feed[threadID].replies) {
-    feed[threadID].replies = [...feed[threadID].replies, item];
-  } else {
-    feed[threadID].replies = [item];
+  const updated: Thread = {
+    ...thread,
+    replies: [...(thread.replies ?? []), item],
+  };
+  updateThreadMetrics(updated);
+
+  feedStore.set(feed.map((t, id) => (id === threadID ? updated : t)));
+}
+
+async function createItem(
+  message: string,
+  persona: Persona,
+  model?: string,
+): Promise<ThreadItem | null> {
+  const epoch = feedEpoch;
+
+  startClassifying();
+  try {
+    const classifyResult = await classify(message);
+
+    // the feed was reset while the request was in flight
+    if (epoch !== feedEpoch) return null;
+
+    return {
+      icon: persona.icon,
+      name: persona.name,
+      message: message,
+      metrics: getItemEvaluation(classifyResult[0] ?? []),
+      model: model,
+      createdAt: Date.now(),
+    };
+  } finally {
+    stopClassifying();
   }
-
-  updateThreadMetrics(feed[threadID]);
-  feedStore.set([...feed]);
 }
 
 export async function post(
@@ -128,20 +180,8 @@ export async function post(
   persona: Persona = personaUserStore.get()[0],
   model?: string,
 ): Promise<void> {
-  startClassifying();
-  try {
-    const classifyResult = await classify(message);
-
-    addPost({
-      icon: persona.icon,
-      name: persona.name,
-      message: message,
-      metrics: getItemEvaluation(classifyResult[0]),
-      model: model,
-    });
-  } finally {
-    stopClassifying();
-  }
+  const item = await createItem(message, persona, model);
+  if (item) addPost(item);
 }
 
 export async function reply(
@@ -150,20 +190,8 @@ export async function reply(
   persona: Persona = personaUserStore.get()[0],
   model?: string,
 ): Promise<void> {
-  startClassifying();
-  try {
-    const classifyResult = await classify(message);
-
-    addReply(threadID, {
-      icon: persona.icon,
-      name: persona.name,
-      message: message,
-      metrics: getItemEvaluation(classifyResult[0]),
-      model: model,
-    });
-  } finally {
-    stopClassifying();
-  }
+  const item = await createItem(message, persona, model);
+  if (item) addReply(threadID, item);
 }
 
 // Util

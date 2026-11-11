@@ -1,14 +1,24 @@
 <script module>
   import { slide } from "svelte/transition";
 
-  import Icon from "@iconify/svelte";
+  import Icon from "@components/atoms/Icon.svelte";
 
   import {
-    updatePersona,
     updatePersonaByID,
-    removePersona,
+    removePersonaByID,
     type Persona,
   } from "@stores/personas";
+
+  const MAX_NAME_LENGTH = 20;
+
+  /** First user-perceived character, so multi-codepoint emojis stay intact. */
+  function firstGrapheme(value: string): string {
+    if (typeof Intl !== "undefined" && "Segmenter" in Intl) {
+      const segments = new Intl.Segmenter().segment(value);
+      return segments[Symbol.iterator]().next().value?.segment ?? "";
+    }
+    return Array.from(value)[0] ?? "";
+  }
 </script>
 
 <script lang="ts">
@@ -23,83 +33,76 @@
   let collapsed = $state(true);
 
   function updateIcon(event: Event): void {
-    if (!event.target) throw new Error("No event target.");
     const target = event.target as HTMLInputElement;
-    let newValue: string = target.value;
+    const icon = firstGrapheme(target.value.trim()) || "❓";
 
-    if (newValue.length == 0) newValue = "❓";
-    if (newValue.length > 2) newValue = newValue.slice(0, 2);
-
-    updatePersona({ ...persona, icon: newValue });
+    target.value = icon;
+    updatePersonaByID(key, { ...persona, icon });
   }
 
   function updateName(event: Event): void {
-    if (!event.target) throw new Error("No event target.");
     const target = event.target as HTMLInputElement;
-    let newValue: string = target.value;
+    const name =
+      target.value.trim().slice(0, MAX_NAME_LENGTH) || "UnnamedAgent";
 
-    if (newValue.length == 0) newValue = "UnamedAgent";
-    if (newValue.length > 20) newValue = newValue.slice(20);
-
-    updatePersonaByID(key, { ...persona, name: newValue });
+    target.value = name;
+    updatePersonaByID(key, { ...persona, name });
   }
 
-  function updateSize(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    if (target) {
-      target.size = target.value.length || 1;
-    }
-  }
-
-  function initSize(node: HTMLInputElement) {
-    node.size = node.value.length || 1;
+  function fitSize(node: HTMLInputElement): void {
+    node.size = Math.max(node.value.length, 1);
   }
 
   function updateInstruction(event: Event): void {
-    if (!event.target) {
-      throw new Error("No event target.");
-    } else {
-      const target = event.target as HTMLTextAreaElement;
-      updatePersona({
-        ...persona,
-        instruction: target.value,
-      });
-    }
+    const target = event.target as HTMLTextAreaElement;
+    updatePersonaByID(key, { ...persona, instruction: target.value });
   }
 </script>
 
 <div class="flex items-center justify-between gap-1 sm:gap-4">
-  <button onclick={() => (collapsed = !collapsed)}>
+  <button
+    type="button"
+    class="cursor-pointer rounded-lg"
+    aria-expanded={!collapsed}
+    aria-label={`${collapsed ? "Show" : "Hide"} profile of ${persona.name}`}
+    onclick={() => (collapsed = !collapsed)}
+  >
     <Icon
       icon={collapsed ? "mdi:chevron-down" : "mdi:chevron-up"}
-      class="inline-block h-8 w-8 cursor-pointer"
+      class="inline-block h-8 w-8"
     />
   </button>
 
-  <span class="flex font-medium text-gray-900">
+  <span class="flex min-w-0 font-medium text-gray-900">
     <input
       type="text"
-      class="mr-2 w-10 sm:12 cursor-pointer rounded-full bg-white px-3 py-2 text-center text-sm sm:text-base focus:outline-0"
+      aria-label="Icon"
+      class="mr-2 w-10 shrink-0 cursor-pointer rounded-full bg-white px-1 py-2 text-center text-sm focus:outline-0 sm:w-12 sm:text-base"
       value={persona.icon}
-      maxlength="2"
-      oninput={(event) => updateIcon(event)}
+      onfocus={(event) => event.currentTarget.select()}
+      onchange={updateIcon}
     />
     <input
-      use:initSize
+      use:fitSize
       type="text"
-      class="cursor-pointer rounded-lg bg-white px-2 py-2 text-center text-sm sm:text-base focus:outline-0"
+      aria-label="Name"
+      class="max-w-full min-w-0 cursor-pointer rounded-lg bg-white px-2 py-2 text-center text-sm focus:outline-0 sm:text-base"
       value={persona.name}
-      maxlength="20"
-      oninput={(event) => {
-        (updateName(event), updateSize(event));
-      }}
+      maxlength={MAX_NAME_LENGTH}
+      oninput={(event) => fitSize(event.currentTarget)}
+      onchange={updateName}
     />
   </span>
 
   <div class="grow"></div>
 
-  <button class="button small red" onclick={() => removePersona(persona)}>
-    <Icon icon="mdi:delete-outline" class="sm:mr-1 inline-block h-5 w-5" />
+  <button
+    type="button"
+    class="button small red"
+    aria-label={`Delete ${persona.name}`}
+    onclick={() => removePersonaByID(key)}
+  >
+    <Icon icon="mdi:delete-outline" class="inline-block h-5 w-5 sm:mr-1" />
     <span class="hidden sm:inline">delete</span>
   </button>
 </div>
@@ -108,12 +111,12 @@
   <div transition:slide>
     <hr class="divider small" />
     <textarea
-      name={key.toString()}
-      id={key.toString()}
+      name={`persona-${key}`}
+      aria-label={`Profile of ${persona.name}`}
       class="textarea -mb-1"
       value={persona.instruction}
       rows="24"
-      onchange={(event) => updateInstruction(event)}
+      onchange={updateInstruction}
     ></textarea>
   </div>
 {/if}

@@ -1,13 +1,12 @@
-import _ from "lodash";
-import { v4 as uuid } from "uuid";
-import { logger } from "@nanostores/logger";
-
 import { computed } from "nanostores";
 import { persistentMap } from "@nanostores/persistent";
 
-import { STORE_PARSER } from "@stores/_constants";
+import { sample } from "@common/util";
 
-import { personaUserDefault, personaAgentsDefault } from "@presets/personas";
+import { STORE_PARSER } from "@stores/_constants";
+import { devLogger } from "@stores/_logger";
+
+import { personaUserDefault } from "@presets/personas";
 
 // Type Definitions
 export type Persona = {
@@ -16,6 +15,21 @@ export type Persona = {
   instruction: string;
   active: boolean;
 };
+
+/** Type guard for uploaded persona files. */
+export function isPersonaList(value: unknown): value is Array<Persona> {
+  return (
+    Array.isArray(value) &&
+    value.every(
+      (item) =>
+        typeof item === "object" &&
+        item !== null &&
+        typeof item.icon === "string" &&
+        typeof item.name === "string" &&
+        typeof item.instruction === "string",
+    )
+  );
+}
 
 // Store Management
 export const personaUserStore = persistentMap<Array<Persona>>(
@@ -30,7 +44,7 @@ export const personaAgentsStore = persistentMap<Array<Persona>>(
   STORE_PARSER,
 );
 
-logger({
+devLogger({
   personaUser: personaUserStore,
   personaAgents: personaAgentsStore,
 });
@@ -39,17 +53,27 @@ logger({
 export const personaActiveAgentsStore = computed(
   personaAgentsStore,
   (agents: Array<Persona>): Array<Persona> => {
-    return Object.values(agents).filter((agent) => agent.active);
+    return Object.values(agents).filter((agent) => agent.active !== false);
   },
 );
 
 // Getters
-export function getRandomActivePersona(): Persona {
-  return _.sample(personaActiveAgentsStore.get()) as Persona;
+export function getRandomActivePersona(): Persona | undefined {
+  return sample(personaActiveAgentsStore.get());
 }
 
 // Modifiers
-export function resetPersonas(): void {
+export function setPersonas(personas: Array<Persona>): void {
+  personaAgentsStore.set(
+    personas.map((persona) => ({
+      ...persona,
+      active: persona.active !== false,
+    })),
+  );
+}
+
+export async function resetPersonas(): Promise<void> {
+  const { personaAgentsDefault } = await import("@presets/personasAgents");
   personaAgentsStore.set(structuredClone(personaAgentsDefault));
 }
 
@@ -60,37 +84,33 @@ export function addPersona(persona: Persona): void {
 export function addPersonaDummy(): void {
   addPersona({
     icon: "❓",
-    name: `uknown_${uuid().slice(0, 4)}`,
+    name: `unknown_${Math.random().toString(36).slice(2, 6)}`,
     instruction: "Describe its behavior...",
     active: true,
   });
 }
 
-export function updatePersona(persona: Persona): void {
+export function updatePersonaByID(id: number, persona: Persona): void {
   personaAgentsStore.set(
-    Object.values(personaAgentsStore.get()).map((p) =>
-      p.name === persona.name ? persona : p,
+    Object.values(personaAgentsStore.get()).map((p, index) =>
+      index === id ? persona : p,
     ),
   );
 }
 
-export function updatePersonaByID(id: number, persona: Persona): void {
-  let newPersonas = personaAgentsStore.get();
-  newPersonas[id] = persona;
-
-  personaAgentsStore.set(newPersonas);
-}
-
-export function removePersona(persona: Persona): void {
+export function removePersonaByID(id: number): void {
   personaAgentsStore.set(
-    Object.values(personaAgentsStore.get()).filter(
-      (p) => p.name !== persona.name,
-    ),
+    Object.values(personaAgentsStore.get()).filter((_, index) => index !== id),
   );
 }
 
 // Constructors
-if (Object.values(personaAgentsStore.get()).length == 0) {
-  console.debug("> Resetting Personas");
-  resetPersonas();
-}
+
+/**
+ * Resolves once agent personas are available. On the first visit the default
+ * personas are fetched lazily; afterwards they are restored from storage.
+ */
+export const personasReady: Promise<void> =
+  !import.meta.env.SSR && Object.values(personaAgentsStore.get()).length === 0
+    ? resetPersonas().catch((error) => console.error(error))
+    : Promise.resolve();

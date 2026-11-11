@@ -1,101 +1,75 @@
-import _ from "lodash";
 import { computed } from "nanostores";
-import { persistentAtom } from "@nanostores/persistent";
-import { logger } from "@nanostores/logger";
-import { type ChartConfiguration } from "chart.js/auto";
 
-import { networkMetricsDefault, userMetricsDefault } from "@presets/evaluation";
-import { type ItemEvaluation, aggItemsEvaluation } from "@logic/evaluation";
+import { mean } from "@common/util";
 
-import { STORE_PARSER } from "@stores/_constants";
+import { type ThreadItem, threadItemStore } from "@stores/feed";
 
-import {
-  type ThreadItem,
+// Type Definitions
+export type SentimentPoint = {
+  positive: number;
+  negative: number;
+};
+
+export type UserSentiment = SentimentPoint & {
+  icon: string;
+  name: string;
+  /** Number of posts and replies written by this user. */
+  count: number;
+};
+
+// Derived Stores
+
+/**
+ * Average sentiment of the whole network after each item was added:
+ * entry i is the mean over the first i + 1 posts and replies.
+ */
+export const networkHistoryStore = computed(
   threadItemStore,
-  threadItemsByNameStore,
-} from "@stores/feed";
+  (items: Array<ThreadItem>): Array<SentimentPoint> => {
+    let positive = 0;
+    let negative = 0;
 
-// Store Management
-export const networkMetricsStore = persistentAtom<ChartConfiguration>(
-  "networkMetrics:",
-  structuredClone(networkMetricsDefault),
-  STORE_PARSER,
-);
-export const userMetricsStore = persistentAtom<ChartConfiguration>(
-  "userMetrics:",
-  structuredClone(userMetricsDefault),
-  STORE_PARSER,
-);
+    return items.map((item, index) => {
+      positive += item.metrics.classes.positive;
+      negative += item.metrics.classes.negative;
 
-export const threadItemAvgMetricsStore = computed(
-  threadItemStore,
-  (items: Array<ThreadItem>): ItemEvaluation => {
-    return aggItemsEvaluation(items.map((item) => item.metrics));
-  },
-);
-
-export const nameAvgMetricsStore = computed(
-  threadItemsByNameStore,
-  (
-    records: Record<string, Array<ThreadItem>>,
-  ): Record<string, ItemEvaluation> => {
-    return _.mapValues(records, (items: Array<ThreadItem>): ItemEvaluation => {
-      return aggItemsEvaluation(items.map((item) => item.metrics));
+      return {
+        positive: positive / (index + 1),
+        negative: negative / (index + 1),
+      };
     });
   },
 );
 
-// Logger
-logger({
-  networkMetricsStore: networkMetricsStore,
-  userMetricsStore: userMetricsStore,
-});
+/** Average sentiment per user, in order of each user's first appearance. */
+export const userSentimentStore = computed(
+  threadItemStore,
+  (items: Array<ThreadItem>): Array<UserSentiment> => {
+    const byName = new Map<string, Array<ThreadItem>>();
 
-// Modifiers
-export function resetEvaluation(): void {
-  networkMetricsStore.set(structuredClone(networkMetricsDefault));
-  userMetricsStore.set(structuredClone(userMetricsDefault));
-}
+    for (const item of items) {
+      const group = byName.get(item.name);
+      if (group) group.push(item);
+      else byName.set(item.name, [item]);
+    }
 
-export function networkMetricsAddObservation(metrics: ItemEvaluation): void {
-  if (isNaN(metrics.score)) return;
+    return Array.from(byName, ([name, group]) => ({
+      name,
+      icon: group[0].icon,
+      count: group.length,
+      positive: mean(group.map((item) => item.metrics.classes.positive)),
+      negative: mean(group.map((item) => item.metrics.classes.negative)),
+    }));
+  },
+);
 
-  const networkMetrics = { ...networkMetricsStore.get() };
-
-  if (networkMetrics.data.labels) {
-    networkMetrics.data.labels.push(networkMetrics.data.labels.length);
+// Earlier versions persisted complete chart configurations; both charts are
+// now derived from the feed, so drop the stale copies.
+if (typeof localStorage !== "undefined") {
+  try {
+    localStorage.removeItem("networkMetrics:");
+    localStorage.removeItem("userMetrics:");
+  } catch {
+    // storage unavailable (e.g. blocked by privacy settings) - nothing to clean
   }
-
-  networkMetrics.data.datasets[0].data.push(metrics.classes.positive);
-  networkMetrics.data.datasets[1].data.push(metrics.classes.negative);
-
-  networkMetricsStore.set(networkMetrics);
 }
-
-export function userMetricAddObservation(
-  metrics: Record<string, ItemEvaluation>,
-): void {
-  if (_.isEmpty(metrics)) return;
-
-  const userMetrics = { ...userMetricsStore.get() };
-
-  userMetrics.data.labels = Object.keys(metrics);
-
-  userMetrics.data.datasets[0].data = Object.values(metrics).map(
-    (metric) => metric.classes.positive,
-  );
-  userMetrics.data.datasets[1].data = Object.values(metrics).map(
-    (metric) => metric.classes.negative,
-  );
-
-  userMetricsStore.set(userMetrics);
-}
-
-// Listeners
-threadItemAvgMetricsStore.subscribe((metrics) => {
-  networkMetricsAddObservation(metrics);
-});
-
-nameAvgMetricsStore.subscribe((metrics) => {
-  userMetricAddObservation(metrics);
-});

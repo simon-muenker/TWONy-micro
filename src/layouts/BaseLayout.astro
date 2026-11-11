@@ -1,50 +1,189 @@
 ---
+/**
+ * Page shell: navigation column, main content and an optional right column.
+ *
+ * Slots:
+ *   default – main content
+ *   aside   – optional right column (e.g. the evaluation charts). Below xl it
+ *             becomes a flyout that is opened from the top bar / navigation.
+ */
 import "@styles/global.css";
+import { Icon } from "astro-icon/components";
 
 import MobileTopBar from "@layouts/partials/MobileTopBar.astro";
 import Flyout from "@layouts/partials/Flyout.astro";
-import FlyoutController from "@layouts/partials/FlyoutController.astro";
-import Sidebar from "@layouts/partials/Sidebar.astro";
 import Branding from "@layouts/partials/Branding.astro";
 import Menu from "@layouts/partials/Menu.astro";
 import Footer from "@layouts/partials/Footer.astro";
 
 interface Props {
   title: string;
+  description?: string;
+  /** Name of the right column, used for its toggle buttons. */
+  asideLabel?: string;
+  asideIcon?: string;
 }
-const { title } = Astro.props;
+
+const {
+  title,
+  description = "TWONy-micro is an interactive micro-simulation showing how social network ranking mechanics shape the sentiment of online discourse.",
+  asideLabel = "Details",
+  asideIcon = "mdi:chart-bar",
+} = Astro.props;
+
+const hasAside = Astro.slots.has("aside");
+const base = import.meta.env.BASE_URL.replace(/\/+$/, "");
 ---
 
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#e0f2fe" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <slot name="head" />
   </head>
-  <body>
-    <MobileTopBar navFlyoutId="nav" />
+  <body class="bg-white text-slate-900 antialiased">
+    <a
+      href="#main"
+      class="sr-only rounded-lg bg-white px-3 py-2 font-bold shadow-md focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50"
+    >
+      Skip to content
+    </a>
 
-    <Flyout id="nav" side="left" hideOn="lg:hidden" padding="p-6" gap="gap-8">
-      <header slot="header"><Branding /></header>
-      <div class="rounded-xl bg-sky-50 px-3 py-3"><Menu /></div>
-      <Footer />
-    </Flyout>
+    <MobileTopBar
+      navFlyoutId="nav"
+      rightFlyoutId={hasAside ? "aside" : undefined}
+      rightIcon={asideIcon}
+      rightLabel={asideLabel}
+    />
 
-    <FlyoutController />
+    <div
+      id="flyout-overlay"
+      class="fixed inset-0 z-40 hidden bg-black/50"
+      aria-hidden="true"
+    >
+    </div>
 
-    <div class="mx-auto max-w-screen-2xl px-4 py-6 md:py-16 md:px-8">
+    <div class="mx-auto max-w-screen-2xl px-4 py-6 md:px-8 md:py-16">
       <div class="grid grid-cols-12 gap-0 lg:gap-16">
-        <div class="relative col-span-4 xl:col-span-3 hidden lg:block">
-          <Sidebar />
-        </div>
-        <main class="col-span-12 lg:col-span-8 xl:col-span-6">
+        <Flyout id="nav" side="left" staticFrom="lg" label="Navigation">
+          <header slot="header"><Branding /></header>
+          <div class="-mt-2 flex flex-col gap-8 lg:mt-4 lg:gap-12">
+            <div class="rounded-xl bg-sky-50 px-3 py-3"><Menu /></div>
+            {
+              hasAside && (
+                <button
+                  type="button"
+                  data-flyout-toggle="aside"
+                  aria-expanded="false"
+                  class="button base blue hidden w-full justify-center lg:inline-flex xl:hidden"
+                >
+                  <Icon name={asideIcon} class="mr-2 text-xl" />
+                  Show {asideLabel}
+                </button>
+              )
+            }
+            <Footer />
+          </div>
+        </Flyout>
+
+        <main id="main" class="col-span-12 min-w-0 lg:col-span-8 xl:col-span-6">
           <slot />
         </main>
-        <aside class="col-span-3 hidden xl:block">
-          <slot name="sidebar-left" />
-        </aside>
+
+        {
+          hasAside && (
+            <Flyout id="aside" side="right" staticFrom="xl" label={asideLabel}>
+              <slot name="aside" />
+            </Flyout>
+          )
+        }
       </div>
     </div>
+
+    <script>
+      const overlay = document.getElementById("flyout-overlay");
+      const flyouts = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-flyout]"),
+      );
+      const toggles = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-flyout-toggle]"),
+      );
+
+      let opener: HTMLElement | null = null;
+
+      function sync(): void {
+        const anyOpen = flyouts.some((el) => "open" in el.dataset);
+
+        overlay?.classList.toggle("hidden", !anyOpen);
+        document.documentElement.classList.toggle("overflow-hidden", anyOpen);
+
+        for (const btn of toggles) {
+          const target = flyouts.find(
+            (el) => el.dataset.flyout === btn.dataset.flyoutToggle,
+          );
+          btn.setAttribute(
+            "aria-expanded",
+            String(!!target && "open" in target.dataset),
+          );
+        }
+      }
+
+      function open(el: HTMLElement, trigger: HTMLElement): void {
+        // only one flyout at a time
+        for (const other of flyouts) delete other.dataset.open;
+
+        opener = trigger;
+        el.dataset.open = "";
+        sync();
+
+        el.querySelector<HTMLElement>("[data-flyout-close]")?.focus({
+          preventScroll: true,
+        });
+      }
+
+      function closeAll(restoreFocus: boolean = true): void {
+        if (!flyouts.some((el) => "open" in el.dataset)) return;
+
+        for (const el of flyouts) delete el.dataset.open;
+        sync();
+
+        if (restoreFocus) opener?.focus({ preventScroll: true });
+        opener = null;
+      }
+
+      for (const btn of toggles) {
+        const target = flyouts.find(
+          (el) => el.dataset.flyout === btn.dataset.flyoutToggle,
+        );
+        if (target) btn.addEventListener("click", () => open(target, btn));
+      }
+
+      for (const el of flyouts) {
+        el.querySelector("[data-flyout-close]")?.addEventListener("click", () =>
+          closeAll(),
+        );
+
+        // a flyout that turns into a static column must not stay "open"
+        const query = el.dataset.flyoutStatic;
+        if (query) {
+          window.matchMedia(query).addEventListener("change", (event) => {
+            if (event.matches && "open" in el.dataset) closeAll(false);
+          });
+        }
+      }
+
+      overlay?.addEventListener("click", () => closeAll());
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeAll();
+      });
+    </script>
   </body>
 </html>

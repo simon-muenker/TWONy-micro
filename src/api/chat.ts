@@ -1,9 +1,4 @@
-import axios, { type AxiosInstance } from "axios";
-
-import { HEADERS } from "@api/_constants";
-import type { MODELS } from "@_constants";
-
-import { settingsSimulationStore } from "@/stores/settings";
+import { hfPost } from "@api/client";
 
 export type ChatItem = {
   content: string;
@@ -21,32 +16,11 @@ export type ChatResult = {
   choices: Array<ChatResultChoice>;
 };
 
-const INFERENCE_ENDPOINT: AxiosInstance = axios.create({
-  baseURL: "https://router.huggingface.co/v1",
-  headers: HEADERS,
-  transformRequest: [
-    function (data, headers) {
-      headers["Authorization"] =
-        `Bearer ${settingsSimulationStore.get().apiKey}`;
-      return JSON.stringify(data);
-    },
-  ],
-});
+const CHAT_URL = "https://router.huggingface.co/v1/chat/completions";
 
 export async function chat(
-  model: (typeof MODELS)[number],
+  model: string,
   messages: Array<ChatItem>,
 ): Promise<ChatResult> {
-  return await INFERENCE_ENDPOINT.post("/chat/completions", {
-    model: model,
-    messages: messages,
-  })
-    .then((result) => {
-      console.debug(result);
-      return result.data;
-    })
-    .catch((error) => {
-      console.error(error);
-      throw error;
-    });
+  return hfPost<ChatResult>(CHAT_URL, { model, messages });
 }

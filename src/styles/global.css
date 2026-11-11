@@ -1,7 +1,33 @@
 @import "tailwindcss";
 
-@import "./layout";
-@import "./typography";
-@import "./button";
-@import "./inputs";
-@import "./fragments";
+/*
+ * Component classes live in the `components` layer so Tailwind utilities
+ * (e.g. `hidden`, `sm:inline-flex`, `w-full`) can always override them.
+ */
+@import "./layout.css" layer(components);
+@import "./typography.css" layer(components);
+@import "./button.css" layer(components);
+@import "./inputs.css" layer(components);
+@import "./fragments.css" layer(components);
+
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-sky-500);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
